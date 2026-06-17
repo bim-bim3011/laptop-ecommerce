@@ -32,4 +32,65 @@ public class CartItem {
     @ManyToOne
     @JoinColumn(name = "configuration_version_id")
     private ConfigurationVersion configurationVersion;
+
+    public CartItem() {
+    }
+
+    public CartItem(int cartItemId, int quantity, LocalDateTime updatedAt, LocalDateTime createdAt, Cart cart, ConfigurationVersion configurationVersion) {
+        this.cartItemId = cartItemId;
+        this.quantity = quantity;
+        this.updatedAt = updatedAt;
+        this.createdAt = createdAt;
+        this.cart = cart;
+        this.configurationVersion = configurationVersion;
+    }
+
+    public int getCartItemId() {
+        return cartItemId;
+    }
+
+    public void setCartItemId(int cartItemId) {
+        this.cartItemId = cartItemId;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+
+    public ConfigurationVersion getConfigurationVersion() {
+        return configurationVersion;
+    }
+
+    public void setConfigurationVersion(ConfigurationVersion configurationVersion) {
+        this.configurationVersion = configurationVersion;
+    }
 }
+

@@ -3,7 +3,6 @@ package com.se1906.laptopshop.entity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.util.AutoPopulatingList;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -53,4 +52,119 @@ public class ConfigurationVersion {
     @ManyToOne
     @JoinColumn(name = "laptop_id")
     private Laptop laptop;
+
+    public ConfigurationVersion() {
+    }
+
+    public ConfigurationVersion(int configurationId, String cpu, String ram, String storage, String gpu, BigDecimal price, int stockQuantity, LocalDateTime updatedAt, LocalDateTime createdAt, List<OrderDetail> orderDetails, List<CartItem> cartItems, Laptop laptop) {
+        this.configurationId = configurationId;
+        this.cpu = cpu;
+        this.ram = ram;
+        this.storage = storage;
+        this.gpu = gpu;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+        this.updatedAt = updatedAt;
+        this.createdAt = createdAt;
+        this.orderDetails = orderDetails;
+        this.cartItems = cartItems;
+        this.laptop = laptop;
+    }
+
+    public int getConfigurationId() {
+        return configurationId;
+    }
+
+    public void setConfigurationId(int configurationId) {
+        this.configurationId = configurationId;
+    }
+
+    public String getCpu() {
+        return cpu;
+    }
+
+    public void setCpu(String cpu) {
+        this.cpu = cpu;
+    }
+
+    public String getRam() {
+        return ram;
+    }
+
+    public void setRam(String ram) {
+        this.ram = ram;
+    }
+
+    public String getStorage() {
+        return storage;
+    }
+
+    public void setStorage(String storage) {
+        this.storage = storage;
+    }
+
+    public String getGpu() {
+        return gpu;
+    }
+
+    public void setGpu(String gpu) {
+        this.gpu = gpu;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public int getStockQuantity() {
+        return stockQuantity;
+    }
+
+    public void setStockQuantity(int stockQuantity) {
+        this.stockQuantity = stockQuantity;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public List<OrderDetail> getOrderDetails() {
+        return orderDetails;
+    }
+
+    public void setOrderDetails(List<OrderDetail> orderDetails) {
+        this.orderDetails = orderDetails;
+    }
+
+    public List<CartItem> getCartItems() {
+        return cartItems;
+    }
+
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
+    }
+
+    public Laptop getLaptop() {
+        return laptop;
+    }
+
+    public void setLaptop(Laptop laptop) {
+        this.laptop = laptop;
+    }
 }
+

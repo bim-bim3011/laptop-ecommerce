@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Giỏ hàng - TECHCORE</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#131b2e",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "on-tertiary": "#ffffff",
+                        "outline-variant": "#c6c6cd",
+                        "on-tertiary-fixed": "#001f28",
+                        "tertiary-fixed-dim": "#4cd6ff",
+                        "on-primary": "#ffffff",
+                        "inverse-surface": "#2d3133",
+                        "primary": "#000000",
+                        "inverse-primary": "#bec6e0",
+                        "tertiary-container": "#001f28",
+                        "background": "#f7f9fb",
+                        "surface-container-high": "#e6e8ea",
+                        "on-surface": "#191c1e",
+                        "on-secondary-fixed": "#0b1c30",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "primary-fixed-dim": "#bec6e0",
+                        "surface": "#f7f9fb",
+                        "on-background": "#191c1e",
+                        "surface-dim": "#d8dadc",
+                        "secondary-fixed": "#d3e4fe",
+                        "surface-container-low": "#f2f4f6",
+                        "error": "#ba1a1a",
+                        "outline": "#76777d",
+                        "on-surface-variant": "#45464d",
+                        "on-secondary-container": "#54647a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-primary-container": "#7c839b",
+                        "surface-tint": "#565e74",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "primary-fixed": "#dae2fd",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#e0e3e5",
+                        "secondary": "#505f76",
+                        "surface-variant": "#e0e3e5",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed": "#131b2e",
+                        "tertiary": "#000000",
+                        "error-container": "#ffdad6",
+                        "surface-bright": "#f7f9fb",
+                        "secondary-container": "#d0e1fb",
+                        "tertiary-fixed": "#b7eaff",
+                        "on-tertiary-fixed-variant": "#004e60",
+                        "surface-container": "#eceef0",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-tertiary-container": "#0090b0"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "base": "8px",
+                        "section-gap": "80px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": [
+                            "Inter"
+                        ],
+                        "headline-md": [
+                            "Inter"
+                        ],
+                        "body-lg": [
+                            "Inter"
+                        ],
+                        "label-md": [
+                            "Inter"
+                        ],
+                        "headline-lg": [
+                            "Inter"
+                        ],
+                        "display-xl": [
+                            "Inter"
+                        ],
+                        "label-sm": [
+                            "Inter"
+                        ],
+                        "body-md": [
+                            "Inter"
+                        ]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": [
+                            "28px",
+                            {
+                                "lineHeight": "36px",
+                                "fontWeight": "700"
+                            }
+                        ],
+                        "headline-md": [
+                            "24px",
+                            {
+                                "lineHeight": "32px",
+                                "fontWeight": "600"
+                            }
+                        ],
+                        "body-lg": [
+                            "18px",
+                            {
+                                "lineHeight": "28px",
+                                "fontWeight": "400"
+                            }
+                        ],
+                        "label-md": [
+                            "14px",
+                            {
+                                "lineHeight": "20px",
+                                "letterSpacing": "0.01em",
+                                "fontWeight": "600"
+                            }
+                        ],
+                        "headline-lg": [
+                            "36px",
+                            {
+                                "lineHeight": "44px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "700"
+                            }
+                        ],
+                        "display-xl": [
+                            "60px",
+                            {
+                                "lineHeight": "72px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "800"
+                            }
+                        ],
+                        "label-sm": [
+                            "12px",
+                            {
+                                "lineHeight": "16px",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "500"
+                            }
+                        ],
+                        "body-md": [
+                            "16px",
+                            {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                            }
+                        ]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-background antialiased min-h-screen flex flex-col">
+    <!-- Top Navigation Bar -->
+    <header
+        class="bg-surface dark:bg-surface-container-high text-primary dark:text-inverse-primary docked full-width top-0 border-b border-outline-variant dark:border-on-primary-fixed-variant shadow-sm dark:shadow-none sticky z-50">
+        <div class="flex flex-col w-full max-w-full mx-auto px-4 md:px-margin-desktop py-4">
+            <div class="flex items-center justify-between">
+                <!-- Brand Logo -->
+                <a class="text-headline-md font-headline-md font-extrabold text-primary dark:text-inverse-primary flex items-center gap-2"
+                    href="#">
+                    <span class="material-symbols-outlined text-3xl">developer_board</span>
+                    TECHCORE
+                </a>
+                <!-- Search Bar (hidden on mobile, visible on md+) -->
+                <div class="hidden md:flex flex-1 max-w-2xl mx-gutter relative">
+                    <input
+                        class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-lg text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                        placeholder="Bạn muốn mua gì hôm nay..." type="text" />
+                    <span
+                        class="material-symbols-outlined absolute left-3 top-2.5 text-on-surface-variant">search</span>
+                </div>
+                <!-- Navigation Links & Actions -->
+                <div class="flex items-center gap-6">
+                    <nav class="hidden lg:flex items-center gap-6">
+                        <a class="text-on-surface-variant dark:text-on-primary-container text-label-md font-label-md hover:text-primary dark:hover:text-tertiary-fixed-dim transition-colors duration-200"
+                            href="#">Showroom</a>
+                        <a class="text-on-surface-variant dark:text-on-primary-container text-label-md font-label-md hover:text-primary dark:hover:text-tertiary-fixed-dim transition-colors duration-200"
+                            href="#">Khuyến mãi</a>
+                        <a class="text-on-surface-variant dark:text-on-primary-container text-label-md font-label-md hover:text-primary dark:hover:text-tertiary-fixed-dim transition-colors duration-200"
+                            href="#">Hotline</a>
+                    </nav>
+                    <div class="flex items-center gap-4 border-l border-outline-variant pl-6">
+                        <button class="text-on-surface-variant hover:text-primary transition-colors relative">
+                            <span class="material-symbols-outlined text-2xl">notifications</span>
+                            <span
+                                class="absolute -top-1 -right-1 bg-error text-on-error text-[10px] font-bold px-1.5 py-0.5 rounded-full">3</span>
+                        </button>
+                        <a class="text-primary dark:text-tertiary-fixed-dim font-bold border-b-2 border-primary hover:text-primary dark:hover:text-tertiary-fixed-dim transition-colors duration-200 flex items-center gap-2 pb-1 relative"
+                            href="#">
+                            <span class="material-symbols-outlined text-2xl">shopping_cart</span>
+                            <span class="hidden md:block text-label-md font-label-md">Cart</span>
+                            <span
+                                class="absolute -top-2 -right-3 bg-error text-on-error text-[10px] font-bold px-1.5 py-0.5 rounded-full md:hidden">2</span>
+                        </a>
+                        <button
+                            class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2">
+                            <span class="material-symbols-outlined text-2xl">account_circle</span>
+                            <span class="hidden md:block text-label-md font-label-md">Account</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Mobile Search Bar (visible only on mobile) -->
+            <div class="mt-4 md:hidden relative">
+                <input
+                    class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-lg text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                    placeholder="Tìm kiếm sản phẩm..." type="text" />
+                <span class="material-symbols-outlined absolute left-3 top-2.5 text-on-surface-variant">search</span>
+            </div>
+        </div>
+    </header>
+    <!-- Main Content -->
+    <main xmlns:th="http://www.thymeleaf.org"
+        class="flex-1 w-full max-w-7xl mx-auto px-4 md:px-margin-desktop py-8 md:py-12 grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+        <!-- Cart Items Section -->
+        <section class="lg:col-span-8 space-y-6">
+            <!-- Alert Banners -->
+            <div th:if="${successMessage}" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg text-sm mb-4" role="alert">
+                <span th:text="${successMessage}"></span>
+            </div>
+            <div th:if="${errorMessage}" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg text-sm mb-4" role="alert">
+                <span th:text="${errorMessage}"></span>
+            </div>
+            <h1 class="text-headline-lg font-headline-lg text-on-surface mb-6">Giỏ hàng của bạn</h1>
+            <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden">
+                <!-- Giỏ hàng trống -->
+                <div th:if="${#lists.isEmpty(cart.cartItems)}" class="p-8 text-center text-on-surface-variant text-body-lg">
+                    Giỏ hàng của bạn đang trống!
+                </div>
+
+                <!-- Lặp qua các Item trong giỏ hàng -->
+                <div th:each="item : ${cart.cartItems}"
+                    class="p-6 border-b border-outline-variant flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                    <input type="checkbox" class="cart-item-checkbox w-5 h-5 text-primary bg-surface-container-low border-outline-variant rounded focus:ring-primary focus:ring-2 cursor-pointer" 
+                           th:data-item-id="${item.cartItemId}"
+                           th:data-price="${item.configurationVersion.price * item.quantity}">
+                    <div
+                        class="w-24 h-24 sm:w-32 sm:h-32 bg-surface-container-low rounded-lg p-2 flex-shrink-0 flex items-center justify-center">
+                        <img alt="Sản phẩm" class="object-contain max-w-full max-h-full"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNfgXG2VW3KuRQWjt275sT32q7JHz0Nsvm5HUO9_U9WCMo-XDPGLW9Cbj72ddo1riF9AJpoGAUKprUO2jUBwdx82ZmKImWh3Cxku6PgdWHfa8Gto8VysnPAaH7o7C-vC35TIYL-x0BakT9dtz3nHylD-7OIPMVKu27DIruMOf41uQSuG5LKa34EdS6AfvEplbd2K77UrqnlQzn5hiDwlg6PPzg8pWFeoA6Nqe4VxlH7ZO-1OOFmgiXiYiqs7gS5x-jy0KEIQC45dE" />
+                    </div>
+                    <div class="flex-1 w-full">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <span class="text-label-sm font-label-sm text-primary uppercase tracking-wider mb-1 block"
+                                      th:text="${item.configurationVersion.laptop != null ? item.configurationVersion.laptop.brand.brandName : 'Laptops'}">Laptops</span>
+                                <h3 class="text-headline-md font-headline-md text-on-surface line-clamp-2"
+                                    th:text="${(item.configurationVersion.laptop != null ? item.configurationVersion.laptop.laptopName : 'Laptop') + ' - ' + item.configurationVersion.cpu + ', ' + item.configurationVersion.ram + ', ' + item.configurationVersion.storage}">Dell XPS 15</h3>
+                            </div>
+                            <form th:action="@{/cart/remove}" method="POST" class="inline">
+                                <input type="hidden" name="itemId" th:value="${item.cartItemId}">
+                                <button type="submit" class="text-on-surface-variant hover:text-error transition-colors p-1"
+                                    title="Xóa sản phẩm">
+                                    <span class="material-symbols-outlined">delete</span>
+                                </button>
+                            </form>
+                        </div>
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-4 gap-4">
+                            <!-- Nút cập nhật số lượng -->
+                            <div class="flex items-center border border-outline-variant rounded-lg bg-surface">
+                                <form th:action="@{/cart/update}" method="POST" class="flex items-center m-0 p-0">
+                                    <input type="hidden" name="itemId" th:value="${item.cartItemId}">
+                                    <button type="submit" name="action" value="decrease" aria-label="Decrease quantity"
+                                        class="px-3 py-1 text-on-surface hover:bg-surface-container-high transition-colors rounded-l-lg"
+                                        th:disabled="${item.quantity <= 1}">-</button>
+                                    <input aria-label="Quantity" readonly
+                                        class="w-12 text-center border-none bg-transparent text-body-md font-body-md p-1 focus:ring-0 appearance-none m-0"
+                                        th:value="${item.quantity}" />
+                                    <button type="submit" name="action" value="increase" aria-label="Increase quantity"
+                                        class="px-3 py-1 text-on-surface hover:bg-surface-container-high transition-colors rounded-r-lg"
+                                        th:disabled="${item.quantity >= item.configurationVersion.stockQuantity}">+</button>
+                                </form>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-headline-md font-headline-md text-primary font-bold"
+                                     th:text="${#numbers.formatDecimal(item.configurationVersion.price * item.quantity, 0, 'COMMA', 0, 'POINT') + ' ₫'}">45.990.000 ₫</div>
+                                <div class="text-label-sm font-label-sm text-on-surface-variant"
+                                     th:text="${item.quantity + ' x ' + #numbers.formatDecimal(item.configurationVersion.price, 0, 'COMMA', 0, 'POINT') + ' ₫'}">48.990.000 ₫</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center justify-between mt-6">
+                <a class="text-primary hover:text-tertiary-fixed-dim transition-colors text-label-md font-label-md flex items-center gap-2"
+                    href="#">
+                    <span class="material-symbols-outlined text-sm">arrow_back</span>
+                    Tiếp tục mua sắm
+                </a>
+                <button class="text-on-surface-variant hover:text-error transition-colors text-label-md font-label-md">
+                    Xóa tất cả
+                </button>
+            </div>
+        </section>
+        <!-- Order Summary Section -->
+        <aside class="lg:col-span-4 mt-8 lg:mt-0">
+            <div
+                class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant p-6 sticky top-24">
+                <h2 class="text-headline-md font-headline-md text-on-surface mb-6 border-b border-outline-variant pb-4">
+                    Tóm tắt đơn hàng</h2>
+                <div class="space-y-4 text-body-md font-body-md text-on-surface-variant mb-6">
+                    <div class="flex justify-between">
+                        <span>Tạm tính (<span id="selected-count">0</span> sản phẩm)</span>
+                        <span id="cart-subtotal" class="font-medium text-on-surface">0 ₫</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Phí vận chuyển</span>
+                        <span class="font-medium text-on-surface">Miễn phí</span>
+                    </div>
+                </div>
+                <div class="border-t border-outline-variant pt-4 mb-6">
+                    <div class="flex justify-between items-end mb-1">
+                        <span class="text-label-md font-label-md text-on-surface-variant">Tổng cộng</span>
+                        <span id="cart-total" class="text-headline-lg font-headline-lg text-primary font-bold">0 ₫</span>
+                    </div>
+                    <div class="text-right text-label-sm font-label-sm text-on-surface-variant">(Đã bao gồm VAT)</div>
+                </div>
+                <!-- Promo Code Input -->
+                <div class="mb-6">
+                    <label class="block text-label-sm font-label-sm text-on-surface-variant mb-2" for="promo-code">Mã
+                        khuyến mãi / Voucher</label>
+                    <div class="flex gap-2">
+                        <input
+                            class="flex-1 bg-surface border border-outline-variant rounded-lg px-3 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all uppercase"
+                            id="promo-code" placeholder="Nhập mã giảm giá..." type="text" />
+                        <button
+                            class="bg-surface-container-high hover:bg-outline-variant text-on-surface font-label-md text-label-md px-4 py-2 rounded-lg transition-colors">Áp
+                            dụng</button>
+                    </div>
+                </div>
+                <button
+                    class="w-full bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-headline-md text-headline-md py-4 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-md hover:shadow-lg">
+                    Tiến hành thanh toán
+                    <span class="material-symbols-outlined">arrow_forward</span>
+                </button>
+                <div class="mt-6 flex flex-wrap justify-center gap-4 text-on-surface-variant opacity-70 grayscale">
+                    <!-- Trust badges / Payment methods placeholders -->
+                    <span class="material-symbols-outlined text-3xl" title="Thanh toán an toàn">security</span>
+                    <span class="material-symbols-outlined text-3xl" title="Hỗ trợ trả góp">credit_card</span>
+                    <span class="material-symbols-outlined text-3xl" title="Giao hàng nhanh">local_shipping</span>
+                </div>
+            </div>
+        </aside>
+    </main>
+    <!-- Footer -->
+    <footer
+        class="bg-primary-container dark:bg-surface-container-highest text-on-primary-container dark:text-on-surface docked full-width bottom border-t border-on-primary-fixed-variant flat no shadows mt-section-gap">
+        <div
+            class="w-full py-12 px-4 md:px-margin-desktop mx-auto max-w-7xl flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="text-center md:text-left">
+                <div
+                    class="text-headline-sm font-headline-sm text-on-primary dark:text-inverse-primary font-bold mb-2 flex items-center justify-center md:justify-start gap-2">
+                    <span class="material-symbols-outlined">developer_board</span>
+                    TECHCORE
+                </div>
+                <p class="text-label-sm font-label-sm">© 2024 TechCore Systems. All rights reserved. Precision
+                    Engineering for Professionals.</p>
+            </div>
+            <nav class="flex flex-wrap justify-center md:justify-end gap-6">
+                <a class="text-on-primary-container dark:text-on-surface-variant text-label-sm font-label-sm hover:text-tertiary-fixed-dim transition-colors duration-200"
+                    href="#">Privacy Policy</a>
+                <a class="text-on-primary-container dark:text-on-surface-variant text-label-sm font-label-sm hover:text-tertiary-fixed-dim transition-colors duration-200"
+                    href="#">Terms of Service</a>
+                <a class="text-on-primary-container dark:text-on-surface-variant text-label-sm font-label-sm hover:text-tertiary-fixed-dim transition-colors duration-200"
+                    href="#">Shipping Info</a>
+                <a class="text-on-primary-container dark:text-on-surface-variant text-label-sm font-label-sm hover:text-tertiary-fixed-dim transition-colors duration-200"
+                    href="#">Contact Support</a>
+            </nav>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function calculateTotal() {
+                // Phải lấy lại các phần tử mỗi lần tính vì DOM có thể đã bị thay mới bởi AJAX
+                const checkboxes = document.querySelectorAll('.cart-item-checkbox');
+                const subtotalElement = document.getElementById('cart-subtotal');
+                const totalElement = document.getElementById('cart-total');
+                const countElement = document.getElementById('selected-count');
+                
+                let total = 0;
+                let count = 0;
+                checkboxes.forEach(cb => {
+                    if (cb.checked) {
+                        total += parseFloat(cb.getAttribute('data-price'));
+                        count++;
+                    }
+                });
+                
+                const formattedTotal = new Intl.NumberFormat('vi-VN').format(total) + ' ₫';
+                if (subtotalElement) subtotalElement.textContent = formattedTotal;
+                if (totalElement) totalElement.textContent = formattedTotal;
+                if (countElement) countElement.textContent = count;
+            }
+            
+            // Lắng nghe sự kiện change trên toàn bộ body (Event Delegation) 
+            // để checkbox mới sinh ra vẫn hoạt động
+            document.body.addEventListener('change', function(e) {
+                if (e.target.matches('.cart-item-checkbox')) {
+                    calculateTotal();
+                }
+            });
+
+            // Biến lưu nút submit được bấm (để phòng hờ e.submitter không được support trên một số trình duyệt)
+            let lastClickedSubmitter = null;
+            document.body.addEventListener('click', function(e) {
+                const btn = e.target.closest('button[type="submit"], input[type="submit"]');
+                if (btn) {
+                    lastClickedSubmitter = btn;
+                }
+            });
+
+            // Xử lý sự kiện submit các form (cập nhật số lượng, xoá sản phẩm) bằng AJAX để không load lại trang
+            document.body.addEventListener('submit', async function(e) {
+                const form = e.target;
+                const action = form.getAttribute('action') || '';
+                if (action.includes('/cart/update') || action.includes('/cart/remove')) {
+                    e.preventDefault(); // Ngăn trình duyệt load lại trang
+
+                    const submitter = e.submitter || lastClickedSubmitter;
+                    const formData = new FormData(form);
+                    if (submitter && submitter.name) {
+                        formData.append(submitter.name, submitter.value);
+                    }
+
+                    // Chuyển FormData sang dạng URL-encoded để Spring Boot Controller (@RequestParam) đọc được chuẩn nhất
+                    const urlEncodedData = new URLSearchParams(formData);
+
+                    // Lưu trạng thái của các checkbox hiện tại để sau khi reload DOM tự động check lại
+                    const checkedIds = Array.from(document.querySelectorAll('.cart-item-checkbox:checked'))
+                                            .map(cb => cb.getAttribute('data-item-id'));
+
+                    try {
+                        const response = await fetch(form.action, {
+                            method: form.method || 'POST',
+                            body: urlEncodedData,
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            },
+                            redirect: 'follow'
+                        });
+
+                        if (response.ok) {
+                            const html = await response.text();
+                            const doc = new DOMParser().parseFromString(html, 'text/html');
+
+                            const currentMain = document.querySelector('main');
+                            const newMain = doc.querySelector('main');
+                            
+                            if (currentMain && newMain) {
+                                // Cập nhật lại HTML giỏ hàng nhưng không tải lại trang
+                                currentMain.innerHTML = newMain.innerHTML;
+                                
+                                // Khôi phục lại trạng thái checked của các checkbox
+                                const newCheckboxes = document.querySelectorAll('.cart-item-checkbox');
+                                newCheckboxes.forEach(cb => {
+                                    if (checkedIds.includes(cb.getAttribute('data-item-id'))) {
+                                        cb.checked = true;
+                                    }
+                                });
+
+                                // Tính toán lại tiền
+                                calculateTotal();
+                            }
+                        }
+                    } catch (error) {
+                        console.error("Lỗi:", error);
+                    }
+                }
+            });
+            
+            // Tính toán lần đầu
+            calculateTotal();
+        });
+    </script>
+</body>
+
+</html>
