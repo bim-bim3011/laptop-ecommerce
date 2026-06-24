@@ -1,14 +1,25 @@
 package com.se1906.laptopshop.controller;
 
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
+import com.se1906.laptopshop.entity.ConfigurationVersion;
+import com.se1906.laptopshop.repository.ConfigurationVersionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.List;
 
 @Controller
-@RequestMapping("/admin")
-@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal=true)
-@RequiredArgsConstructor
 public class LaptopController {
+
+    @Autowired
+    private ConfigurationVersionRepository cvRepository;
+
+    @GetMapping("/test-laptops")
+    public String testLaptopsPage(Model model) {
+        List<ConfigurationVersion> configurations = cvRepository.findAll();
+        model.addAttribute("configurations", configurations);
+        return "test-laptops";
+    }
 }
+
