@@ -75,8 +75,12 @@ public class AdminLaptopController {
 
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
-        laptopService.deleteLaptop(id);
-        redirectAttributes.addFlashAttribute("message", "Laptop deleted successfully!");
+        try {
+            laptopService.deleteLaptop(id);
+            redirectAttributes.addFlashAttribute("message", "Laptop deleted successfully!");
+        } catch (RuntimeException ex) {
+            redirectAttributes.addFlashAttribute("message", ex.getMessage());
+        }
         return "redirect:/admin/laptops";
     }
 }

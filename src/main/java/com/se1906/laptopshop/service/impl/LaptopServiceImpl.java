@@ -7,6 +7,7 @@ import com.se1906.laptopshop.entity.Laptop;
 import com.se1906.laptopshop.repository.BrandRepository;
 import com.se1906.laptopshop.repository.CategoryRepository;
 import com.se1906.laptopshop.repository.LaptopRepository;
+import com.se1906.laptopshop.repository.OrderDetailRepository;
 import com.se1906.laptopshop.service.LaptopService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,7 @@ public class LaptopServiceImpl implements LaptopService {
     private LaptopRepository laptopRepository;
     private CategoryRepository categoryRepository;
     private BrandRepository brandRepository;
+    private OrderDetailRepository orderDetailRepository;
     @Override
     public Page<Laptop> getAllLaptops(String keyword, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("laptopId").descending());
@@ -70,6 +72,12 @@ public class LaptopServiceImpl implements LaptopService {
 
     @Override
     public void deleteLaptop(Integer id) {
+        if (!laptopRepository.existsById(id)) {
+            throw new EntityNotFoundException("Laptop not found with id = " + id);
+        }
+        if (orderDetailRepository.existsByConfigurationVersion_Laptop_LaptopId(id)) {
+            throw new IllegalStateException("Cannot delete this laptop because one of its configurations already has order history");
+        }
         laptopRepository.deleteById(id);
     }
 }
