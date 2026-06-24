@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TECHCORE - Create Account</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient-start: #e8f0fe;
+            --bg-gradient-end: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --border-color: #e5e7eb;
+            --input-bg: #ffffff;
+            --btn-bg: #000000;
+            --btn-text: #ffffff;
+            --footer-bg: #1e2532;
+            --footer-text: #9ca3af;
+            --focus-ring: #3b82f6;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: var(--text-main);
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .login-card {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 440px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 4px 10px rgba(0,0,0,0.02);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            animation: fadeIn 0.5s ease-out;
+            margin: 2rem 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-header {
+            text-align: center;
+            padding: 2.5rem 2rem 1.5rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .card-body {
+            padding: 0 2rem 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            color: var(--text-main);
+            transition: all 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--focus-ring);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .remember-me input {
+            width: 1rem;
+            height: 1rem;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            accent-color: var(--text-main);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--btn-bg);
+            color: var(--btn-text);
+        }
+
+        .btn-primary:hover {
+            background: #1f2937;
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .card-footer {
+            background: #ffffff;
+            padding: 1.25rem 2rem;
+            text-align: center;
+            font-size: 0.95rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+        }
+
+        .card-footer a {
+            color: var(--text-main);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .card-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            background: #fee2e2;
+            color: #b91c1c;
+            padding: 0.75rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            text-align: center;
+        }
+        
+        .field-error {
+            color: #b91c1c;
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+        }
+
+        .site-footer {
+            background: var(--footer-bg);
+            padding: 2rem;
+            color: var(--footer-text);
+        }
+        
+        .site-footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-logo {
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-copy {
+            font-size: 0.875rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.875rem;
+        }
+
+        .footer-links a {
+            color: var(--footer-text);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #ffffff;
+        }
+
+        @media (max-width: 640px) {
+            .site-footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="main-content">
+        <div class="login-card">
+            <div class="card-header">
+                <div class="logo">TECHCORE</div>
+                <div class="title">Create Account</div>
+                <div class="subtitle">Precision Engineering for Professionals.</div>
+            </div>
+            
+            <div class="card-body">
+                <div th:if="${error}" class="error-message" th:text="${error}">
+                </div>
+                
+                <form th:action="@{/auth/register}" th:object="${registerRequest}" method="post">
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="fullName">Full Name</label>
+                        <input type="text" id="fullName" th:field="*{fullName}" class="form-control" placeholder="John Doe" required autofocus>
+                        <div th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}" class="field-error"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email Address</label>
+                        <input type="email" id="email" th:field="*{email}" class="form-control" placeholder="john@example.com" required>
+                        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="field-error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="phoneNumber">Phone Number</label>
+                        <input type="text" id="phoneNumber" th:field="*{phoneNumber}" class="form-control" placeholder="+1 (555) 000-0000" required>
+                        <div th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="field-error"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="address">Address</label>
+                        <input type="text" id="address" th:field="*{address}" class="form-control" placeholder="123 Main St, City, Country" required>
+                        <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="field-error"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="password">Password</label>
+                        <input type="password" id="password" th:field="*{password}" class="form-control" placeholder="••••••••" required>
+                        <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="field-error"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" th:field="*{confirmPassword}" class="form-control" placeholder="••••••••" required>
+                        <div th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}" class="field-error"></div>
+                    </div>
+
+                    <div class="form-options" style="margin-bottom: 1.5rem; justify-content: flex-start;">
+                        <label class="remember-me">
+                            <input type="checkbox" name="agree" required>
+                            I agree to the <a href="#" style="color: var(--text-main); font-weight: 600; text-decoration: none; margin: 0 4px;">Terms & Conditions</a> and <a href="#" style="color: var(--text-main); font-weight: 600; text-decoration: none; margin-left: 4px;">Privacy Policy</a>.
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Đăng ký</button>
+                </form>
+            </div>
+
+            <div class="card-footer">
+                Already have an account? <a href="/auth/login">Sign in here</a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="site-footer-content">
+            <div>
+                <div class="footer-logo">TECHCORE</div>
+                <div class="footer-copy">&copy; 2024 TechCore Systems. All rights reserved. Precision Engineering for Professionals.</div>
+            </div>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Shipping Info</a>
+                <a href="#">Contact Support</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
