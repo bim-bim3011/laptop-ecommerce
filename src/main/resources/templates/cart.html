@@ -470,12 +470,13 @@
                                             .map(cb => cb.getAttribute('data-item-id'));
 
                     try {
-                        const response = await fetch(form.action, {
-                            method: form.method || 'POST',
+                        const response = await fetch(form.getAttribute('action'), {
+                            method: form.getAttribute('method') || 'POST',
                             body: urlEncodedData,
                             headers: {
                                 'Content-Type': 'application/x-www-form-urlencoded'
                             },
+                            credentials: 'same-origin',
                             redirect: 'follow'
                         });
 
