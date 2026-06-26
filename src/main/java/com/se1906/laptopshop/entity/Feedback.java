@@ -17,7 +17,7 @@ public class Feedback {
     @Column(name = "rating", nullable = false)
     private int rating;
 
-    @Column(name = "comment", columnDefinition = "TEXT")
+    @Column(name = "comment", columnDefinition = "NVARCHAR(MAX)")
     private String comment;
 
     @Column(name = "created_at", nullable = false)

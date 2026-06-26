@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TECHCORE - Create Account</title>
+    <title>LapZone - Create Account</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -51,7 +52,7 @@
             width: 100%;
             max-width: 440px;
             border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 4px 10px rgba(0,0,0,0.02);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 4px 10px rgba(0, 0, 0, 0.02);
             border: 1px solid var(--border-color);
             overflow: hidden;
             animation: fadeIn 0.5s ease-out;
@@ -59,8 +60,15 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .card-header {
@@ -199,7 +207,7 @@
             font-size: 0.875rem;
             text-align: center;
         }
-        
+
         .field-error {
             color: #b91c1c;
             font-size: 0.8rem;
@@ -211,7 +219,7 @@
             padding: 2rem;
             color: var(--footer-text);
         }
-        
+
         .site-footer-content {
             max-width: 1200px;
             margin: 0 auto;
@@ -257,62 +265,75 @@
         }
     </style>
 </head>
+
 <body>
 
     <main class="main-content">
         <div class="login-card">
             <div class="card-header">
-                <div class="logo">TECHCORE</div>
+                <div class="logo">LapZone</div>
                 <div class="title">Create Account</div>
                 <div class="subtitle">Precision Engineering for Professionals.</div>
             </div>
-            
+
             <div class="card-body">
                 <div th:if="${error}" class="error-message" th:text="${error}">
                 </div>
-                
+
                 <form th:action="@{/auth/register}" th:object="${registerRequest}" method="post">
-                    
+
                     <div class="form-group">
                         <label class="form-label" for="fullName">Full Name</label>
-                        <input type="text" id="fullName" th:field="*{fullName}" class="form-control" placeholder="John Doe" required autofocus>
+                        <input type="text" id="fullName" th:field="*{fullName}" class="form-control"
+                            placeholder="John Doe" required autofocus>
                         <div th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}" class="field-error"></div>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label" for="email">Email Address</label>
-                        <input type="email" id="email" th:field="*{email}" class="form-control" placeholder="john@example.com" required>
+                        <input type="email" id="email" th:field="*{email}" class="form-control"
+                            placeholder="john@example.com" required>
                         <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="field-error"></div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label class="form-label" for="phoneNumber">Phone Number</label>
-                        <input type="text" id="phoneNumber" th:field="*{phoneNumber}" class="form-control" placeholder="+1 (555) 000-0000" required>
-                        <div th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="field-error"></div>
+                        <input type="text" id="phoneNumber" th:field="*{phoneNumber}" class="form-control"
+                            placeholder="+1 (555) 000-0000" required>
+                        <div th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="field-error">
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label" for="address">Address</label>
-                        <input type="text" id="address" th:field="*{address}" class="form-control" placeholder="123 Main St, City, Country" required>
+                        <input type="text" id="address" th:field="*{address}" class="form-control"
+                            placeholder="123 Main St, City, Country" required>
                         <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="field-error"></div>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label" for="password">Password</label>
-                        <input type="password" id="password" th:field="*{password}" class="form-control" placeholder="••••••••" required>
+                        <input type="password" id="password" th:field="*{password}" class="form-control"
+                            placeholder="••••••••" required>
                         <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="field-error"></div>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label" for="confirmPassword">Confirm Password</label>
-                        <input type="password" id="confirmPassword" th:field="*{confirmPassword}" class="form-control" placeholder="••••••••" required>
-                        <div th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}" class="field-error"></div>
+                        <input type="password" id="confirmPassword" th:field="*{confirmPassword}" class="form-control"
+                            placeholder="••••••••" required>
+                        <div th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"
+                            class="field-error"></div>
                     </div>
 
                     <div class="form-options" style="margin-bottom: 1.5rem; justify-content: flex-start;">
                         <label class="remember-me">
                             <input type="checkbox" name="agree" required>
-                            I agree to the <a href="#" style="color: var(--text-main); font-weight: 600; text-decoration: none; margin: 0 4px;">Terms & Conditions</a> and <a href="#" style="color: var(--text-main); font-weight: 600; text-decoration: none; margin-left: 4px;">Privacy Policy</a>.
+                            I agree to the <a href="#"
+                                style="color: var(--text-main); font-weight: 600; text-decoration: none; margin: 0 4px;">Terms
+                                & Conditions</a> and <a href="#"
+                                style="color: var(--text-main); font-weight: 600; text-decoration: none; margin-left: 4px;">Privacy
+                                Policy</a>.
                         </label>
                     </div>
 
@@ -329,8 +350,9 @@
     <footer class="site-footer">
         <div class="site-footer-content">
             <div>
-                <div class="footer-logo">TECHCORE</div>
-                <div class="footer-copy">&copy; 2024 TechCore Systems. All rights reserved. Precision Engineering for Professionals.</div>
+                <div class="footer-logo">LapZone</div>
+                <div class="footer-copy">&copy; 2024 LapZone Systems. All rights reserved. Precision Engineering for
+                    Professionals.</div>
             </div>
             <div class="footer-links">
                 <a href="#">Privacy Policy</a>
@@ -342,4 +364,5 @@
     </footer>
 
 </body>
+
 </html>

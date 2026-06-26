@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TECHCORE - Login</title>
+    <title>LapZone - Login</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -51,15 +52,22 @@
             width: 100%;
             max-width: 440px;
             border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 4px 10px rgba(0,0,0,0.02);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 4px 10px rgba(0, 0, 0, 0.02);
             border: 1px solid var(--border-color);
             overflow: hidden;
             animation: fadeIn 0.5s ease-out;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .card-header {
@@ -195,14 +203,20 @@
             font-size: 0.875rem;
         }
 
-        .divider::before, .divider::after {
+        .divider::before,
+        .divider::after {
             content: '';
             flex: 1;
             border-bottom: 1px solid var(--border-color);
         }
 
-        .divider::before { margin-right: 1rem; }
-        .divider::after { margin-left: 1rem; }
+        .divider::before {
+            margin-right: 1rem;
+        }
+
+        .divider::after {
+            margin-left: 1rem;
+        }
 
         .social-logins {
             display: flex;
@@ -258,7 +272,7 @@
             padding: 2rem;
             color: var(--footer-text);
         }
-        
+
         .site-footer-content {
             max-width: 1200px;
             margin: 0 auto;
@@ -304,34 +318,46 @@
         }
     </style>
 </head>
+
 <body>
 
     <main class="main-content">
         <div class="login-card">
             <div class="card-header">
-                <div class="logo">TECHCORE</div>
+                <div class="logo">LapZone</div>
                 <div class="subtitle">Sign in to your professional account</div>
             </div>
-            
+
             <div class="card-body">
                 <div th:if="${error}" class="error-message" th:text="${error}">
                     Invalid email or password.
                 </div>
-                
+
                 <form th:action="@{/auth/login}" method="post">
                     <div class="form-group">
                         <label class="form-label" for="email">Email</label>
                         <div class="input-wrapper">
-                            <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                            <input type="email" id="email" name="email" class="form-control" placeholder="engineering@techcore.com" required autofocus>
+                            <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                            <input type="email" id="email" name="email" class="form-control"
+                                placeholder="engineering@lapzone.com" required autofocus>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label" for="password">Password</label>
                         <div class="input-wrapper">
-                            <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                            <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required>
+                            <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                                </path>
+                            </svg>
+                            <input type="password" id="password" name="password" class="form-control"
+                                placeholder="••••••••" required>
                         </div>
                     </div>
 
@@ -350,10 +376,28 @@
 
                 <div class="social-logins">
                     <button type="button" class="btn btn-outline">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                                fill="#4285F4" />
+                            <path
+                                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                                fill="#34A853" />
+                            <path
+                                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                                fill="#FBBC05" />
+                            <path
+                                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                                fill="#EA4335" />
+                        </svg>
                     </button>
                     <button type="button" class="btn btn-outline">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.04 2.26-.8 3.59-.8 1.58.02 2.72.46 3.64 1.36-3.06 1.76-2.58 5.76.56 7.02-.75 1.84-1.74 3.73-2.87 4.59zM12.03 7.05c-.15-2.95 2.26-5.45 5.28-5.74.34 3.1-2.4 5.6-5.28 5.74z"/></svg>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.04 2.26-.8 3.59-.8 1.58.02 2.72.46 3.64 1.36-3.06 1.76-2.58 5.76.56 7.02-.75 1.84-1.74 3.73-2.87 4.59zM12.03 7.05c-.15-2.95 2.26-5.45 5.28-5.74.34 3.1-2.4 5.6-5.28 5.74z" />
+                        </svg>
                     </button>
                 </div>
             </div>
@@ -367,8 +411,9 @@
     <footer class="site-footer">
         <div class="site-footer-content">
             <div>
-                <div class="footer-logo">TECHCORE</div>
-                <div class="footer-copy">&copy; 2024 TechCore Systems. All rights reserved. Precision Engineering for Professionals.</div>
+                <div class="footer-logo">LapZone</div>
+                <div class="footer-copy">&copy; 2024 LapZone Systems. All rights reserved. Precision Engineering for
+                    Professionals.</div>
             </div>
             <div class="footer-links">
                 <a href="#">Privacy Policy</a>
@@ -380,4 +425,5 @@
     </footer>
 
 </body>
+
 </html>

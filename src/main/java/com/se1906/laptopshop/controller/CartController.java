@@ -12,7 +12,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.se1906.laptopshop.entity.Cart;
 import com.se1906.laptopshop.entity.User;
-import com.se1906.laptopshop.repository.UserRepository;
 import com.se1906.laptopshop.service.CartService;
 
 import jakarta.servlet.http.HttpSession;
@@ -23,31 +22,14 @@ public class CartController {
     @Autowired
     private CartService cartService;
 
-    @Autowired
-    private UserRepository userRepository;
 
-    private User getOrCreateLoggedInUser(HttpSession session) {
-        User loggedInUser = (User) session.getAttribute("currentUser");
-        if (loggedInUser == null) {
-            java.util.List<User> users = userRepository.findAll();
-            if (!users.isEmpty()) {
-                loggedInUser = users.get(0);
-            } else {
-                User mockUser = new User();
-                mockUser.setFullName("Nguyễn Văn A");
-                mockUser.setEmail("testuser@gmail.com");
-                mockUser.setPhoneNumber("0987654321");
-                mockUser.setStatus("ACTIVE");
-                loggedInUser = userRepository.save(mockUser);
-            }
-            session.setAttribute("currentUser", loggedInUser);
-        }
-        return loggedInUser;
-    }
 
     @GetMapping("/cart")
     public String viewCart(HttpSession session, Model model) {
-        User user = getOrCreateLoggedInUser(session);
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/auth/login";
+        }
         Cart cart = cartService.getCartByUser(user);
 
         model.addAttribute("cart", cart);
@@ -70,7 +52,10 @@ public class CartController {
             RedirectAttributes redirectAttributes,
             Model model) {
         try {
-            User user = getOrCreateLoggedInUser(session);
+            User user = (User) session.getAttribute("user");
+            if (user == null) {
+                return "redirect:/auth/login";
+            }
             cartService.addToCart(user, request.getConfigurationId(), request.getQuantity());
             redirectAttributes.addFlashAttribute("successMessage", "Đã thêm sản phẩm vào giỏ hàng thành công!");
         } catch (IllegalArgumentException e) {
@@ -82,12 +67,11 @@ public class CartController {
     }
 
     @PostMapping("/cart/remove")
-    public String removeCartItem(@RequestParam("itemId") int itemId, RedirectAttributes redirectAttributes) {
+    public String removeCartItem(@RequestParam("itemId") int itemId) {
         try {
             cartService.removeCartItem(itemId);
-            redirectAttributes.addFlashAttribute("successMessage", "Đã xóa sản phẩm khỏi giỏ hàng!");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Không thể xóa sản phẩm!");
+            // Ignore error
         }
         return "redirect:/cart";
     }
@@ -102,6 +86,20 @@ public class CartController {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Không thể cập nhật số lượng!");
+        }
+        return "redirect:/cart";
+    }
+
+    @PostMapping("/cart/clear")
+    public String clearCart(HttpSession session) {
+        try {
+            User user = (User) session.getAttribute("user");
+            if (user == null) {
+                return "redirect:/auth/login";
+            }
+            cartService.clearCart(user);
+        } catch (Exception e) {
+            // Ignore error
         }
         return "redirect:/cart";
     }

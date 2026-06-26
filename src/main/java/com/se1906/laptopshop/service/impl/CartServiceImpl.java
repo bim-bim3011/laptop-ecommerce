@@ -75,7 +75,15 @@ public class CartServiceImpl implements CartService {
     @Override
     @Transactional
     public void removeCartItem(int itemId) {
-        cartItemRepository.deleteById(itemId);
+        CartItem cartItem = cartItemRepository.findByCartItemId(itemId);
+        if (cartItem != null) {
+            Cart cart = cartItem.getCart();
+            if (cart != null) {
+                cart.getCartItems().remove(cartItem);
+                cartRepository.save(cart);
+            }
+            cartItemRepository.delete(cartItem);
+        }
     }
 
     @Override
@@ -94,6 +102,11 @@ public class CartServiceImpl implements CartService {
         }
 
         if (newQty <= 0) {
+            Cart cart = cartItem.getCart();
+            if (cart != null) {
+                cart.getCartItems().remove(cartItem);
+                cartRepository.save(cart);
+            }
             cartItemRepository.delete(cartItem);
             return;
         }
@@ -104,5 +117,15 @@ public class CartServiceImpl implements CartService {
 
         cartItem.setQuantity(newQty);
         cartItemRepository.save(cartItem);
+    }
+
+    @Override
+    @Transactional
+    public void clearCart(User user) {
+        Cart cart = getCartByUser(user);
+        if (cart != null && cart.getCartItems() != null) {
+            cart.getCartItems().clear();
+            cartRepository.save(cart);
+        }
     }
 }

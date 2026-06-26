@@ -1,29 +1,34 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Trang kiểm thử Thêm vào giỏ hàng</title>
     <!-- Nhúng CSS Tailwind cho giao diện đẹp nhanh chóng -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="bg-gray-100 p-8">
     <div class="max-w-4xl mx-auto">
         <h1 class="text-3xl font-bold mb-6 text-center text-blue-600">Trang Kiểm Thử Chức Năng Thêm Vào Giỏ Hàng</h1>
-        
+
         <!-- Hiển thị thông báo nếu có -->
-        <div th:if="${successMessage}" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4 text-center" role="alert">
+        <div th:if="${successMessage}"
+            class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4 text-center" role="alert">
             <span th:text="${successMessage}"></span>
         </div>
-        <div th:if="${errorMessage}" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 text-center" role="alert">
+        <div th:if="${errorMessage}"
+            class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 text-center" role="alert">
             <span th:text="${errorMessage}"></span>
         </div>
 
         <!-- Danh sách cấu hình máy tính hiện có -->
         <div class="bg-white shadow-md rounded-lg p-6">
             <h2 class="text-xl font-semibold mb-4 text-gray-700">Danh sách Cấu hình Laptop trong DB</h2>
-            
+
             <div th:if="${#lists.isEmpty(configurations)}" class="text-gray-500 text-center py-4">
-                Hiện tại chưa có dữ liệu cấu hình nào trong database. Hãy thêm dữ liệu mẫu vào bảng <code class="bg-gray-200 px-1 rounded">configuration_version</code> trước!
+                Hiện tại chưa có dữ liệu cấu hình nào trong database. Hãy thêm dữ liệu mẫu vào bảng <code
+                    class="bg-gray-200 px-1 rounded">configuration_version</code> trước!
             </div>
 
             <table th:unless="${#lists.isEmpty(configurations)}" class="w-full text-left border-collapse">
@@ -40,20 +45,25 @@
                 <tbody class="text-gray-600 text-sm font-light">
                     <tr th:each="config : ${configurations}" class="border-b border-gray-200 hover:bg-gray-50">
                         <td class="py-3 px-6 font-bold" th:text="${config.configurationId}">1</td>
-                        <td class="py-3 px-6" th:text="${config.laptop != null ? config.laptop.laptopName : 'N/A'}">Dell XPS</td>
+                        <td class="py-3 px-6" th:text="${config.laptop != null ? config.laptop.laptopName : 'N/A'}">Dell
+                            XPS</td>
                         <td class="py-3 px-6">
-                            <span th:text="${config.cpu}">Intel i7</span> / 
-                            <span th:text="${config.ram}">16GB</span> / 
+                            <span th:text="${config.cpu}">Intel i7</span> /
+                            <span th:text="${config.ram}">16GB</span> /
                             <span th:text="${config.storage}">512GB</span>
                         </td>
-                        <td class="py-3 px-6 font-semibold text-red-500" th:text="${#numbers.formatDecimal(config.price, 0, 'COMMA', 0, 'POINT') + ' ₫'}">45,000,000 ₫</td>
+                        <td class="py-3 px-6 font-semibold text-red-500"
+                            th:text="${#numbers.formatDecimal(config.price, 0, 'COMMA', 0, 'POINT') + ' ₫'}">45,000,000
+                            ₫</td>
                         <td class="py-3 px-6" th:text="${config.stockQuantity}">10</td>
                         <td class="py-3 px-6 text-center">
                             <!-- Form để Post lên CartController -->
                             <form th:action="@{/cart/add}" method="POST" class="inline-flex items-center gap-2">
                                 <input type="hidden" name="configurationId" th:value="${config.configurationId}">
-                                <input type="number" name="quantity" value="1" min="1" th:max="${config.stockQuantity}" class="w-16 border rounded px-2 py-1 text-center">
-                                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-1.5 rounded transition-all">
+                                <input type="number" name="quantity" value="1" min="1" th:max="${config.stockQuantity}"
+                                    class="w-16 border rounded px-2 py-1 text-center">
+                                <button type="submit"
+                                    class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-1.5 rounded transition-all">
                                     Thêm vào giỏ
                                 </button>
                             </form>
@@ -61,19 +71,20 @@
                     </tr>
                 </tbody>
             </table>
-            
+
             <div class="mt-6 flex justify-between">
-                <a href="/cart" class="bg-purple-500 hover:bg-purple-600 text-white font-semibold px-6 py-2 rounded transition-all">
+                <a href="/cart"
+                    class="bg-purple-500 hover:bg-purple-600 text-white font-semibold px-6 py-2 rounded transition-all">
                     Xem Giỏ Hàng Hiện Tại
                 </a>
             </div>
         </div>
     </div>
-    
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Lắng nghe sự kiện submit cho form thêm vào giỏ hàng
-            document.body.addEventListener('submit', async function(e) {
+            document.body.addEventListener('submit', async function (e) {
                 const form = e.target;
                 const action = form.getAttribute('action') || '';
                 if (action.includes('/cart/add')) {
@@ -81,10 +92,10 @@
 
                     const formData = new FormData(form);
                     const urlEncodedData = new URLSearchParams(formData);
-                    
+
                     const btn = form.querySelector('button[type="submit"]');
                     const originalText = btn.innerHTML;
-                    
+
                     try {
                         btn.innerHTML = 'Đang thêm...'; // Hiệu ứng đang xử lý
                         btn.disabled = true;
@@ -113,4 +124,5 @@
         });
     </script>
 </body>
+
 </html>

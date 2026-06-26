@@ -19,7 +19,7 @@ public class Laptop {
     @Column(name = "laptop_name", length = 150, nullable = false)
     private String laptopName;
 
-    @Column(name = "description", columnDefinition = "TEXT")
+    @Column(name = "description", columnDefinition = "NVARCHAR(MAX)")
     private String description;
 
     @Column(name = "updated_at", nullable = false)
