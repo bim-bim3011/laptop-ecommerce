@@ -6,13 +6,18 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Table(name = "gift_details")
 @Entity
+@Getter
+@Setter
 public class GiftDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "gift_id")
-    private int giftId;
+    private Integer giftId;
 
     @Column(name = "quantity", nullable = false)
     private int quantity;

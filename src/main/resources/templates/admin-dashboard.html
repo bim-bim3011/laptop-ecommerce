@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>TechCore - Admin Dashboard Overview</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Hanken+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface-tint": "#585e6e",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-primary-fixed": "#151c29",
+                        "surface": "#f7f9fb",
+                        "tertiary": "#735c00",
+                        "surface-dim": "#d8dadc",
+                        "inverse-primary": "#c0c6d8",
+                        "on-primary-container": "#7d8494",
+                        "on-surface-variant": "#45474c",
+                        "error": "#ba1a1a",
+                        "primary": "#000000",
+                        "primary-container": "#151c29",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "on-surface": "#191c1e",
+                        "tertiary-container": "#cea700",
+                        "primary-fixed": "#dce2f5",
+                        "on-secondary-fixed": "#001a42",
+                        "on-primary-fixed-variant": "#404756",
+                        "background": "#f7f9fb",
+                        "secondary-fixed": "#d8e2ff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#eec200",
+                        "surface-container-low": "#f2f4f6",
+                        "inverse-surface": "#2d3133",
+                        "tertiary-fixed": "#ffe083",
+                        "on-tertiary-fixed": "#231b00",
+                        "on-primary": "#ffffff",
+                        "outline-variant": "#c6c6cc",
+                        "on-secondary-fixed-variant": "#004395",
+                        "on-secondary-container": "#fefcff",
+                        "surface-bright": "#f7f9fb",
+                        "on-tertiary-container": "#4e3e00",
+                        "primary-fixed-dim": "#c0c6d8",
+                        "surface-variant": "#e0e3e5",
+                        "secondary-container": "#2170e4",
+                        "on-error-container": "#93000a",
+                        "on-background": "#191c1e",
+                        "outline": "#76777c",
+                        "surface-container-high": "#e6e8ea",
+                        "surface-container": "#eceef0",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "secondary": "#0058be",
+                        "surface-container-highest": "#e0e3e5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "md": "24px",
+                        "xs": "8px",
+                        "base": "4px",
+                        "xl": "48px",
+                        "container-max": "1440px",
+                        "sm": "16px",
+                        "lg": "32px",
+                        "sidebar-width": "280px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "label-md": ["JetBrains Mono"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        /* Ambient depth for cards */
+        .ambient-shadow {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .ambient-shadow:hover {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        /* Data-driven aesthetics */
+        .kpi-card {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .kpi-card:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        }
+        .kpi-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, transparent 50%, rgba(33, 112, 228, 0.05) 50%);
+            border-bottom-left-radius: 100px;
+            pointer-events: none;
+            transition: width 0.3s ease, height 0.3s ease;
+        }
+        .kpi-card:hover::after {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, transparent 50%, rgba(33, 112, 228, 0.1) 50%);
+        }
+        
+        /* Sidebar link hover effect */
+        .nav-link {
+            transition: all 0.2s ease-in-out;
+        }
+        .nav-link:hover {
+            transform: translateX(4px);
+        }
+
+        /* Custom animations that can't be easily done with just tailwind classes */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translate3d(0, -20px, 0);
+            }
+            to {
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
+            }
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translate3d(0, 20px, 0);
+            }
+            to {
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
+            }
+        }
+        .animate-fade-in-down {
+            animation: fadeInDown 0.6s ease-out;
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        .animate-bounce-slow {
+            animation: bounce 3s infinite;
+        }
+        .animate-pulse-slow {
+            animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+    <script src="/js/admin-app.js" defer></script>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col bg-surface-container-lowest border-r border-outline-variant fixed left-0 top-0 h-full w-[280px] z-20 shadow-[1px_0_10px_rgba(0,0,0,0.02)]">
+<div class="p-md border-b border-outline-variant">
+<h1 class="font-headline-md text-headline-md font-bold text-primary transition-colors duration-300 hover:text-secondary cursor-pointer">TechCore</h1>
+<p class="font-label-md text-label-md text-on-surface-variant mt-xs">Admin Dashboard</p>
+</div>
+<nav class="flex-1 py-md px-sm overflow-y-auto flex flex-col gap-2">
+<a class="nav-link flex items-center gap-3 px-4 py-3 bg-secondary-container text-on-secondary-container rounded-lg font-body-md text-body-md shadow-sm" href="#" data-target="section-overview">
+<span class="material-symbols-outlined">dashboard</span>
+                Overview
+            </a>
+<a class="nav-link flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded-lg font-body-md text-body-md" href="#" data-target="section-brand">
+<span class="material-symbols-outlined">branding_watermark</span>
+                Brand
+            </a>
+<a class="nav-link flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded-lg font-body-md text-body-md" href="#" data-target="section-category">
+<span class="material-symbols-outlined">category</span>
+                Category
+            </a>
+<a class="nav-link flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded-lg font-body-md text-body-md" href="#" data-target="section-laptop">
+<span class="material-symbols-outlined">laptop_mac</span>
+                Laptops
+            </a>
+<a class="nav-link flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded-lg font-body-md text-body-md" href="#" data-target="section-laptop-config">
+<span class="material-symbols-outlined">memory</span>
+                Laptop Configs
+            </a>
+<a class="nav-link flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded-lg font-body-md text-body-md" href="#" data-target="section-user">
+<span class="material-symbols-outlined">group</span>
+                User Management
+            </a>
+<a class="nav-link flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded-lg font-body-md text-body-md" href="#" data-target="section-promotion">
+<span class="material-symbols-outlined">redeem</span>
+                Promotion &amp; Gift
+            </a>
+<a class="nav-link flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded-lg font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">history</span>
+                Order History
+            </a></nav>
+<div class="p-md border-t border-outline-variant flex items-center gap-3 hover:bg-surface-container-low transition-colors cursor-pointer group">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container font-bold font-label-md group-hover:scale-110 transition-transform duration-300">
+                AU
+            </div>
+<div>
+<p class="font-label-md text-label-md font-bold text-on-surface group-hover:text-secondary transition-colors">Admin User</p>
+<p class="text-xs text-on-surface-variant">admin@techcore.com</p>
+</div>
+</div>
+</aside>
+<!-- Main Content Wrapper -->
+<div class="flex-1 flex flex-col md:ml-[280px] w-full min-h-screen">
+<!-- TopNavBar -->
+<header class="bg-surface/80 backdrop-blur-md border-b border-outline-variant h-16 sticky top-0 z-10 flex justify-between items-center px-lg transition-all duration-300 hover:bg-surface">
+<div class="flex items-center flex-1">
+<!-- Search on left as per JSON -->
+<div class="relative w-full max-w-md focus-within:ring-2 focus-within:ring-secondary focus-within:ring-opacity-50 rounded-lg transition-all duration-300">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant transition-colors duration-300">search</span>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-lg py-2 pl-10 pr-4 font-label-md text-label-md text-on-surface focus:outline-none focus:border-secondary focus:bg-surface transition-all duration-300 shadow-sm hover:shadow-md" placeholder="Search resources..." type="text">
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-all duration-300 hover:scale-110 hover:shadow-sm relative group">
+<span class="material-symbols-outlined group-hover:animate-ping-short">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full animate-pulse"></span>
+</button>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-all duration-300 hover:scale-110 hover:rotate-90 hover:shadow-sm">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-variant overflow-hidden border border-outline-variant hover:ring-2 hover:ring-secondary transition-all duration-300 cursor-pointer hover:scale-110 shadow-sm">
+<img alt="Admin User" class="w-full h-full object-cover" data-alt="A professional headshot of a corporate administrator in a modern office setting. Sharp focus, clean lighting, representing the Admin User for TechCore. The overall tone is authoritative and reliable." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmaYDGxxq4MrgxjtbY42AMAJNw5wp4GWdbBb2e-coWxddqBA00fZ8W0WQZemrkMNQvT_Z_TaJDnmlkZ3nDw0BrdojzdU0KE8tyskguYif24i7HEN97zdr8w2dxG2ymy-cGFoG6LRj4-DTRa90SJwUOYZqJzwHAL3En0UzXjTgHZHJkLM5Hv0-75vuNN2L7B095SNUNcJKYVpu1PofAUqP2ufrgXu23XY-LZz7_H114uFdjYDtv-yzSD7anCqP3WLdIHyy2ymEhHc0">
+</div>
+</div>
+</header>
+<!-- Dashboard Canvas -->
+<main class="flex-1 p-md md:p-lg lg:p-xl overflow-x-hidden animate-fade-in-up">
+
+<div id="section-overview" class="admin-section">
+<div class="mb-lg flex justify-between items-end">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary tracking-tight">Overview</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs">System metrics and recent activity for TechCore infrastructure.</p>
+</div>
+<div class="hidden sm:flex gap-3">
+<button class="px-4 py-2 border border-secondary text-secondary rounded font-label-md text-label-md hover:bg-secondary hover:text-on-secondary transition-all duration-300 shadow-sm hover:shadow-md active:scale-95 flex items-center gap-2 group">
+<span class="material-symbols-outlined text-sm group-hover:-translate-y-1 transition-transform duration-300">download</span> Export Report
+                    </button>
+<button class="px-4 py-2 bg-primary-container text-on-primary-container rounded font-label-md text-label-md hover:bg-primary hover:text-on-primary transition-all duration-300 shadow-sm hover:shadow-md active:scale-95 flex items-center gap-2 group">
+<span class="material-symbols-outlined text-sm group-hover:rotate-90 transition-transform duration-300">add</span> New Entry
+                    </button>
+</div>
+</div>
+<!-- Bento Grid for KPIs -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mb-xl">
+<!-- KPI Card 1: Total Sales/Revenue -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md ambient-shadow kpi-card">
+<div class="flex justify-between items-start mb-4">
+<p class="font-label-md text-label-md text-on-surface-variant">Total Revenue</p>
+<div class="w-8 h-8 rounded bg-secondary-fixed flex items-center justify-center text-secondary transition-transform duration-500 hover:rotate-12 hover:scale-110">
+<span class="material-symbols-outlined">payments</span>
+</div>
+</div>
+<div class="flex items-baseline gap-2">
+<h3 class="font-display-lg text-display-lg text-on-surface transition-colors hover:text-secondary">$1.2M</h3>
+</div>
+<div class="mt-4 flex items-center gap-1 text-sm">
+<span class="material-symbols-outlined text-[#166534] text-sm animate-bounce-slow">trending_up</span>
+<span class="text-[#166534] font-medium">+14.5%</span>
+<span class="text-on-surface-variant">vs last month</span>
+</div>
+</div>
+<!-- KPI Card 2: Active Users -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md ambient-shadow kpi-card">
+<div class="flex justify-between items-start mb-4">
+<p class="font-label-md text-label-md text-on-surface-variant">Active Users</p>
+<div class="w-8 h-8 rounded bg-primary-fixed flex items-center justify-center text-primary transition-transform duration-500 hover:rotate-12 hover:scale-110">
+<span class="material-symbols-outlined">group</span>
+</div>
+</div>
+<div class="flex items-baseline gap-2">
+<h3 class="font-display-lg text-display-lg text-on-surface transition-colors hover:text-primary-container">45.2K</h3>
+</div>
+<div class="mt-4 flex items-center gap-1 text-sm">
+<span class="material-symbols-outlined text-[#166534] text-sm animate-bounce-slow">trending_up</span>
+<span class="text-[#166534] font-medium">+5.2%</span>
+<span class="text-on-surface-variant">vs last month</span>
+</div>
+</div>
+<!-- KPI Card 3: Product Inventory -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md ambient-shadow kpi-card">
+<div class="flex justify-between items-start mb-4">
+<p class="font-label-md text-label-md text-on-surface-variant">Inventory Status</p>
+<div class="w-8 h-8 rounded bg-tertiary-fixed flex items-center justify-center text-tertiary transition-transform duration-500 hover:-rotate-12 hover:scale-110">
+<span class="material-symbols-outlined">inventory_2</span>
+</div>
+</div>
+<div class="flex items-baseline gap-2">
+<h3 class="font-display-lg text-display-lg text-on-surface transition-colors hover:text-tertiary">8,432</h3>
+</div>
+<div class="mt-4 flex items-center gap-1 text-sm">
+<span class="material-symbols-outlined text-error text-sm">trending_down</span>
+<span class="text-error font-medium">-2.1%</span>
+<span class="text-on-surface-variant">requires restock</span>
+</div>
+</div>
+<!-- KPI Card 4: System Health -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md ambient-shadow kpi-card relative overflow-hidden group">
+<div class="absolute inset-0 bg-secondary-container opacity-5 group-hover:opacity-10 transition-opacity duration-500"></div>
+<div class="relative z-10">
+<div class="flex justify-between items-start mb-4">
+<p class="font-label-md text-label-md text-on-surface-variant">System Health</p>
+<div class="w-8 h-8 rounded bg-secondary-fixed flex items-center justify-center text-secondary transition-transform duration-500 group-hover:scale-110">
+<span class="material-symbols-outlined">dns</span>
+</div>
+</div>
+<div class="flex items-baseline gap-2">
+<h3 class="font-display-lg text-display-lg text-on-surface transition-colors hover:text-secondary-container">99.9%</h3>
+</div>
+<div class="mt-4 flex items-center gap-2 text-sm">
+<span class="w-2 h-2 rounded-full bg-[#166534] animate-ping"></span>
+<span class="text-on-surface font-medium ml-1">All systems operational</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Content Area: Charts & Tables -->
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-gutter">
+<!-- Activity Table (Spans 2 columns on XL) -->
+<div class="xl:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-xl ambient-shadow flex flex-col hover:shadow-lg transition-shadow duration-300">
+<div class="p-md border-b border-outline-variant flex justify-between items-center bg-surface-container-lowest rounded-t-xl">
+<h3 class="font-headline-md text-headline-md text-primary">Recent Activity</h3>
+<button class="text-secondary font-label-md text-label-md hover:text-secondary-container transition-colors flex items-center gap-1 group">
+                            View All <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform duration-300">arrow_forward</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-primary-container font-label-md text-label-md border-b border-outline-variant">
+<th class="p-4 font-medium whitespace-nowrap">Event ID</th>
+<th class="p-4 font-medium">Description</th>
+<th class="p-4 font-medium whitespace-nowrap">Category</th>
+<th class="p-4 font-medium whitespace-nowrap">Status</th>
+<th class="p-4 font-medium text-right whitespace-nowrap">Time</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md text-on-surface">
+<tr class="border-b border-outline-variant hover:bg-surface-container hover:shadow-inner transition-all duration-200 group cursor-pointer">
+<td class="p-4 font-label-md text-on-surface-variant group-hover:text-primary transition-colors">#TC-8892</td>
+<td class="p-4">New user registration: <strong>john.doe@enterprise.com</strong></td>
+<td class="p-4 text-on-surface-variant group-hover:text-on-surface transition-colors">User Mgt</td>
+<td class="p-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-[#dcfce7] text-[#166534] text-xs font-label-md border border-[#bbf7d0] shadow-sm">Success</span>
+</td>
+<td class="p-4 text-right text-on-surface-variant group-hover:text-on-surface transition-colors whitespace-nowrap">2 mins ago</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container hover:shadow-inner transition-all duration-200 group cursor-pointer">
+<td class="p-4 font-label-md text-on-surface-variant group-hover:text-primary transition-colors">#TC-8891</td>
+<td class="p-4">Inventory update: <strong>ThinkPad X1 Carbon</strong> batch added</td>
+<td class="p-4 text-on-surface-variant group-hover:text-on-surface transition-colors">Inventory</td>
+<td class="p-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-[#dcfce7] text-[#166534] text-xs font-label-md border border-[#bbf7d0] shadow-sm">Completed</span>
+</td>
+<td class="p-4 text-right text-on-surface-variant group-hover:text-on-surface transition-colors whitespace-nowrap">15 mins ago</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container hover:shadow-inner transition-all duration-200 group cursor-pointer">
+<td class="p-4 font-label-md text-on-surface-variant group-hover:text-primary transition-colors">#TC-8890</td>
+<td class="p-4">Configuration sync failed for <strong>Region US-East</strong></td>
+<td class="p-4 text-on-surface-variant group-hover:text-on-surface transition-colors">System</td>
+<td class="p-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-error-container text-on-error-container text-xs font-label-md border border-red-200 shadow-sm">Failed</span>
+</td>
+<td class="p-4 text-right text-on-surface-variant group-hover:text-on-surface transition-colors whitespace-nowrap">1 hour ago</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container hover:shadow-inner transition-all duration-200 group cursor-pointer">
+<td class="p-4 font-label-md text-on-surface-variant group-hover:text-primary transition-colors">#TC-8889</td>
+<td class="p-4">Brand asset updated: <strong>Primary Logo SVG</strong></td>
+<td class="p-4 text-on-surface-variant group-hover:text-on-surface transition-colors">Brand</td>
+<td class="p-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed text-xs font-label-md border border-blue-200 shadow-sm">Pending Review</span>
+</td>
+<td class="p-4 text-right text-on-surface-variant group-hover:text-on-surface transition-colors whitespace-nowrap">3 hours ago</td>
+</tr>
+<tr class="hover:bg-surface-container hover:shadow-inner transition-all duration-200 group cursor-pointer rounded-b-xl">
+<td class="p-4 font-label-md text-on-surface-variant group-hover:text-primary transition-colors">#TC-8888</td>
+<td class="p-4">Category created: <strong>Ultra-Mobile Workstations</strong></td>
+<td class="p-4 text-on-surface-variant group-hover:text-on-surface transition-colors">Category</td>
+<td class="p-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-[#dcfce7] text-[#166534] text-xs font-label-md border border-[#bbf7d0] shadow-sm">Success</span>
+</td>
+<td class="p-4 text-right text-on-surface-variant group-hover:text-on-surface transition-colors whitespace-nowrap">5 hours ago</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Secondary Column Area -->
+<div class="flex flex-col gap-gutter">
+<!-- Quick Actions Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md ambient-shadow hover:shadow-lg transition-shadow duration-300">
+<h3 class="font-headline-md text-headline-md text-primary mb-4">Quick Actions</h3>
+<div class="grid grid-cols-2 gap-3">
+<button class="flex flex-col items-center justify-center p-4 border border-outline-variant rounded-xl hover:bg-secondary-fixed hover:border-secondary transition-all duration-300 group shadow-sm hover:shadow-md active:scale-95">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant group-hover:bg-surface-container-lowest group-hover:text-secondary mb-3 transition-colors duration-300 shadow-inner group-hover:shadow-sm">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">add_box</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface group-hover:text-secondary-fixed-variant transition-colors">Add Product</span>
+</button>
+<button class="flex flex-col items-center justify-center p-4 border border-outline-variant rounded-xl hover:bg-secondary-fixed hover:border-secondary transition-all duration-300 group shadow-sm hover:shadow-md active:scale-95">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant group-hover:bg-surface-container-lowest group-hover:text-secondary mb-3 transition-colors duration-300 shadow-inner group-hover:shadow-sm">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">person_add</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface group-hover:text-secondary-fixed-variant transition-colors">New User</span>
+</button>
+<button class="flex flex-col items-center justify-center p-4 border border-outline-variant rounded-xl hover:bg-secondary-fixed hover:border-secondary transition-all duration-300 group shadow-sm hover:shadow-md active:scale-95">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant group-hover:bg-surface-container-lowest group-hover:text-secondary mb-3 transition-colors duration-300 shadow-inner group-hover:shadow-sm">
+<span class="material-symbols-outlined group-hover:rotate-180 transition-transform duration-500">tune</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface group-hover:text-secondary-fixed-variant transition-colors">Config</span>
+</button>
+<button class="flex flex-col items-center justify-center p-4 border border-outline-variant rounded-xl hover:bg-secondary-fixed hover:border-secondary transition-all duration-300 group shadow-sm hover:shadow-md active:scale-95">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant group-hover:bg-surface-container-lowest group-hover:text-secondary mb-3 transition-colors duration-300 shadow-inner group-hover:shadow-sm">
+<span class="material-symbols-outlined group-hover:-translate-y-1 transition-transform duration-300">description</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface group-hover:text-secondary-fixed-variant transition-colors">Reports</span>
+</button>
+</div>
+</div>
+<!-- System Status Alert -->
+<div class="bg-tertiary-fixed-dim border border-tertiary rounded-xl p-md flex items-start gap-3 shadow-sm hover:shadow-md transition-shadow duration-300 animate-pulse-slow">
+<span class="material-symbols-outlined text-tertiary mt-1 animate-bounce-slow">warning</span>
+<div>
+<h4 class="font-label-md text-label-md font-bold text-on-tertiary-container">Scheduled Maintenance</h4>
+<p class="font-body-md text-body-md text-on-tertiary-container mt-1 text-sm leading-relaxed">The Laptop Configuration module will be offline for updates tonight from 02:00 to 04:00 UTC.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- End of Overview Section -->
+
+<!-- Laptop Section -->
+<div id="section-laptop" class="admin-section hidden animate-fade-in-up">
+    <h2 class="font-headline-lg text-headline-lg text-primary mb-4">Laptops</h2>
+    <div class="bg-surface-container-lowest p-md rounded-xl ambient-shadow mb-6">
+        <form onsubmit="createLaptop(event)" class="flex gap-4 flex-wrap">
+            <input type="text" id="laptopName" placeholder="Laptop Name" class="border p-2 rounded" required>
+            <input type="text" id="laptopDesc" placeholder="Description" class="border p-2 rounded">
+            <select id="laptopBrand" class="border p-2 rounded" required>
+                <option value="">Select Brand</option>
+            </select>
+            <select id="laptopCategory" class="border p-2 rounded" required>
+                <option value="">Select Category</option>
+            </select>
+            <button type="submit" class="bg-primary text-on-primary px-4 py-2 rounded">Add Laptop</button>
+        </form>
+    </div>
+    <div class="bg-surface-container-lowest rounded-xl ambient-shadow overflow-x-auto">
+        <table class="w-full text-left">
+            <thead>
+                <tr class="bg-surface-container-low border-b">
+                    <th class="p-4">ID</th>
+                    <th class="p-4">Name</th>
+                    <th class="p-4">Description</th>
+                    <th class="p-4">Brand</th>
+                    <th class="p-4">Category</th>
+                    <th class="p-4">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="tbody-laptop"></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Laptop Configuration Section -->
+<div id="section-laptop-config" class="admin-section hidden animate-fade-in-up">
+    <h2 class="font-headline-lg text-headline-lg text-primary mb-4" id="config-title">Laptop Configurations</h2>
+    <div class="bg-surface-container-lowest p-md rounded-xl ambient-shadow mb-6">
+        <form onsubmit="createConfig(event)" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <select id="confLaptop" class="border p-2 rounded md:col-span-2" required>
+                <option value="">Select Laptop</option>
+            </select>
+            <input type="text" id="confCpu" placeholder="CPU" class="border p-2 rounded" required>
+            <input type="text" id="confRam" placeholder="RAM" class="border p-2 rounded" required>
+            <input type="text" id="confStorage" placeholder="Storage" class="border p-2 rounded" required>
+            <input type="text" id="confGpu" placeholder="GPU" class="border p-2 rounded">
+            <input type="number" id="confPrice" placeholder="Price" class="border p-2 rounded" required>
+            <input type="number" id="confStock" placeholder="Stock" class="border p-2 rounded" required>
+            <button type="submit" class="bg-primary text-on-primary px-4 py-2 rounded md:col-span-2">Add Configuration</button>
+        </form>
+    </div>
+    <div class="bg-surface-container-lowest rounded-xl ambient-shadow overflow-x-auto">
+        <table class="w-full text-left">
+            <thead>
+                <tr class="bg-surface-container-low border-b">
+                    <th class="p-4">ID</th>
+                    <th class="p-4">Laptop</th>
+                    <th class="p-4">CPU</th>
+                    <th class="p-4">RAM / Storage / GPU</th>
+                    <th class="p-4">Price</th>
+                    <th class="p-4">Stock</th>
+                    <th class="p-4">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="tbody-config"></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Promotion Section -->
+<div id="section-promotion" class="admin-section hidden animate-fade-in-up">
+    <h2 class="font-headline-lg text-headline-lg text-primary mb-4">Promotions</h2>
+    <div class="bg-surface-container-lowest p-md rounded-xl ambient-shadow mb-6">
+        <form onsubmit="createPromotion(event)" class="flex gap-4 flex-wrap">
+            <input type="text" id="promoCode" placeholder="Coupon Code" class="border p-2 rounded" required>
+            <input type="text" id="promoTitle" placeholder="Title" class="border p-2 rounded" required>
+            <input type="text" id="promoDiscount" placeholder="Discount Type" class="border p-2 rounded">
+            <input type="number" id="promoValue" placeholder="Value" class="border p-2 rounded" required>
+            <button type="submit" class="bg-primary text-on-primary px-4 py-2 rounded">Add Promotion</button>
+        </form>
+    </div>
+    <div class="bg-surface-container-lowest rounded-xl ambient-shadow overflow-x-auto">
+        <table class="w-full text-left">
+            <thead>
+                <tr class="bg-surface-container-low border-b">
+                    <th class="p-4">ID</th>
+                    <th class="p-4">Code</th>
+                    <th class="p-4">Title</th>
+                    <th class="p-4">Value</th>
+                    <th class="p-4">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="tbody-promotion"></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Brand Section -->
+<div id="section-brand" class="admin-section hidden animate-fade-in-up">
+    <h2 class="font-headline-lg text-headline-lg text-primary mb-4">Brands</h2>
+    <div class="bg-surface-container-lowest p-md rounded-xl ambient-shadow mb-6">
+        <form onsubmit="createBrand(event)" class="flex gap-4">
+            <input type="text" id="brandName" placeholder="Brand Name" class="border p-2 rounded" required>
+            <button type="submit" class="bg-primary text-on-primary px-4 py-2 rounded">Add Brand</button>
+        </form>
+    </div>
+    <div class="bg-surface-container-lowest rounded-xl ambient-shadow overflow-x-auto">
+        <table class="w-full text-left">
+            <thead>
+                <tr class="bg-surface-container-low border-b">
+                    <th class="p-4">ID</th>
+                    <th class="p-4">Name</th>
+                    <th class="p-4">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="tbody-brand"></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Category Section -->
+<div id="section-category" class="admin-section hidden animate-fade-in-up">
+    <h2 class="font-headline-lg text-headline-lg text-primary mb-4">Categories</h2>
+    <div class="bg-surface-container-lowest p-md rounded-xl ambient-shadow mb-6">
+        <form onsubmit="createCategory(event)" class="flex gap-4">
+            <input type="text" id="categoryName" placeholder="Category Name" class="border p-2 rounded" required>
+            <button type="submit" class="bg-primary text-on-primary px-4 py-2 rounded">Add Category</button>
+        </form>
+    </div>
+    <div class="bg-surface-container-lowest rounded-xl ambient-shadow overflow-x-auto">
+        <table class="w-full text-left">
+            <thead>
+                <tr class="bg-surface-container-low border-b">
+                    <th class="p-4">ID</th>
+                    <th class="p-4">Name</th>
+                    <th class="p-4">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="tbody-category"></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- User Section -->
+<div id="section-user" class="admin-section hidden animate-fade-in-up">
+    <h2 class="font-headline-lg text-headline-lg text-primary mb-4">User Management</h2>
+    <div class="bg-surface-container-lowest rounded-xl ambient-shadow overflow-x-auto">
+        <table class="w-full text-left">
+            <thead>
+                <tr class="bg-surface-container-low border-b">
+                    <th class="p-4">ID</th>
+                    <th class="p-4">Email</th>
+                    <th class="p-4">Name</th>
+                    <th class="p-4">Status</th>
+                    <th class="p-4">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="tbody-user"></tbody>
+        </table>
+    </div>
+</div>
+
+</main>
+</div>
+
+<!-- Modals -->
+<!-- Brand Edit Modal -->
+<div id="modal-edit-brand" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+    <div class="bg-surface p-6 rounded-xl w-96 shadow-lg">
+        <h3 class="text-xl font-bold mb-4">Edit Brand</h3>
+        <form onsubmit="submitEditBrand(event)">
+            <input type="hidden" id="editBrandId">
+            <label class="block mb-2">Brand Name</label>
+            <input type="text" id="editBrandName" class="border w-full p-2 rounded mb-4" required>
+            <div class="flex justify-end gap-2">
+                <button type="button" onclick="closeModal('modal-edit-brand')" class="px-4 py-2 text-secondary">Cancel</button>
+                <button type="submit" class="bg-primary text-on-primary px-4 py-2 rounded">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Category Edit Modal -->
+<div id="modal-edit-category" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+    <div class="bg-surface p-6 rounded-xl w-96 shadow-lg">
+        <h3 class="text-xl font-bold mb-4">Edit Category</h3>
+        <form onsubmit="submitEditCategory(event)">
+            <input type="hidden" id="editCategoryId">
+            <label class="block mb-2">Category Name</label>
+            <input type="text" id="editCategoryName" class="border w-full p-2 rounded mb-4" required>
+            <div class="flex justify-end gap-2">
+                <button type="button" onclick="closeModal('modal-edit-category')" class="px-4 py-2 text-secondary">Cancel</button>
+                <button type="submit" class="bg-primary text-on-primary px-4 py-2 rounded">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Config Edit Modal -->
+<div id="modal-edit-config" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+    <div class="bg-surface p-6 rounded-xl w-full max-w-2xl shadow-lg">
+        <h3 class="text-xl font-bold mb-4">Edit Configuration</h3>
+        <form onsubmit="submitEditConfig(event)">
+            <input type="hidden" id="editConfigId">
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label class="block mb-1 text-sm">CPU</label>
+                    <input type="text" id="editConfCpu" class="border w-full p-2 rounded" required>
+                </div>
+                <div>
+                    <label class="block mb-1 text-sm">RAM</label>
+                    <input type="text" id="editConfRam" class="border w-full p-2 rounded" required>
+                </div>
+                <div>
+                    <label class="block mb-1 text-sm">Storage</label>
+                    <input type="text" id="editConfStorage" class="border w-full p-2 rounded" required>
+                </div>
+                <div>
+                    <label class="block mb-1 text-sm">GPU</label>
+                    <input type="text" id="editConfGpu" class="border w-full p-2 rounded">
+                </div>
+                <div>
+                    <label class="block mb-1 text-sm">Price</label>
+                    <input type="number" id="editConfPrice" class="border w-full p-2 rounded" required>
+                </div>
+                <div>
+                    <label class="block mb-1 text-sm">Stock Quantity</label>
+                    <input type="number" id="editConfStock" class="border w-full p-2 rounded" required>
+                </div>
+            </div>
+            <div class="flex justify-end gap-2 mt-4">
+                <button type="button" onclick="closeModal('modal-edit-config')" class="px-4 py-2 text-secondary">Cancel</button>
+                <button type="submit" class="bg-primary text-on-primary px-4 py-2 rounded">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Laptop Edit Modal -->
+<div id="modal-edit-laptop" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+    <div class="bg-surface p-6 rounded-xl w-[500px] shadow-lg">
+        <h3 class="text-xl font-bold mb-4">Edit Laptop</h3>
+        <form onsubmit="submitEditLaptop(event)">
+            <input type="hidden" id="editLaptopId">
+            <div class="grid grid-cols-1 gap-4 mb-4">
+                <div>
+                    <label class="block mb-1 text-sm">Laptop Name</label>
+                    <input type="text" id="editLaptopName" class="border w-full p-2 rounded" required>
+                </div>
+                <div>
+                    <label class="block mb-1 text-sm">Description</label>
+                    <input type="text" id="editLaptopDesc" class="border w-full p-2 rounded">
+                </div>
+                <div>
+                    <label class="block mb-1 text-sm">Brand</label>
+                    <select id="editLaptopBrand" class="border w-full p-2 rounded" required></select>
+                </div>
+                <div>
+                    <label class="block mb-1 text-sm">Category</label>
+                    <select id="editLaptopCategory" class="border w-full p-2 rounded" required></select>
+                </div>
+            </div>
+            <div class="flex justify-end gap-2 mt-4">
+                <button type="button" onclick="closeModal('modal-edit-laptop')" class="px-4 py-2 text-secondary">Cancel</button>
+                <button type="submit" class="bg-primary text-on-primary px-4 py-2 rounded">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

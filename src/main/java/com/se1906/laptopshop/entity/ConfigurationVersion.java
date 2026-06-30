@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Table(name = "configuration_version")
 @Entity
@@ -15,7 +16,7 @@ public class ConfigurationVersion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "configuration_id")
-    private int configurationId;
+    private Integer configurationId;
 
     @Column(name = "cpu", length = 100, nullable = false)
     private String cpu;
@@ -43,9 +44,11 @@ public class ConfigurationVersion {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "configurationVersion", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "configurationVersion", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItem> cartItems = new ArrayList<>();
 
@@ -56,7 +59,7 @@ public class ConfigurationVersion {
     public ConfigurationVersion() {
     }
 
-    public ConfigurationVersion(int configurationId, String cpu, String ram, String storage, String gpu, BigDecimal price, int stockQuantity, LocalDateTime updatedAt, LocalDateTime createdAt, List<OrderDetail> orderDetails, List<CartItem> cartItems, Laptop laptop) {
+    public ConfigurationVersion(Integer configurationId, String cpu, String ram, String storage, String gpu, BigDecimal price, int stockQuantity, LocalDateTime updatedAt, LocalDateTime createdAt, List<OrderDetail> orderDetails, List<CartItem> cartItems, Laptop laptop) {
         this.configurationId = configurationId;
         this.cpu = cpu;
         this.ram = ram;
@@ -71,11 +74,11 @@ public class ConfigurationVersion {
         this.laptop = laptop;
     }
 
-    public int getConfigurationId() {
+    public Integer getConfigurationId() {
         return configurationId;
     }
 
-    public void setConfigurationId(int configurationId) {
+    public void setConfigurationId(Integer configurationId) {
         this.configurationId = configurationId;
     }
 

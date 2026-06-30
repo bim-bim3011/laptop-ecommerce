@@ -26,7 +26,8 @@ public class SecurityConfig {
              "/auth/**",
              "/home/**",
              "/home-page",
-             "/home-page/**"
+             "/home-page/**",
+             "/admin/login"
      };
 
      @Bean
