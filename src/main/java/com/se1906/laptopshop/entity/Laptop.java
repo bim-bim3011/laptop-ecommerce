@@ -30,6 +30,9 @@ public class Laptop {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+    @Column(name = "image_url", length = 500)
+    private String imageUrl;
+
     @OneToMany(mappedBy = "laptop", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ConfigurationVersion> configurationVersions = new ArrayList<>();
 
@@ -47,12 +50,13 @@ public class Laptop {
     public Laptop() {
     }
 
-    public Laptop(int laptopId, String laptopName, String description, LocalDateTime updatedAt, LocalDateTime createdAt, List<ConfigurationVersion> configurationVersions, Category category, Brand brand, List<Feedback> feedbacks) {
+    public Laptop(int laptopId, String laptopName, String description, LocalDateTime updatedAt, LocalDateTime createdAt,String imageUrl, List<ConfigurationVersion> configurationVersions, Category category, Brand brand, List<Feedback> feedbacks) {
         this.laptopId = laptopId;
         this.laptopName = laptopName;
         this.description = description;
         this.updatedAt = updatedAt;
         this.createdAt = createdAt;
+        this.imageUrl = imageUrl;
         this.configurationVersions = configurationVersions;
         this.category = category;
         this.brand = brand;
@@ -130,5 +134,7 @@ public class Laptop {
     public void setFeedbacks(List<Feedback> feedbacks) {
         this.feedbacks = feedbacks;
     }
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 }
 

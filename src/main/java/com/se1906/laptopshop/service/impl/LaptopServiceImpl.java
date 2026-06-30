@@ -8,6 +8,7 @@ import com.se1906.laptopshop.repository.BrandRepository;
 import com.se1906.laptopshop.repository.CategoryRepository;
 import com.se1906.laptopshop.repository.LaptopRepository;
 import com.se1906.laptopshop.repository.OrderDetailRepository;
+import com.se1906.laptopshop.service.CloudinaryService;
 import com.se1906.laptopshop.service.LaptopService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,7 @@ public class LaptopServiceImpl implements LaptopService {
     private CategoryRepository categoryRepository;
     private BrandRepository brandRepository;
     private OrderDetailRepository orderDetailRepository;
+    private CloudinaryService cloudinaryService;
     @Override
     public Page<Laptop> getAllLaptops(String keyword, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("laptopId").descending());
@@ -45,6 +47,7 @@ public class LaptopServiceImpl implements LaptopService {
         request.setLaptopId(laptop.getLaptopId());
         request.setLaptopName(laptop.getLaptopName());
         request.setDescription(laptop.getDescription());
+        request.setCurrentImageUrl(laptop.getImageUrl());
         if (laptop.getCategory() != null) request.setCategoryId(laptop.getCategory().getCategoryId());
         if (laptop.getBrand() != null) request.setBrandId(laptop.getBrand().getBrandId());
         return request;
@@ -58,6 +61,11 @@ public class LaptopServiceImpl implements LaptopService {
 
         laptop.setLaptopName(request.getLaptopName());
         laptop.setDescription(request.getDescription());
+
+        if (request.getImageFile() != null && !request.getImageFile().isEmpty()) {
+            String imageUrl = cloudinaryService.uploadFile(request.getImageFile(), "Laptop");
+            laptop.setImageUrl(imageUrl);
+        }
 
         Category category = categoryRepository.findById(request.getCategoryId())
                 .orElseThrow(() -> new EntityNotFoundException("Category not found"));

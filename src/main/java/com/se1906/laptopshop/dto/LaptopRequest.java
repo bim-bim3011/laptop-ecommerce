@@ -3,6 +3,7 @@ package com.se1906.laptopshop.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class LaptopRequest {
@@ -18,4 +19,6 @@ public class LaptopRequest {
 
     @NotNull(message = "Please select a brand")
     private Integer brandId;
+    private MultipartFile imageFile;
+    private String currentImageUrl;
 }
