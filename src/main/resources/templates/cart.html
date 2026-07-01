@@ -15,57 +15,251 @@
 </head>
 
 <body class="bg-background text-on-background antialiased min-h-screen flex flex-col">
-    <!-- Top Bar -->
-    <div class="bg-[#2b313b] text-gray-300 text-xs py-2">
-        <div class="max-w-[96%] w-full mx-auto px-4 flex justify-between items-center">
-            <div class="flex gap-6 items-center">
-                <a href="#" class="flex items-center gap-1 hover:text-white transition-colors">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+<!-- Top Bar -->
+<div class="bg-[#2b313b] text-gray-300 text-xs py-2">
+    <div class="max-w-[96%] w-full mx-auto px-4 flex justify-between items-center">
+        <div class="flex gap-6 items-center">
+            <a href="#" class="flex items-center gap-1 hover:text-white transition-colors">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                </svg>
+                Hệ thống Showroom
+            </a>
+            <a href="#" class="flex items-center gap-1 hover:text-white transition-colors">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                </svg>
+                Dành Cho Doanh Nghiệp
+            </a>
+            <a href="#" class="flex items-center gap-1 hover:text-white transition-colors">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                </svg>
+                Apple Education
+            </a>
+        </div>
+        <div class="flex gap-6 items-center">
+            <a href="#" class="flex items-center gap-1 hover:text-white transition-colors">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                </svg>
+                Hotline: 18006867
+            </a>
+            <a href="#" class="flex items-center gap-1 hover:text-white transition-colors">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15"></path>
+                </svg>
+                Tin công nghệ
+            </a>
+            <a href="#" class="flex items-center gap-1 hover:text-white transition-colors">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path>
+                </svg>
+                Khuyến mãi
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Main Header -->
+<header class="bg-white border-b border-gray-200 py-5 sticky top-0 z-[100]">
+    <div class="max-w-[96%] w-full mx-auto px-4 flex flex-wrap md:flex-nowrap items-center gap-4 md:gap-8">
+        <a href="/" class="flex items-center gap-2 text-2xl font-extrabold tracking-wide text-gray-900">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                <rect x="9" y="9" width="6" height="6"></rect>
+                <line x1="9" y1="1" x2="9" y2="4"></line>
+                <line x1="15" y1="1" x2="15" y2="4"></line>
+                <line x1="9" y1="20" x2="9" y2="23"></line>
+                <line x1="15" y1="20" x2="15" y2="23"></line>
+                <line x1="20" y1="9" x2="23" y2="9"></line>
+                <line x1="20" y1="14" x2="23" y2="14"></line>
+                <line x1="1" y1="9" x2="4" y2="9"></line>
+                <line x1="1" y1="14" x2="4" y2="14"></line>
+            </svg>
+            LapZone
+        </a>
+
+        <form action="/home-page" method="get" class="flex-1 relative max-w-[600px] w-full order-3 md:order-none">
+            <svg class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            <input type="text" name="keyword" placeholder="Bạn muốn mua gì hôm nay..." class="w-full py-3 pl-11 pr-4 border border-gray-200 rounded-full text-[0.95rem] focus:outline-none focus:border-blue-500 focus:ring-[3px] focus:ring-blue-500/10 transition-all bg-white text-gray-900">
+        </form>
+
+        <div class="flex items-center gap-6 ml-auto order-2 md:order-none">
+            <a href="/cart" class="flex items-center gap-3 text-[0.9rem] font-medium text-gray-900 hover:text-blue-600 group">
+                <div class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center border border-gray-200 group-hover:bg-gray-200 transition-colors">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 0a2 2 0 100 4 2 2 0 000-4z"></path>
                     </svg>
-                    Hệ thống Showroom
-                </a>
-                <a href="#" class="flex items-center gap-1 hover:text-white transition-colors">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                </div>
+                <span class="hidden sm:inline" th:text="'Giỏ hàng (' + ${cartItemCount} + ')'">Giỏ hàng</span>
+            </a>
+
+            <a href="/order-history" class="flex items-center gap-3 text-[0.9rem] font-medium text-gray-900 hover:text-blue-600 group">
+                <div class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center border border-gray-200 group-hover:bg-gray-200 transition-colors">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
                     </svg>
-                    Dành Cho Doanh Nghiệp
-                </a>
-                <a href="#" class="flex items-center gap-1 hover:text-white transition-colors">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                    </svg>
-                    Apple Education
-                </a>
+                </div>
+                <span class="hidden sm:inline">Đơn hàng</span>
+            </a>
+
+            <div th:if="${session.user != null}" class="flex items-center gap-3 text-[0.9rem] font-medium text-gray-900 group cursor-pointer relative">
+                <span class="cursor-default whitespace-nowrap">Xin chào, <span th:text="${session.user.fullName}"></span></span>
+                <a href="/auth/logout" class="px-4 py-1.5 rounded-md bg-red-500 text-white border border-red-500 hover:bg-red-600 transition-colors">Đăng xuất</a>
             </div>
-            <div class="flex gap-6 items-center">
-                <a href="#" class="flex items-center gap-1 hover:text-white transition-colors">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
-                    </svg>
-                    Hotline: 18006867
-                </a>
-                <a href="#" class="flex items-center gap-1 hover:text-white transition-colors">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15"></path>
-                    </svg>
-                    Tin công nghệ
-                </a>
-                <a href="#" class="flex items-center gap-1 hover:text-white transition-colors">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path>
-                    </svg>
-                    Khuyến mãi
-                </a>
+
+            <div th:if="${session.user == null}" class="flex items-center gap-3">
+                <a href="/auth/login" class="px-4 py-1.5 rounded-md border border-gray-200 bg-white hover:bg-gray-50 text-gray-900 transition-colors">Đăng nhập</a>
+                <a href="/auth/register" class="px-4 py-1.5 rounded-md bg-blue-500 text-white border border-blue-500 hover:bg-blue-600 transition-colors">Đăng ký</a>
             </div>
         </div>
     </div>
+</header>
+<!-- Main Content -->
+<main xmlns:th="http://www.thymeleaf.org"
+      class="flex-1 w-full max-w-[96%] mx-auto px-4 md:px-margin-desktop py-8 md:py-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
+    <!-- Cart Items Section -->
+    <section class="lg:col-span-8 space-y-6">
+        <!-- Alert Banners -->
+        <div th:if="${successMessage}"
+             class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg text-sm mb-4"
+             role="alert">
+            <span th:text="${successMessage}"></span>
+        </div>
+        <div th:if="${errorMessage}"
+             class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg text-sm mb-4" role="alert">
+            <span th:text="${errorMessage}"></span>
+        </div>
+        <h1 class="text-4xl font-black text-primary mb-8 tracking-tight uppercase">Giỏ hàng của bạn</h1>
+        <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden">
+            <!-- Giỏ hàng trống -->
+            <div th:if="${#lists.isEmpty(cart.cartItems)}"
+                 class="p-8 text-center text-on-surface-variant text-body-lg">
+                Giỏ hàng của bạn đang trống!
+            </div>
 
-    <!-- Main Header -->
-    <header class="bg-white border-b border-gray-200 py-5 sticky top-0 z-[100]">
-        <div class="max-w-[96%] w-full mx-auto px-4 flex flex-wrap md:flex-nowrap items-center gap-4 md:gap-8">
-            <a href="/" class="flex items-center gap-2 text-2xl font-extrabold tracking-wide text-gray-900">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Lặp qua các Item trong giỏ hàng -->
+            <div th:each="item : ${cart.cartItems}"
+                 class="p-6 border-b border-outline-variant flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                <input type="checkbox"
+                       class="cart-item-checkbox w-5 h-5 text-primary bg-surface-container-low border-outline-variant rounded focus:ring-primary focus:ring-2 cursor-pointer"
+                       th:data-item-id="${item.cartItemId}"
+                       th:data-price="${item.configurationVersion.price * item.quantity}">
+                <div
+                        class="w-24 h-24 sm:w-32 sm:h-32 bg-surface-container-low rounded-lg p-2 flex-shrink-0 flex items-center justify-center">
+                    <img alt="Sản phẩm" class="object-contain max-w-full max-h-full"
+                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNfgXG2VW3KuRQWjt275sT32q7JHz0Nsvm5HUO9_U9WCMo-XDPGLW9Cbj72ddo1riF9AJpoGAUKprUO2jUBwdx82ZmKImWh3Cxku6PgdWHfa8Gto8VysnPAaH7o7C-vC35TIYL-x0BakT9dtz3nHylD-7OIPMVKu27DIruMOf41uQSuG5LKa34EdS6AfvEplbd2K77UrqnlQzn5hiDwlg6PPzg8pWFeoA6Nqe4VxlH7ZO-1OOFmgiXiYiqs7gS5x-jy0KEIQC45dE" />
+                </div>
+                <div class="flex-1 w-full">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                                <span
+                                        class="text-label-sm font-label-sm text-primary uppercase tracking-wider mb-1 block"
+                                        th:text="${item.configurationVersion.laptop != null ? item.configurationVersion.laptop.brand.brandName : 'Laptops'}">Laptops</span>
+                            <h3 class="text-headline-md font-headline-md text-on-surface line-clamp-2"
+                                th:text="${(item.configurationVersion.laptop != null ? item.configurationVersion.laptop.laptopName : 'Laptop') + ' - ' + item.configurationVersion.cpu + ', ' + item.configurationVersion.ram + ', ' + item.configurationVersion.storage}">
+                                Dell XPS 15</h3>
+                        </div>
+                        <form th:action="@{/cart/remove}" method="POST" class="inline">
+                            <input type="hidden" name="itemId" th:value="${item.cartItemId}">
+                            <button type="submit"
+                                    class="text-on-surface-variant hover:text-error transition-colors p-1"
+                                    title="Xóa sản phẩm">
+                                <span class="material-symbols-outlined">delete</span>
+                            </button>
+                        </form>
+                    </div>
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-4 gap-4">
+                        <!-- Nút cập nhật số lượng -->
+                        <div class="flex items-center border border-outline-variant rounded-lg bg-surface">
+                            <form th:action="@{/cart/update}" method="POST" class="flex items-center m-0 p-0">
+                                <input type="hidden" name="itemId" th:value="${item.cartItemId}">
+                                <button type="submit" name="action" value="decrease" aria-label="Decrease quantity"
+                                        class="px-3 py-1 text-on-surface hover:bg-surface-container-high transition-colors rounded-l-lg"
+                                        th:disabled="${item.quantity <= 1}">-</button>
+                                <input aria-label="Quantity" readonly
+                                       class="w-12 text-center border-none bg-transparent text-body-md font-body-md p-1 focus:ring-0 appearance-none m-0"
+                                       th:value="${item.quantity}" />
+                                <button type="submit" name="action" value="increase" aria-label="Increase quantity"
+                                        class="px-3 py-1 text-on-surface hover:bg-surface-container-high transition-colors rounded-r-lg"
+                                        th:disabled="${item.quantity >= item.configurationVersion.stockQuantity}">+</button>
+                            </form>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-headline-md font-headline-md text-primary font-bold"
+                                 th:text="${#numbers.formatDecimal(item.configurationVersion.price * item.quantity, 0, 'COMMA', 0, 'POINT') + ' ₫'}">
+                                45.990.000 ₫</div>
+                            <div class="text-label-sm font-label-sm text-on-surface-variant"
+                                 th:text="${item.quantity + ' x ' + #numbers.formatDecimal(item.configurationVersion.price, 0, 'COMMA', 0, 'POINT') + ' ₫'}">
+                                48.990.000 ₫</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex items-center justify-between mt-6">
+            <a class="text-primary hover:text-tertiary-fixed-dim transition-colors text-label-md font-label-md flex items-center gap-2"
+               href="/home-page">
+                <span class="material-symbols-outlined text-sm">arrow_back</span>
+                Tiếp tục mua sắm
+            </a>
+            <form action="/cart/clear" method="post" class="m-0 p-0 inline">
+                <button type="submit" class="text-on-surface-variant hover:text-error transition-colors text-label-md font-label-md">
+                    Xóa tất cả
+                </button>
+            </form>
+        </div>
+    </section>
+    <!-- Order Summary Section -->
+    <aside class="lg:col-span-4 mt-8 lg:mt-0">
+        <div
+                class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant p-6 sticky top-24">
+            <h2 class="text-headline-md font-headline-md text-on-surface mb-6 border-b border-outline-variant pb-4">
+                Tóm tắt đơn hàng</h2>
+            <div class="space-y-4 text-body-md font-body-md text-on-surface-variant mb-6">
+                <div class="flex justify-between">
+                    <span>Tạm tính (<span id="selected-count">0</span> sản phẩm)</span>
+                    <span id="cart-subtotal" class="font-medium text-on-surface">0 ₫</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Phí vận chuyển</span>
+                    <span class="font-medium text-on-surface">Miễn phí</span>
+                </div>
+            </div>
+            <div class="border-t border-outline-variant pt-4 mb-6">
+                <div class="flex justify-between items-end mb-1">
+                    <span class="text-label-md font-label-md text-on-surface-variant">Tổng cộng</span>
+                    <span id="cart-total" class="text-headline-lg font-headline-lg text-primary font-bold">0
+                            ₫</span>
+                </div>
+                <div class="text-right text-label-sm font-label-sm text-on-surface-variant">(Đã bao gồm VAT)</div>
+            </div>
+            <form th:action="@{/orders/checkout}" method="POST" class="w-full m-0 p-0">
+                <button type="submit"
+                        class="w-full bg-green-600 hover:bg-green-700 text-white font-headline-md text-headline-md py-4 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-md hover:shadow-lg"
+                        onclick="return confirm('Bạn có chắc chắn muốn thanh toán đơn hàng này không?');">
+                    Thanh toán ngay
+                    <span class="material-symbols-outlined">arrow_forward</span>
+                </button>
+            </form>
+            <div class="mt-6 flex flex-wrap justify-center gap-4 text-on-surface-variant opacity-70 grayscale">
+                <!-- Trust badges / Payment methods placeholders -->
+                <span class="material-symbols-outlined text-3xl" title="Thanh toán an toàn">security</span>
+                <span class="material-symbols-outlined text-3xl" title="Hỗ trợ trả góp">credit_card</span>
+                <span class="material-symbols-outlined text-3xl" title="Giao hàng nhanh">local_shipping</span>
+            </div>
+        </div>
+    </aside>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-900 text-gray-400 py-10 mt-auto">
+    <div class="max-w-[96%] w-full mx-auto px-4 flex flex-wrap justify-between items-center gap-6">
+        <div>
+            <div class="text-white font-extrabold text-xl mb-2 flex items-center gap-2">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
                     <rect x="9" y="9" width="6" height="6"></rect>
                     <line x1="9" y1="1" x2="9" y2="4"></line>
@@ -78,313 +272,122 @@
                     <line x1="1" y1="14" x2="4" y2="14"></line>
                 </svg>
                 LapZone
-            </a>
-
-            <form action="/home-page" method="get" class="flex-1 relative max-w-[600px] w-full order-3 md:order-none">
-                <svg class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
-                <input type="text" name="keyword" placeholder="Bạn muốn mua gì hôm nay..." class="w-full py-3 pl-11 pr-4 border border-gray-200 rounded-full text-[0.95rem] focus:outline-none focus:border-blue-500 focus:ring-[3px] focus:ring-blue-500/10 transition-all bg-white text-gray-900">
-            </form>
-
-            <div class="flex items-center gap-6 ml-auto order-2 md:order-none">
-                <a href="/cart" class="flex items-center gap-3 text-[0.9rem] font-medium text-gray-900 hover:text-blue-600 group">
-                    <div class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center border border-gray-200 group-hover:bg-gray-200 transition-colors">
-                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 0a2 2 0 100 4 2 2 0 000-4z"></path>
-                        </svg>
-                    </div>
-                    <span class="hidden sm:inline" th:text="'Giỏ hàng (' + ${cartItemCount} + ')'">Giỏ hàng</span>
-                </a>
-                
-                <a href="/order-history" class="flex items-center gap-3 text-[0.9rem] font-medium text-gray-900 hover:text-blue-600 group">
-                    <div class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center border border-gray-200 group-hover:bg-gray-200 transition-colors">
-                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
-                        </svg>
-                    </div>
-                    <span class="hidden sm:inline">Đơn hàng</span>
-                </a>
-
-                <div th:if="${session.user != null}" class="flex items-center gap-3 text-[0.9rem] font-medium text-gray-900 group cursor-pointer relative">
-                    <span class="cursor-default whitespace-nowrap">Xin chào, <span th:text="${session.user.fullName}"></span></span>
-                    <a href="/auth/logout" class="px-4 py-1.5 rounded-md bg-red-500 text-white border border-red-500 hover:bg-red-600 transition-colors">Đăng xuất</a>
-                </div>
-
-                <div th:if="${session.user == null}" class="flex items-center gap-3">
-                    <a href="/auth/login" class="px-4 py-1.5 rounded-md border border-gray-200 bg-white hover:bg-gray-50 text-gray-900 transition-colors">Đăng nhập</a>
-                    <a href="/auth/register" class="px-4 py-1.5 rounded-md bg-blue-500 text-white border border-blue-500 hover:bg-blue-600 transition-colors">Đăng ký</a>
-                </div>
             </div>
+            <div class="text-[0.9rem]">&copy; 2024 LapZone Systems. All rights reserved. Precision Engineering for Professionals.</div>
         </div>
-    </header>
-    <!-- Main Content -->
-    <main xmlns:th="http://www.thymeleaf.org"
-        class="flex-1 w-full max-w-[96%] mx-auto px-4 md:px-margin-desktop py-8 md:py-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
-        <!-- Cart Items Section -->
-        <section class="lg:col-span-8 space-y-6">
-            <!-- Alert Banners -->
-            <div th:if="${successMessage}"
-                class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg text-sm mb-4"
-                role="alert">
-                <span th:text="${successMessage}"></span>
-            </div>
-            <div th:if="${errorMessage}"
-                class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg text-sm mb-4" role="alert">
-                <span th:text="${errorMessage}"></span>
-            </div>
-            <h1 class="text-4xl font-black text-primary mb-8 tracking-tight uppercase">Giỏ hàng của bạn</h1>
-            <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden">
-                <!-- Giỏ hàng trống -->
-                <div th:if="${#lists.isEmpty(cart.cartItems)}"
-                    class="p-8 text-center text-on-surface-variant text-body-lg">
-                    Giỏ hàng của bạn đang trống!
-                </div>
-
-                <!-- Lặp qua các Item trong giỏ hàng -->
-                <div th:each="item : ${cart.cartItems}"
-                    class="p-6 border-b border-outline-variant flex flex-col sm:flex-row items-start sm:items-center gap-6">
-                    <input type="checkbox"
-                        class="cart-item-checkbox w-5 h-5 text-primary bg-surface-container-low border-outline-variant rounded focus:ring-primary focus:ring-2 cursor-pointer"
-                        th:data-item-id="${item.cartItemId}"
-                        th:data-price="${item.configurationVersion.price * item.quantity}">
-                    <div
-                        class="w-24 h-24 sm:w-32 sm:h-32 bg-surface-container-low rounded-lg p-2 flex-shrink-0 flex items-center justify-center">
-                        <img alt="Sản phẩm" class="object-contain max-w-full max-h-full"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNfgXG2VW3KuRQWjt275sT32q7JHz0Nsvm5HUO9_U9WCMo-XDPGLW9Cbj72ddo1riF9AJpoGAUKprUO2jUBwdx82ZmKImWh3Cxku6PgdWHfa8Gto8VysnPAaH7o7C-vC35TIYL-x0BakT9dtz3nHylD-7OIPMVKu27DIruMOf41uQSuG5LKa34EdS6AfvEplbd2K77UrqnlQzn5hiDwlg6PPzg8pWFeoA6Nqe4VxlH7ZO-1OOFmgiXiYiqs7gS5x-jy0KEIQC45dE" />
-                    </div>
-                    <div class="flex-1 w-full">
-                        <div class="flex justify-between items-start mb-2">
-                            <div>
-                                <span
-                                    class="text-label-sm font-label-sm text-primary uppercase tracking-wider mb-1 block"
-                                    th:text="${item.configurationVersion.laptop != null ? item.configurationVersion.laptop.brand.brandName : 'Laptops'}">Laptops</span>
-                                <h3 class="text-headline-md font-headline-md text-on-surface line-clamp-2"
-                                    th:text="${(item.configurationVersion.laptop != null ? item.configurationVersion.laptop.laptopName : 'Laptop') + ' - ' + item.configurationVersion.cpu + ', ' + item.configurationVersion.ram + ', ' + item.configurationVersion.storage}">
-                                    Dell XPS 15</h3>
-                            </div>
-                            <form th:action="@{/cart/remove}" method="POST" class="inline">
-                                <input type="hidden" name="itemId" th:value="${item.cartItemId}">
-                                <button type="submit"
-                                    class="text-on-surface-variant hover:text-error transition-colors p-1"
-                                    title="Xóa sản phẩm">
-                                    <span class="material-symbols-outlined">delete</span>
-                                </button>
-                            </form>
-                        </div>
-                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-4 gap-4">
-                            <!-- Nút cập nhật số lượng -->
-                            <div class="flex items-center border border-outline-variant rounded-lg bg-surface">
-                                <form th:action="@{/cart/update}" method="POST" class="flex items-center m-0 p-0">
-                                    <input type="hidden" name="itemId" th:value="${item.cartItemId}">
-                                    <button type="submit" name="action" value="decrease" aria-label="Decrease quantity"
-                                        class="px-3 py-1 text-on-surface hover:bg-surface-container-high transition-colors rounded-l-lg"
-                                        th:disabled="${item.quantity <= 1}">-</button>
-                                    <input aria-label="Quantity" readonly
-                                        class="w-12 text-center border-none bg-transparent text-body-md font-body-md p-1 focus:ring-0 appearance-none m-0"
-                                        th:value="${item.quantity}" />
-                                    <button type="submit" name="action" value="increase" aria-label="Increase quantity"
-                                        class="px-3 py-1 text-on-surface hover:bg-surface-container-high transition-colors rounded-r-lg"
-                                        th:disabled="${item.quantity >= item.configurationVersion.stockQuantity}">+</button>
-                                </form>
-                            </div>
-                            <div class="text-right">
-                                <div class="text-headline-md font-headline-md text-primary font-bold"
-                                    th:text="${#numbers.formatDecimal(item.configurationVersion.price * item.quantity, 0, 'COMMA', 0, 'POINT') + ' ₫'}">
-                                    45.990.000 ₫</div>
-                                <div class="text-label-sm font-label-sm text-on-surface-variant"
-                                    th:text="${item.quantity + ' x ' + #numbers.formatDecimal(item.configurationVersion.price, 0, 'COMMA', 0, 'POINT') + ' ₫'}">
-                                    48.990.000 ₫</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="flex items-center justify-between mt-6">
-                <a class="text-primary hover:text-tertiary-fixed-dim transition-colors text-label-md font-label-md flex items-center gap-2"
-                    href="/home-page">
-                    <span class="material-symbols-outlined text-sm">arrow_back</span>
-                    Tiếp tục mua sắm
-                </a>
-                <form action="/cart/clear" method="post" class="m-0 p-0 inline">
-                    <button type="submit" class="text-on-surface-variant hover:text-error transition-colors text-label-md font-label-md">
-                        Xóa tất cả
-                    </button>
-                </form>
-            </div>
-        </section>
-        <!-- Order Summary Section -->
-        <aside class="lg:col-span-4 mt-8 lg:mt-0">
-            <div
-                class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant p-6 sticky top-24">
-                <h2 class="text-headline-md font-headline-md text-on-surface mb-6 border-b border-outline-variant pb-4">
-                    Tóm tắt đơn hàng</h2>
-                <div class="space-y-4 text-body-md font-body-md text-on-surface-variant mb-6">
-                    <div class="flex justify-between">
-                        <span>Tạm tính (<span id="selected-count">0</span> sản phẩm)</span>
-                        <span id="cart-subtotal" class="font-medium text-on-surface">0 ₫</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span>Phí vận chuyển</span>
-                        <span class="font-medium text-on-surface">Miễn phí</span>
-                    </div>
-                </div>
-                <div class="border-t border-outline-variant pt-4 mb-6">
-                    <div class="flex justify-between items-end mb-1">
-                        <span class="text-label-md font-label-md text-on-surface-variant">Tổng cộng</span>
-                        <span id="cart-total" class="text-headline-lg font-headline-lg text-primary font-bold">0
-                            ₫</span>
-                    </div>
-                    <div class="text-right text-label-sm font-label-sm text-on-surface-variant">(Đã bao gồm VAT)</div>
-                </div>
-                <button
-                    class="w-full bg-green-600 hover:bg-green-700 text-white font-headline-md text-headline-md py-4 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-md hover:shadow-lg">
-                    Mua ngay
-                    <span class="material-symbols-outlined">arrow_forward</span>
-                </button>
-                <div class="mt-6 flex flex-wrap justify-center gap-4 text-on-surface-variant opacity-70 grayscale">
-                    <!-- Trust badges / Payment methods placeholders -->
-                    <span class="material-symbols-outlined text-3xl" title="Thanh toán an toàn">security</span>
-                    <span class="material-symbols-outlined text-3xl" title="Hỗ trợ trả góp">credit_card</span>
-                    <span class="material-symbols-outlined text-3xl" title="Giao hàng nhanh">local_shipping</span>
-                </div>
-            </div>
-        </aside>
-    </main>
-    <!-- Footer -->
-    <footer class="bg-slate-900 text-gray-400 py-10 mt-auto">
-        <div class="max-w-[96%] w-full mx-auto px-4 flex flex-wrap justify-between items-center gap-6">
-            <div>
-                <div class="text-white font-extrabold text-xl mb-2 flex items-center gap-2">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
-                        <rect x="9" y="9" width="6" height="6"></rect>
-                        <line x1="9" y1="1" x2="9" y2="4"></line>
-                        <line x1="15" y1="1" x2="15" y2="4"></line>
-                        <line x1="9" y1="20" x2="9" y2="23"></line>
-                        <line x1="15" y1="20" x2="15" y2="23"></line>
-                        <line x1="20" y1="9" x2="23" y2="9"></line>
-                        <line x1="20" y1="14" x2="23" y2="14"></line>
-                        <line x1="1" y1="9" x2="4" y2="9"></line>
-                        <line x1="1" y1="14" x2="4" y2="14"></line>
-                    </svg>
-                    LapZone
-                </div>
-                <div class="text-[0.9rem]">&copy; 2024 LapZone Systems. All rights reserved. Precision Engineering for Professionals.</div>
-            </div>
-            <div class="flex gap-6 text-[0.9rem] font-medium">
-                <a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a>
-                <a href="#" class="text-gray-400 hover:text-white transition-colors">Terms of Service</a>
-                <a href="#" class="text-gray-400 hover:text-white transition-colors">Shipping Info</a>
-                <a href="#" class="text-gray-400 hover:text-white transition-colors">Contact Support</a>
-            </div>
+        <div class="flex gap-6 text-[0.9rem] font-medium">
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">Terms of Service</a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">Shipping Info</a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">Contact Support</a>
         </div>
-    </footer>
+    </div>
+</footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            function calculateTotal() {
-                // Phải lấy lại các phần tử mỗi lần tính vì DOM có thể đã bị thay mới bởi AJAX
-                const checkboxes = document.querySelectorAll('.cart-item-checkbox');
-                const subtotalElement = document.getElementById('cart-subtotal');
-                const totalElement = document.getElementById('cart-total');
-                const countElement = document.getElementById('selected-count');
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        function calculateTotal() {
+            // Phải lấy lại các phần tử mỗi lần tính vì DOM có thể đã bị thay mới bởi AJAX
+            const checkboxes = document.querySelectorAll('.cart-item-checkbox');
+            const subtotalElement = document.getElementById('cart-subtotal');
+            const totalElement = document.getElementById('cart-total');
+            const countElement = document.getElementById('selected-count');
 
-                let total = 0;
-                let count = 0;
-                checkboxes.forEach(cb => {
-                    if (cb.checked) {
-                        total += parseFloat(cb.getAttribute('data-price'));
-                        count++;
-                    }
-                });
+            let total = 0;
+            let count = 0;
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    total += parseFloat(cb.getAttribute('data-price'));
+                    count++;
+                }
+            });
 
-                const formattedTotal = new Intl.NumberFormat('vi-VN').format(total) + ' ₫';
-                if (subtotalElement) subtotalElement.textContent = formattedTotal;
-                if (totalElement) totalElement.textContent = formattedTotal;
-                if (countElement) countElement.textContent = count;
+            const formattedTotal = new Intl.NumberFormat('vi-VN').format(total) + ' ₫';
+            if (subtotalElement) subtotalElement.textContent = formattedTotal;
+            if (totalElement) totalElement.textContent = formattedTotal;
+            if (countElement) countElement.textContent = count;
+        }
+
+        // Lắng nghe sự kiện change trên toàn bộ body (Event Delegation)
+        // để checkbox mới sinh ra vẫn hoạt động
+        document.body.addEventListener('change', function (e) {
+            if (e.target.matches('.cart-item-checkbox')) {
+                calculateTotal();
             }
-
-            // Lắng nghe sự kiện change trên toàn bộ body (Event Delegation) 
-            // để checkbox mới sinh ra vẫn hoạt động
-            document.body.addEventListener('change', function (e) {
-                if (e.target.matches('.cart-item-checkbox')) {
-                    calculateTotal();
-                }
-            });
-
-            // Biến lưu nút submit được bấm (để phòng hờ e.submitter không được support trên một số trình duyệt)
-            let lastClickedSubmitter = null;
-            document.body.addEventListener('click', function (e) {
-                const btn = e.target.closest('button[type="submit"], input[type="submit"]');
-                if (btn) {
-                    lastClickedSubmitter = btn;
-                }
-            });
-
-            // Xử lý sự kiện submit các form (cập nhật số lượng, xoá sản phẩm) bằng AJAX để không load lại trang
-            document.body.addEventListener('submit', async function (e) {
-                const form = e.target;
-                const action = form.getAttribute('action') || '';
-                if (action.includes('/cart/update') || action.includes('/cart/remove') || action.includes('/cart/clear')) {
-                    e.preventDefault(); // Ngăn trình duyệt load lại trang
-
-                    const submitter = e.submitter || lastClickedSubmitter;
-                    const formData = new FormData(form);
-                    if (submitter && submitter.name) {
-                        formData.append(submitter.name, submitter.value);
-                    }
-
-                    // Chuyển FormData sang dạng URL-encoded để Spring Boot Controller (@RequestParam) đọc được chuẩn nhất
-                    const urlEncodedData = new URLSearchParams(formData);
-
-                    // Lưu trạng thái của các checkbox hiện tại để sau khi reload DOM tự động check lại
-                    const checkedIds = Array.from(document.querySelectorAll('.cart-item-checkbox:checked'))
-                        .map(cb => cb.getAttribute('data-item-id'));
-
-                    try {
-                        const response = await fetch(action, {
-                            method: form.getAttribute('method') || 'POST',
-                            body: urlEncodedData,
-                            headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded'
-                            },
-                            redirect: 'follow'
-                        });
-
-                        if (response.ok) {
-                            const html = await response.text();
-                            const doc = new DOMParser().parseFromString(html, 'text/html');
-
-                            const currentMain = document.querySelector('main');
-                            const newMain = doc.querySelector('main');
-
-                            if (currentMain && newMain) {
-                                // Cập nhật lại HTML giỏ hàng nhưng không tải lại trang
-                                currentMain.innerHTML = newMain.innerHTML;
-
-                                // Khôi phục lại trạng thái checked của các checkbox
-                                const newCheckboxes = document.querySelectorAll('.cart-item-checkbox');
-                                newCheckboxes.forEach(cb => {
-                                    if (checkedIds.includes(cb.getAttribute('data-item-id'))) {
-                                        cb.checked = true;
-                                    }
-                                });
-
-                                // Tính toán lại tiền
-                                calculateTotal();
-                            }
-                        }
-                    } catch (error) {
-                        console.error("Lỗi:", error);
-                    }
-                }
-            });
-
-            // Tính toán lần đầu
-            calculateTotal();
         });
-    </script>
+
+        // Biến lưu nút submit được bấm (để phòng hờ e.submitter không được support trên một số trình duyệt)
+        let lastClickedSubmitter = null;
+        document.body.addEventListener('click', function (e) {
+            const btn = e.target.closest('button[type="submit"], input[type="submit"]');
+            if (btn) {
+                lastClickedSubmitter = btn;
+            }
+        });
+
+        // Xử lý sự kiện submit các form (cập nhật số lượng, xoá sản phẩm) bằng AJAX để không load lại trang
+        document.body.addEventListener('submit', async function (e) {
+            const form = e.target;
+            const action = form.getAttribute('action') || '';
+            if (action.includes('/cart/update') || action.includes('/cart/remove') || action.includes('/cart/clear')) {
+                e.preventDefault(); // Ngăn trình duyệt load lại trang
+
+                const submitter = e.submitter || lastClickedSubmitter;
+                const formData = new FormData(form);
+                if (submitter && submitter.name) {
+                    formData.append(submitter.name, submitter.value);
+                }
+
+                // Chuyển FormData sang dạng URL-encoded để Spring Boot Controller (@RequestParam) đọc được chuẩn nhất
+                const urlEncodedData = new URLSearchParams(formData);
+
+                // Lưu trạng thái của các checkbox hiện tại để sau khi reload DOM tự động check lại
+                const checkedIds = Array.from(document.querySelectorAll('.cart-item-checkbox:checked'))
+                    .map(cb => cb.getAttribute('data-item-id'));
+
+                try {
+                    const response = await fetch(action, {
+                        method: form.getAttribute('method') || 'POST',
+                        body: urlEncodedData,
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        redirect: 'follow'
+                    });
+
+                    if (response.ok) {
+                        const html = await response.text();
+                        const doc = new DOMParser().parseFromString(html, 'text/html');
+
+                        const currentMain = document.querySelector('main');
+                        const newMain = doc.querySelector('main');
+
+                        if (currentMain && newMain) {
+                            // Cập nhật lại HTML giỏ hàng nhưng không tải lại trang
+                            currentMain.innerHTML = newMain.innerHTML;
+
+                            // Khôi phục lại trạng thái checked của các checkbox
+                            const newCheckboxes = document.querySelectorAll('.cart-item-checkbox');
+                            newCheckboxes.forEach(cb => {
+                                if (checkedIds.includes(cb.getAttribute('data-item-id'))) {
+                                    cb.checked = true;
+                                }
+                            });
+
+                            // Tính toán lại tiền
+                            calculateTotal();
+                        }
+                    }
+                } catch (error) {
+                    console.error("Lỗi:", error);
+                }
+            }
+        });
+
+        // Tính toán lần đầu
+        calculateTotal();
+    });
+</script>
 </body>
 
 </html>
