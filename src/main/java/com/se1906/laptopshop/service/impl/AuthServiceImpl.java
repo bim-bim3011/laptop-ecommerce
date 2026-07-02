@@ -2,14 +2,15 @@ package com.se1906.laptopshop.service.impl;
 
 import com.se1906.laptopshop.dto.LoginRequest;
 import com.se1906.laptopshop.dto.RegisterRequest;
+import com.se1906.laptopshop.entity.Role;
 import com.se1906.laptopshop.entity.User;
+import com.se1906.laptopshop.repository.RoleRepository;
 import com.se1906.laptopshop.repository.UserRepository;
 import com.se1906.laptopshop.service.AuthService;
 import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,8 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
 
     UserRepository userRepository;
-    PasswordEncoder passwordEncoder ;
+    PasswordEncoder passwordEncoder;
+    RoleRepository roleRepository;
 
     @Override
     public User login(LoginRequest request) {
@@ -51,6 +53,11 @@ public class AuthServiceImpl implements AuthService {
         user.setAddress(request.getAddress());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setStatus("ACTIVE");
+
+        Role userRole = roleRepository.findByName("USER")
+                .orElseGet(() -> roleRepository.save(Role.builder().name("USER").build()));
+        
+        user.getRoles().add(userRole);
 
         return userRepository.save(user);
     }

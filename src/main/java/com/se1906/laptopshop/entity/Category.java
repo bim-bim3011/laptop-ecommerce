@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Table(name = "categories")
 @Entity
@@ -14,7 +15,7 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
-    private int categoryId;
+    private Integer categoryId;
 
     @Column(name = "category_name", length = 100, nullable = false)
     private String categoryName;
@@ -27,13 +28,14 @@ public class Category {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Laptop> laptops = new ArrayList<>();
 
     public Category() {
     }
 
-    public Category(int categoryId, String categoryName, LocalDateTime updatedAt, LocalDateTime createdAt, List<Laptop> laptops) {
+    public Category(Integer categoryId, String categoryName, LocalDateTime updatedAt, LocalDateTime createdAt, List<Laptop> laptops) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
         this.updatedAt = updatedAt;
@@ -41,11 +43,11 @@ public class Category {
         this.laptops = laptops;
     }
 
-    public int getCategoryId() {
+    public Integer getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(int categoryId) {
+    public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
     }
 
