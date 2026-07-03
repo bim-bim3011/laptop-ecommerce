@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Thanh Toán - TechCore</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "tertiary": "#000000",
+                        "secondary": "#505f76",
+                        "inverse-on-surface": "#eff1f3",
+                        "primary-fixed": "#dae2fd",
+                        "on-tertiary-fixed-variant": "#004e60",
+                        "on-secondary-container": "#54647a",
+                        "inverse-surface": "#2d3133",
+                        "surface-variant": "#e0e3e5",
+                        "secondary-fixed": "#d3e4fe",
+                        "on-surface-variant": "#45464d",
+                        "surface-container-high": "#e6e8ea",
+                        "on-surface": "#191c1e",
+                        "on-tertiary-fixed": "#001f28",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "primary": "#000000",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#eceef0",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "outline-variant": "#c6c6cd",
+                        "surface-container-low": "#f2f4f6",
+                        "inverse-primary": "#bec6e0",
+                        "primary-container": "#131b2e",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "tertiary-fixed": "#b7eaff",
+                        "primary-fixed-dim": "#bec6e0",
+                        "on-tertiary-container": "#0090b0",
+                        "error-container": "#ffdad6",
+                        "secondary-container": "#d0e1fb",
+                        "background": "#f7f9fb",
+                        "on-secondary-fixed": "#0b1c30",
+                        "outline": "#76777d",
+                        "on-primary": "#ffffff",
+                        "surface-tint": "#565e74",
+                        "on-background": "#191c1e",
+                        "surface": "#f7f9fb",
+                        "on-tertiary": "#ffffff",
+                        "surface-bright": "#f7f9fb",
+                        "on-primary-fixed": "#131b2e",
+                        "tertiary-fixed-dim": "#4cd6ff",
+                        "surface-dim": "#d8dadc",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#001f28",
+                        "on-primary-container": "#7c839b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "margin-mobile": "16px",
+                        "section-gap": "80px",
+                        "base": "8px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "display-xl": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "display-xl": ["60px", { "lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-lg min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<!-- Suppressed per Semantic Shell Mandate: Linear/Transactional intent (Checkout page) -->
+<header class="bg-surface border-b border-outline-variant shadow-sm w-full py-4 px-4 md:px-margin-desktop flex items-center justify-between z-50">
+    <div class="text-headline-md font-headline-md font-extrabold text-primary">TECHCORE</div>
+    <div class="flex items-center space-x-2 text-on-surface-variant font-label-sm text-label-sm">
+        <span class="material-symbols-outlined text-lg">lock</span>
+        <span>Thanh toán an toàn</span>
+    </div>
+</header>
+<main class="flex-grow w-full max-w-7xl mx-auto px-4 md:px-margin-desktop py-12">
+    <h1 class="text-headline-lg font-headline-lg mb-8">Thanh toán</h1>
+    <form th:action="@{/orders/place-order}" method="POST" class="flex flex-col lg:flex-row gap-gutter">
+    <form class="flex flex-col lg:flex-row gap-gutter">
+        <!-- Left Column: Checkout Form -->
+        <div class="w-full lg:w-2/3 flex flex-col gap-8">
+            <!-- Shipping Information -->
+            <section class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm">
+                <h2 class="text-headline-md font-headline-md mb-6 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">local_shipping</span>
+                    Thông tin giao hàng
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-label-md font-label-md text-on-surface-variant" for="fullName">Họ và tên</label>
+                        <input name="receiverName" class="w-full bg-surface-container-lowest..." id="fullName" placeholder="Nhập họ và tên" type="text" required/>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-label-md font-label-md text-on-surface-variant" for="phone">Số điện thoại</label>
+                        <input name="receiverPhone" class="w-full bg-surface-container-lowest..." id="phone" placeholder="Nhập số điện thoại" type="tel" required/>
+                    </div>
+                    <div class="space-y-1 md:col-span-2">
+                        <label class="text-label-md font-label-md text-on-surface-variant" for="email">Email</label>
+                        <input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" id="email" placeholder="Nhập email" type="email"/>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-label-md font-label-md text-on-surface-variant" for="province">Tỉnh/Thành phố</label>
+                        <select class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none" id="province">
+                            <option disabled="" selected="" value="">Chọn Tỉnh/Thành phố</option>
+                            <option value="hanoi">Hà Nội</option>
+                            <option value="hcm">TP. Hồ Chí Minh</option>
+                            <option value="danang">Đà Nẵng</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-label-md font-label-md text-on-surface-variant" for="district">Quận/Huyện</label>
+                        <select class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none" disabled="" id="district">
+                            <option disabled="" selected="" value="">Chọn Quận/Huyện</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-label-md font-label-md text-on-surface-variant" for="ward">Phường/Xã</label>
+                        <select class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none" disabled="" id="ward">
+                            <option disabled="" selected="" value="">Chọn Phường/Xã</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1 md:col-span-2">
+                        <label class="text-label-md font-label-md text-on-surface-variant" for="address">Địa chỉ chi tiết</label>
+                        <input name="shippingAddress" class="w-full bg-surface-container-lowest..." id="address" placeholder="Số nhà, tên đường..." type="text" required/>
+                    </div>
+                </div>
+            </section>
+            <!-- Shipping Method -->
+            <section class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm">
+                <h2 class="text-headline-md font-headline-md mb-6 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">inventory_2</span>
+                    Phương thức vận chuyển
+                </h2>
+                <div class="space-y-4">
+                    <label class="flex items-start justify-between p-4 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary-fixed/20 relative">
+                        <div class="flex items-start gap-4">
+                            <input checked="" class="mt-1 text-primary focus:ring-primary" name="shippingMethod" type="radio" value="standard"/>
+                            <div>
+                                <div class="text-label-md font-label-md text-on-surface">Giao hàng tiêu chuẩn</div>
+                                <div class="text-label-sm font-label-sm text-on-surface-variant mt-1">Nhận hàng trong 3-5 ngày làm việc</div>
+                            </div>
+                        </div>
+                        <div class="text-label-md font-label-md text-on-surface">Miễn phí</div>
+                        <div class="absolute inset-0 border-2 border-primary rounded-lg opacity-0 pointer-events-none has-[:checked]:opacity-100"></div>
+                    </label>
+                    <label class="flex items-start justify-between p-4 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary-fixed/20 relative">
+                        <div class="flex items-start gap-4">
+                            <input class="mt-1 text-primary focus:ring-primary" name="shippingMethod" type="radio" value="express"/>
+                            <div>
+                                <div class="text-label-md font-label-md text-on-surface">Giao hàng hỏa tốc</div>
+                                <div class="text-label-sm font-label-sm text-on-surface-variant mt-1">Nhận hàng trong 24h</div>
+                            </div>
+                        </div>
+                        <div class="text-label-md font-label-md text-on-surface">150.000 ₫</div>
+                        <div class="absolute inset-0 border-2 border-primary rounded-lg opacity-0 pointer-events-none has-[:checked]:opacity-100"></div>
+                    </label>
+                </div>
+            </section>
+            <!-- Payment Method -->
+            <section class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm">
+                <h2 class="text-headline-md font-headline-md mb-6 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">payments</span>
+                    Phương thức thanh toán
+                </h2>
+                <div class="space-y-4">
+                    <!-- Credit Card -->
+                    <div class="border border-outline-variant rounded-lg overflow-hidden has-[:checked]:border-primary transition-all">
+                        <label class="flex items-center justify-between p-4 cursor-pointer hover:bg-surface-container-low bg-surface-container-lowest">
+                            <div class="flex items-center gap-4">
+                                <input checked="" class="text-primary focus:ring-primary" name="paymentMethod" onclick="document.getElementById('cardDetails').classList.remove('hidden')" type="radio" value="creditCard"/>
+                                <span class="text-label-md font-label-md text-on-surface">Thẻ Tín dụng / Ghi nợ (Visa/Mastercard)</span>
+                            </div>
+                            <span class="material-symbols-outlined text-on-surface-variant">credit_card</span>
+                        </label>
+                        <div class="p-4 bg-surface-container-low border-t border-outline-variant space-y-4" id="cardDetails">
+                            <div class="space-y-1">
+                                <label class="text-label-sm font-label-sm text-on-surface-variant" for="cardNumber">Số thẻ</label>
+                                <input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary" id="cardNumber" placeholder="0000 0000 0000 0000" type="text"/>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="space-y-1">
+                                    <label class="text-label-sm font-label-sm text-on-surface-variant" for="cardExpiry">Ngày hết hạn (MM/YY)</label>
+                                    <input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary" id="cardExpiry" placeholder="MM/YY" type="text"/>
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-label-sm font-label-sm text-on-surface-variant" for="cardCvv">Mã CVV</label>
+                                    <input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary" id="cardCvv" placeholder="123" type="text"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Bank Transfer -->
+                    <label class="flex items-center justify-between p-4 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors has-[:checked]:border-primary">
+                        <div class="flex items-center gap-4">
+                            <input class="text-primary focus:ring-primary" name="paymentMethod" onclick="document.getElementById('cardDetails').classList.add('hidden')" type="radio" value="bankTransfer"/>
+                            <span class="text-label-md font-label-md text-on-surface">Chuyển khoản ngân hàng</span>
+                        </div>
+                        <span class="material-symbols-outlined text-on-surface-variant">account_balance</span>
+                    </label>
+                    <!-- E-wallet -->
+                    <label class="flex items-center justify-between p-4 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors has-[:checked]:border-primary">
+                        <div class="flex items-center gap-4">
+                            <input class="text-primary focus:ring-primary" name="paymentMethod" onclick="document.getElementById('cardDetails').classList.add('hidden')" type="radio" value="ewallet"/>
+                            <span class="text-label-md font-label-md text-on-surface">Ví điện tử (Momo / ZaloPay)</span>
+                        </div>
+                        <span class="material-symbols-outlined text-on-surface-variant">account_balance_wallet</span>
+                    </label>
+                </div>
+            </section>
+        </div>
+        <!-- Right Column: Order Summary (Sticky) -->
+        <div class="w-full lg:w-1/3">
+            <div class="sticky top-24 bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm flex flex-col gap-6">
+                <h2 class="text-headline-md font-headline-md">Đơn hàng của bạn</h2>
+                <!-- Items List -->
+                <div class="space-y-4">
+                    <div class="flex items-start gap-4 pb-4 border-b border-surface-container-highest">
+                        <div class="w-16 h-16 bg-surface-container-low rounded-lg overflow-hidden flex-shrink-0">
+                            <img class="w-full h-full object-cover" data-alt="A high-resolution, modern minimal studio product shot of a sleek dark gray premium laptop, slightly angled to show thinness, set against a pristine white background with subtle diffuse lighting reflecting off its polished metal chassis." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiak2BCBP4yo0JPFJxgs-71L3PdWr5xQ-zqH4jq3knYb1RDyxxId0AcJax-JfNwHwZ7ENyKtspHJmZdVNj27vvutesn0L6bubqhkVYiuuZBhOqsxNUfclCc-rKM7QjZ9MpgKC-tgKJwJn4mPUJQiDPuWDoSXk8Quk_eGRIeiRRT4jg59pELoZKWbpiG_gXt0bnOe57QYDr1MgMn1RB2LTeHdqLZEKx4f4MPdCS84gcP09cXfQPvgZKVlEDea1OdtaRvga1XMP3Fik"/>
+                        </div>
+                        <div class="flex-grow">
+                            <div class="text-label-md font-label-md text-on-surface line-clamp-2">Dell XPS 15 9530</div>
+                            <div class="text-label-sm font-label-sm text-on-surface-variant mt-1">SL: 1</div>
+                        </div>
+                        <div class="text-label-md font-label-md text-on-surface whitespace-nowrap">85.990.000 ₫</div>
+                    </div>
+                </div>
+                <!-- Coupon Input -->
+                <div class="flex gap-2">
+                    <input class="flex-grow bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Mã giảm giá" type="text"/>
+                    <button class="bg-surface-container-high text-on-surface px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-outline-variant transition-colors">Áp dụng</button>
+                </div>
+                <!-- Price Breakdown -->
+                <div class="space-y-3 pt-4 border-t border-surface-container-highest text-body-md font-body-md">
+                    <div class="flex justify-between text-on-surface-variant">
+                        <span>Tạm tính</span>
+                        <span>85.990.000 ₫</span>
+                    </div>
+                    <div class="flex justify-between text-on-surface-variant">
+                        <span>Phí vận chuyển</span>
+                        <span>Miễn phí</span>
+                    </div>
+                    <div class="flex justify-between text-error">
+                        <span>Giảm giá</span>
+                        <span>- 0 ₫</span>
+                    </div>
+                    <div class="flex justify-between items-center pt-3 border-t border-surface-container-highest mt-3">
+                        <span class="text-headline-md font-headline-md">Tổng cộng</span>
+                        <span class="text-headline-md font-headline-md text-primary">85.990.000 ₫</span>
+                    </div>
+                </div>
+                <!-- Primary CTA -->
+                <button type="submit" class="w-full bg-primary text-on-primary py-4 rounded-lg font-bold text-label-md hover:bg-primary-container transition-colors shadow-sm flex justify-center items-center gap-2">
+                    <span class="material-symbols-outlined">lock</span>
+                    Đặt hàng ngay
+                </button>
+                <p class="text-label-sm font-label-sm text-center text-on-surface-variant">
+                    Bằng việc đặt hàng, bạn đồng ý với <a class="text-primary underline" href="#">Điều khoản dịch vụ</a> và <a class="text-primary underline" href="#">Chính sách bảo mật</a> của chúng tôi.
+                </p>
+            </div>
+        </div>
+    </form>
+</main>
+<!-- Footer -->
+<!-- Content injected from JSON -->
+<footer class="w-full py-12 px-margin-desktop mt-section-gap flex flex-col md:flex-row justify-between items-center bg-primary-container text-on-primary-container border-t border-on-primary-fixed-variant">
+    <div class="text-headline-sm font-headline-sm text-on-primary mb-6 md:mb-0">
+        TECHCORE
+    </div>
+    <div class="flex flex-wrap justify-center gap-6 mb-6 md:mb-0">
+        <a class="text-label-sm font-label-sm text-on-primary-container hover:text-tertiary-fixed-dim transition-colors duration-200" href="#">Privacy Policy</a>
+        <a class="text-label-sm font-label-sm text-on-primary-container hover:text-tertiary-fixed-dim transition-colors duration-200" href="#">Terms of Service</a>
+        <a class="text-label-sm font-label-sm text-on-primary-container hover:text-tertiary-fixed-dim transition-colors duration-200" href="#">Shipping Info</a>
+        <a class="text-label-sm font-label-sm text-on-primary-container hover:text-tertiary-fixed-dim transition-colors duration-200" href="#">Contact Support</a>
+    </div>
+    <div class="text-label-sm font-label-sm text-on-primary-container text-center md:text-right">
+        © 2024 TechCore Systems. All rights reserved. Precision Engineering for Professionals.
+    </div>
+</footer>
+</body></html>
