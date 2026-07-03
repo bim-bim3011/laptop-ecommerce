@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if(section === 'section-user') loadUsers();
         if(section === 'section-laptop') loadLaptops();
         if(section === 'section-promotion') loadPromotions();
+        if(section === 'section-gift-item') loadGiftItems();
     }
     
     // --- Brand ---
@@ -323,6 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <td class="p-4">${conf.price}</td>
                             <td class="p-4">${conf.stockQuantity}</td>
                             <td class="p-4">
+                                <button onclick="manageConfigGifts(${conf.configurationId})" class="text-tertiary mr-2 text-sm font-medium">🎁 Gifts</button>
                                 <button onclick="editConfig(${conf.configurationId})" class="text-secondary mr-2">Edit</button>
                                 <button onclick="deleteConfig(${conf.configurationId})" class="text-error">Delete</button>
                             </td>
@@ -448,6 +450,158 @@ document.addEventListener('DOMContentLoaded', () => {
     window.deletePromotion = function(id) {
         if(confirm('Delete promotion?')) {
             fetch('/admin/api/promotions/' + id, {method: 'DELETE'}).then(() => loadPromotions());
+        }
+    };
+
+    // --- Gift Item ---
+    let currentGiftItems = [];
+    function loadGiftItems() {
+        fetch('/admin/api/gift-items')
+            .then(res => res.json())
+            .then(data => {
+                currentGiftItems = data;
+                const tbody = document.getElementById('tbody-gift-item');
+                const selectGiftItem = document.getElementById('selectGiftItem');
+                tbody.innerHTML = '';
+                if(selectGiftItem) selectGiftItem.innerHTML = '<option value="">Select Gift Item</option>';
+                data.forEach(item => {
+                    tbody.innerHTML += `
+                        <tr class="border-b border-outline-variant hover:bg-surface-container">
+                            <td class="p-4">${item.giftItemId}</td>
+                            <td class="p-4">${item.itemName}</td>
+                            <td class="p-4">${item.price}</td>
+                            <td class="p-4">${item.description || ''}</td>
+                            <td class="p-4">
+                                <button onclick="editGiftItem(${item.giftItemId})" class="text-secondary mr-2">Edit</button>
+                                <button onclick="deleteGiftItem(${item.giftItemId})" class="text-error">Delete</button>
+                            </td>
+                        </tr>
+                    `;
+                    if(selectGiftItem) {
+                        selectGiftItem.innerHTML += `<option value="${item.giftItemId}">${item.itemName} - $${item.price}</option>`;
+                    }
+                });
+            });
+    }
+
+    window.createGiftItem = function(event) {
+        event.preventDefault();
+        const itemName = document.getElementById('giftItemName').value;
+        const price = document.getElementById('giftItemPrice').value;
+        const imageUrl = document.getElementById('giftItemImageUrl').value;
+        const description = document.getElementById('giftItemDesc').value;
+        
+        fetch('/admin/api/gift-items', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({itemName, price, imageUrl, description})
+        }).then(() => {
+            document.getElementById('giftItemName').value = '';
+            document.getElementById('giftItemPrice').value = '';
+            document.getElementById('giftItemImageUrl').value = '';
+            document.getElementById('giftItemDesc').value = '';
+            loadGiftItems();
+        });
+    };
+
+    window.deleteGiftItem = function(id) {
+        if(confirm('Delete gift item?')) {
+            fetch('/admin/api/gift-items/' + id, {method: 'DELETE'}).then(() => loadGiftItems());
+        }
+    };
+
+    window.editGiftItem = function(id) {
+        const item = currentGiftItems.find(i => i.giftItemId === id);
+        if(!item) return;
+        document.getElementById('editGiftItemId').value = item.giftItemId;
+        document.getElementById('editGiftItemName').value = item.itemName;
+        document.getElementById('editGiftItemPrice').value = item.price;
+        document.getElementById('editGiftItemImageUrl').value = item.imageUrl || '';
+        document.getElementById('editGiftItemDesc').value = item.description || '';
+        document.getElementById('modal-edit-gift-item').classList.remove('hidden');
+    };
+
+    window.submitEditGiftItem = function(event) {
+        event.preventDefault();
+        const id = document.getElementById('editGiftItemId').value;
+        const itemName = document.getElementById('editGiftItemName').value;
+        const price = document.getElementById('editGiftItemPrice').value;
+        const imageUrl = document.getElementById('editGiftItemImageUrl').value;
+        const description = document.getElementById('editGiftItemDesc').value;
+
+        fetch(`/admin/api/gift-items/${id}`, {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({itemName, price, imageUrl, description})
+        }).then(() => {
+            closeModal('modal-edit-gift-item');
+            loadGiftItems();
+        });
+    };
+
+    // --- Manage Configuration Gifts ---
+    window.manageConfigGifts = function(configId) {
+        document.getElementById('manageConfigGiftsId').value = configId;
+        document.getElementById('manageConfigGiftsIdText').innerText = '#' + configId;
+        document.getElementById('giftQuantity').value = '1';
+        
+        loadConfigGiftsList(configId);
+        document.getElementById('modal-manage-config-gifts').classList.remove('hidden');
+    };
+
+    function loadConfigGiftsList(configId) {
+        fetch(`/admin/api/configurations/${configId}/gifts`)
+            .then(res => res.json())
+            .then(data => {
+                const tbody = document.getElementById('tbody-config-gifts');
+                tbody.innerHTML = '';
+                if(data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-on-surface-variant">No gifts assigned.</td></tr>';
+                    return;
+                }
+                data.forEach(gd => {
+                    const itemName = gd.giftItem ? gd.giftItem.itemName : 'N/A';
+                    tbody.innerHTML += `
+                        <tr class="border-b border-outline-variant hover:bg-surface-container">
+                            <td class="p-3">${itemName}</td>
+                            <td class="p-3">${gd.quantity}</td>
+                            <td class="p-3">
+                                <button type="button" onclick="removeGiftFromConfig(${gd.giftId}, ${configId})" class="text-error">Remove</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            });
+    }
+
+    window.assignGiftToConfig = function(event) {
+        event.preventDefault();
+        const configId = document.getElementById('manageConfigGiftsId').value;
+        const giftItemId = document.getElementById('selectGiftItem').value;
+        const quantity = document.getElementById('giftQuantity').value;
+
+        fetch(`/admin/api/configurations/${configId}/gifts`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ giftItemId: parseInt(giftItemId), quantity: parseInt(quantity) })
+        }).then(res => {
+            if(res.ok) {
+                document.getElementById('selectGiftItem').value = '';
+                document.getElementById('giftQuantity').value = '1';
+                loadConfigGiftsList(configId);
+            } else {
+                alert('Failed to assign gift.');
+            }
+        });
+    };
+
+    window.removeGiftFromConfig = function(giftDetailId, configId) {
+        if(confirm('Remove this gift from the configuration?')) {
+            fetch(`/admin/api/gifts-details/${giftDetailId}`, {
+                method: 'DELETE'
+            }).then(() => {
+                loadConfigGiftsList(configId);
+            });
         }
     };
 });

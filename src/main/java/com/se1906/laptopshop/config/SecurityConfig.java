@@ -23,14 +23,14 @@ public class SecurityConfig {
 
     // Gom hết tất cả các endpoint công khai vào đây
     final String[] PUBLIC_ENDPOINTS = {
-            "/auth/**",
-            "/",
-            "/home/**",
-            "/home-page",
-            "/home-page/**",
-            "/laptop/**",
-            "/cart/**",
-            "/admin/login"
+        "/auth/**",
+        "/",
+        "/home/**",
+        "/home-page",
+        "/home-page/**",
+        "/laptop/**",
+        "/cart/**",
+        "/admin/login"
     };
 
     @Bean
@@ -40,9 +40,9 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(PUBLIC_ENDPOINTS).permitAll() // Cho phép truy cập không cần login
-                        .requestMatchers("/admin/**").hasRole("ADMIN") // Chỉ ADMIN mới được vào /admin/**
-                        .anyRequest().authenticated()                  // Các request khác phải login
+                .requestMatchers(PUBLIC_ENDPOINTS).permitAll() // Cho phép truy cập không cần login
+                .requestMatchers("/admin/**").hasRole("ADMIN") // Chỉ ADMIN mới được vào /admin/**
+                .anyRequest().authenticated() // Các request khác phải login
                 );
 
         return http.build();
