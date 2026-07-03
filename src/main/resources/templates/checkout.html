@@ -3,7 +3,7 @@
 <html lang="vi"><head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Thanh Toán - TechCore</title>
+    <title>Thanh Toán - LapZone</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -109,7 +109,7 @@
 <!-- TopNavBar -->
 <!-- Suppressed per Semantic Shell Mandate: Linear/Transactional intent (Checkout page) -->
 <header class="bg-surface border-b border-outline-variant shadow-sm w-full py-4 px-4 md:px-margin-desktop flex items-center justify-between z-50">
-    <div class="text-headline-md font-headline-md font-extrabold text-primary">TECHCORE</div>
+    <div class="text-headline-md font-headline-md font-extrabold text-primary">LAPZONE</div>
     <div class="flex items-center space-x-2 text-on-surface-variant font-label-sm text-label-sm">
         <span class="material-symbols-outlined text-lg">lock</span>
         <span>Thanh toán an toàn</span>
@@ -118,7 +118,9 @@
 <main class="flex-grow w-full max-w-7xl mx-auto px-4 md:px-margin-desktop py-12">
     <h1 class="text-headline-lg font-headline-lg mb-8">Thanh toán</h1>
     <form th:action="@{/orders/place-order}" method="POST" class="flex flex-col lg:flex-row gap-gutter">
-    <form class="flex flex-col lg:flex-row gap-gutter">
+        <th:block th:each="id : ${selectedItemIds}">
+            <input type="hidden" name="selectedItemIds" th:value="${id}" />
+        </th:block>
         <!-- Left Column: Checkout Form -->
         <div class="w-full lg:w-2/3 flex flex-col gap-8">
             <!-- Shipping Information -->
@@ -256,27 +258,49 @@
                 <h2 class="text-headline-md font-headline-md">Đơn hàng của bạn</h2>
                 <!-- Items List -->
                 <div class="space-y-4">
-                    <div class="flex items-start gap-4 pb-4 border-b border-surface-container-highest">
+                    <div th:each="item : ${selectedItems}" class="flex items-start gap-4 pb-4 border-b border-surface-container-highest">
                         <div class="w-16 h-16 bg-surface-container-low rounded-lg overflow-hidden flex-shrink-0">
-                            <img class="w-full h-full object-cover" data-alt="A high-resolution, modern minimal studio product shot of a sleek dark gray premium laptop, slightly angled to show thinness, set against a pristine white background with subtle diffuse lighting reflecting off its polished metal chassis." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiak2BCBP4yo0JPFJxgs-71L3PdWr5xQ-zqH4jq3knYb1RDyxxId0AcJax-JfNwHwZ7ENyKtspHJmZdVNj27vvutesn0L6bubqhkVYiuuZBhOqsxNUfclCc-rKM7QjZ9MpgKC-tgKJwJn4mPUJQiDPuWDoSXk8Quk_eGRIeiRRT4jg59pELoZKWbpiG_gXt0bnOe57QYDr1MgMn1RB2LTeHdqLZEKx4f4MPdCS84gcP09cXfQPvgZKVlEDea1OdtaRvga1XMP3Fik"/>
+                            <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNfgXG2VW3KuRQWjt275sT32q7JHz0Nsvm5HUO9_U9WCMo-XDPGLW9Cbj72ddo1riF9AJpoGAUKprUO2jUBwdx82ZmKImWh3Cxku6PgdWHfa8Gto8VysnPAaH7o7C-vC35TIYL-x0BakT9dtz3nHylD-7OIPMVKu27DIruMOf41uQSuG5LKa34EdS6AfvEplbd2K77UrqnlQzn5hiDwlg6PPzg8pWFeoA6Nqe4VxlH7ZO-1OOFmgiXiYiqs7gS5x-jy0KEIQC45dE" />
                         </div>
                         <div class="flex-grow">
-                            <div class="text-label-md font-label-md text-on-surface line-clamp-2">Dell XPS 15 9530</div>
-                            <div class="text-label-sm font-label-sm text-on-surface-variant mt-1">SL: 1</div>
+                            <div class="text-label-md font-label-md text-on-surface line-clamp-2" th:text="${item.configurationVersion.laptop != null ? item.configurationVersion.laptop.laptopName : 'Laptop'}">Dell XPS 15</div>
+                            <div class="text-label-sm font-label-sm text-on-surface-variant mt-1" th:text="'SL: ' + ${item.quantity}">SL: 1</div>
                         </div>
-                        <div class="text-label-md font-label-md text-on-surface whitespace-nowrap">85.990.000 ₫</div>
+                        <div class="text-label-md font-label-md text-on-surface whitespace-nowrap" th:text="${#numbers.formatDecimal(item.configurationVersion.price * item.quantity, 0, 'COMMA', 0, 'POINT') + ' ₫'}">85.990.000 ₫</div>
                     </div>
                 </div>
+
+                <!-- Quà tặng kèm theo -->
+                <div class="mb-4 border border-green-300 rounded-lg overflow-hidden" th:if="${not #lists.isEmpty(giftDetails)}">
+                    <div class="bg-green-100 text-green-700 px-4 py-2 font-bold uppercase text-sm border-b border-green-300 flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path></svg>
+                        Quà tặng kèm theo
+                    </div>
+                    <div class="p-4 bg-white">
+                        <ul class="space-y-2">
+                            <li th:each="giftDetail : ${giftDetails}" class="flex items-start gap-3 text-sm text-gray-700">
+                                <div class="mt-0.5 text-green-500">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                </div>
+                                <div>
+                                    <span th:text="${giftDetail.giftItem?.itemName}" class="font-semibold text-gray-900">Chuột</span>
+                                    <span th:if="${giftDetail.quantity > 1}" th:text="' (x' + ${giftDetail.quantity} + ')'" class="text-gray-500 font-medium"> (x1)</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
                 <!-- Coupon Input -->
                 <div class="flex gap-2">
                     <input class="flex-grow bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Mã giảm giá" type="text"/>
-                    <button class="bg-surface-container-high text-on-surface px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-outline-variant transition-colors">Áp dụng</button>
+                    <button type="button" class="bg-surface-container-high text-on-surface px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-outline-variant transition-colors">Áp dụng</button>
                 </div>
                 <!-- Price Breakdown -->
                 <div class="space-y-3 pt-4 border-t border-surface-container-highest text-body-md font-body-md">
                     <div class="flex justify-between text-on-surface-variant">
                         <span>Tạm tính</span>
-                        <span>85.990.000 ₫</span>
+                        <span th:text="${#numbers.formatDecimal(totalAmount, 0, 'COMMA', 0, 'POINT') + ' ₫'}">85.990.000 ₫</span>
                     </div>
                     <div class="flex justify-between text-on-surface-variant">
                         <span>Phí vận chuyển</span>
@@ -288,7 +312,7 @@
                     </div>
                     <div class="flex justify-between items-center pt-3 border-t border-surface-container-highest mt-3">
                         <span class="text-headline-md font-headline-md">Tổng cộng</span>
-                        <span class="text-headline-md font-headline-md text-primary">85.990.000 ₫</span>
+                        <span class="text-headline-md font-headline-md text-primary" th:text="${#numbers.formatDecimal(totalAmount, 0, 'COMMA', 0, 'POINT') + ' ₫'}">85.990.000 ₫</span>
                     </div>
                 </div>
                 <!-- Primary CTA -->
@@ -307,7 +331,7 @@
 <!-- Content injected from JSON -->
 <footer class="w-full py-12 px-margin-desktop mt-section-gap flex flex-col md:flex-row justify-between items-center bg-primary-container text-on-primary-container border-t border-on-primary-fixed-variant">
     <div class="text-headline-sm font-headline-sm text-on-primary mb-6 md:mb-0">
-        TECHCORE
+        LAPZONE
     </div>
     <div class="flex flex-wrap justify-center gap-6 mb-6 md:mb-0">
         <a class="text-label-sm font-label-sm text-on-primary-container hover:text-tertiary-fixed-dim transition-colors duration-200" href="#">Privacy Policy</a>
@@ -316,7 +340,7 @@
         <a class="text-label-sm font-label-sm text-on-primary-container hover:text-tertiary-fixed-dim transition-colors duration-200" href="#">Contact Support</a>
     </div>
     <div class="text-label-sm font-label-sm text-on-primary-container text-center md:text-right">
-        © 2024 TechCore Systems. All rights reserved. Precision Engineering for Professionals.
+        © 2024 LapZone Systems. All rights reserved. Precision Engineering for Professionals.
     </div>
 </footer>
 </body></html>

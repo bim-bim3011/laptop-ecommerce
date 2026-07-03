@@ -17,11 +17,11 @@ import com.se1906.laptopshop.entity.Order;
 import com.se1906.laptopshop.entity.User;
 import com.se1906.laptopshop.repository.OrderRepository;
 
-// LƯU Ý 1: BẠN HÃY IMPORT THÊM CÁC CLASS NÀY (Nhấn Alt+Enter trong IntelliJ để import tự động nếu đường dẫn package của bạn khác)
-// import com.se1906.laptopshop.entity.CartItem;
-// import com.se1906.laptopshop.entity.OrderDetail;
-// import com.se1906.laptopshop.repository.CartItemRepository;
-// import com.se1906.laptopshop.repository.OrderDetailRepository;
+import com.se1906.laptopshop.entity.CartItem;
+import com.se1906.laptopshop.entity.OrderDetail;
+import com.se1906.laptopshop.repository.CartItemRepository;
+import com.se1906.laptopshop.repository.OrderDetailRepository;
+
 
 import jakarta.servlet.http.HttpSession;
 
@@ -31,12 +31,11 @@ public class OrderController {
     @Autowired
     private OrderRepository orderRepository;
 
-    // LƯU Ý 2: BỎ COMMENT 2 REPOSITORY NÀY ĐỂ KẾT NỐI VỚI GIỎ HÀNG VÀ CHI TIẾT ĐƠN HÀNG
-    // @Autowired
-    // private OrderDetailRepository orderDetailRepository;
-    //
-    // @Autowired
-    // private CartItemRepository cartItemRepository;
+    @Autowired
+    private OrderDetailRepository orderDetailRepository;
+
+    @Autowired
+    private CartItemRepository cartItemRepository;
 
     // Các trạng thái được coi là "chưa giao cho đơn vị vận chuyển" -> vẫn có thể hủy
     private static final List<String> CANCELLABLE_STATUSES = Arrays.asList("PENDING", "PROCESSING");
@@ -59,15 +58,58 @@ public class OrderController {
     // 2. HIỂN THỊ TRANG THANH TOÁN
     // ==========================================
     @PostMapping("/orders/checkout")
-    public String checkoutPage(HttpSession session, Model model) {
+    public String checkoutPage(
+            @RequestParam(value = "selectedItemIds", required = false) List<Integer> selectedItemIds,
+            HttpSession session, 
+            Model model,
+            RedirectAttributes redirectAttributes) {
+        
         // 1. Kiểm tra đăng nhập
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/auth/login";
         }
 
-        // 2. [Tùy chọn] Tại đây bạn lấy dữ liệu các sản phẩm được chọn từ form
-        // dựa trên parameter "selectedItemIds" để gửi sang trang thanh toán.
+        if (selectedItemIds == null || selectedItemIds.isEmpty()) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Không có sản phẩm nào được chọn để thanh toán!");
+            return "redirect:/cart";
+        }
+
+        List<CartItem> selectedItems = cartItemRepository.findAllById(selectedItemIds);
+        
+        List<com.se1906.laptopshop.entity.GiftDetail> giftDetails = new java.util.ArrayList<>();
+        java.util.Set<Integer> addedGiftItemIds = new java.util.HashSet<>();
+
+        double totalAmount = 0;
+        for (CartItem item : selectedItems) {
+            totalAmount += item.getConfigurationVersion().getPrice().doubleValue() * item.getQuantity();
+            
+            // Add gifts from ALL configurations of the selected laptop
+            if (item.getConfigurationVersion() != null && item.getConfigurationVersion().getLaptop() != null) {
+                com.se1906.laptopshop.entity.Laptop laptop = item.getConfigurationVersion().getLaptop();
+                if (laptop.getConfigurationVersions() != null) {
+                    for (com.se1906.laptopshop.entity.ConfigurationVersion cv : laptop.getConfigurationVersions()) {
+                        if (cv.getGiftDetails() != null) {
+                            for (com.se1906.laptopshop.entity.GiftDetail gd : cv.getGiftDetails()) {
+                                if (gd.getGiftItem() != null) {
+                                    gd.getGiftItem().getItemName();
+                                    Integer itemId = gd.getGiftItem().getGiftItemId();
+                                    if (!addedGiftItemIds.contains(itemId)) {
+                                        giftDetails.add(gd);
+                                        addedGiftItemIds.add(itemId);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        model.addAttribute("selectedItems", selectedItems);
+        model.addAttribute("totalAmount", totalAmount);
+        model.addAttribute("selectedItemIds", selectedItemIds);
+        model.addAttribute("giftDetails", giftDetails);
 
         // 3. Trả về tên file HTML của trang thanh toán
         return "checkout";
@@ -90,8 +132,6 @@ public class OrderController {
             return "redirect:/auth/login";
         }
 
-        // BỎ COMMENT TOÀN BỘ ĐOẠN DƯỚI ĐÂY KHI ĐÃ IMPORT ĐỦ CART ITEM VÀ ORDER DETAIL
-        /*
         // Kiểm tra nếu giỏ hàng trống
         if (selectedItemIds == null || selectedItemIds.isEmpty()) {
             redirectAttributes.addFlashAttribute("errorMessage", "Không có sản phẩm nào được chọn!");
@@ -115,9 +155,9 @@ public class OrderController {
         // Tính tổng tiền
         double totalAmount = 0;
         for (CartItem item : selectedItems) {
-            totalAmount += item.getConfigurationVersion().getPrice() * item.getQuantity();
+            totalAmount += item.getConfigurationVersion().getPrice().doubleValue() * item.getQuantity();
         }
-        newOrder.setTotalAmount(totalAmount);
+        newOrder.setTotalAmount(java.math.BigDecimal.valueOf(totalAmount));
 
         // Lưu đơn hàng tổng để lấy ID
         Order savedOrder = orderRepository.save(newOrder);
@@ -135,15 +175,6 @@ public class OrderController {
 
         // 4. Xóa sản phẩm đã thanh toán khỏi giỏ hàng
         cartItemRepository.deleteAll(selectedItems);
-        */
-
-        // LƯU Ý 3: Nếu bạn chưa fix xong các import, hãy giữ nguyên 2 dòng dưới đây để code cũ vẫn chạy tạm được (nhưng sẽ bị null tiền).
-        // Nếu đã bỏ comment đoạn code trên, hãy XÓA 2 dòng tạo order cũ này đi:
-        Order tempOrder = new Order();
-        tempOrder.setUser(user);
-        tempOrder.setStatus("PENDING");
-        tempOrder.setOrderDate(LocalDateTime.now());
-        orderRepository.save(tempOrder);
 
         // 5. Thông báo và chuyển trang
         redirectAttributes.addFlashAttribute("successMessage", "Đơn hàng của bạn đã được đặt thành công!");
@@ -177,5 +208,23 @@ public class OrderController {
         redirectAttributes.addFlashAttribute("successMessage", "Đơn hàng #" + order.getOrderId() + " đã được hủy thành công.");
 
         return "redirect:/orders";
+    }
+
+    // ==========================================
+    // 5. HIỂN THỊ CHI TIẾT ĐƠN HÀNG
+    // ==========================================
+    @GetMapping("/orders/{id}")
+    public String viewOrderDetail(@PathVariable("id") int id, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/auth/login";
+        }
+        Order order = orderRepository.findById(id).orElse(null);
+        if (order == null || order.getUser() == null || !order.getUser().getUserId().equals(user.getUserId())) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Không tìm thấy đơn hàng.");
+            return "redirect:/orders";
+        }
+        model.addAttribute("order", order);
+        return "order-detail";
     }
 }
