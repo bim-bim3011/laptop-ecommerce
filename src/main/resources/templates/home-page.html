@@ -1,10 +1,443 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LapZone - Trang Chủ</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
 </head>
-<body>
 
+<body class="bg-slate-50 text-gray-900 min-h-screen flex flex-col">
+
+<!-- Top Bar -->
+<div class="bg-[#2b313b] text-gray-300 text-xs py-2">
+    <div class="max-w-[96%] w-full mx-auto px-4 flex justify-between items-center">
+        <div class="flex gap-6 items-center">
+            <a href="#" class="flex items-center gap-1 hover:text-white transition-colors">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+                    </path>
+                </svg>
+                Hệ thống Showroom
+            </a>
+            <a href="#" class="flex items-center gap-1 hover:text-white transition-colors">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                    </path>
+                </svg>
+                Dành Cho Doanh Nghiệp
+            </a>
+            <a href="#" class="flex items-center gap-1 hover:text-white transition-colors">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                    </path>
+                </svg>
+                Apple Education
+            </a>
+        </div>
+        <div class="flex gap-6 items-center">
+            <a href="#" class="flex items-center gap-1 hover:text-white transition-colors">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
+                    </path>
+                </svg>
+                Hotline: 18006867
+            </a>
+            <a href="#" class="flex items-center gap-1 hover:text-white transition-colors">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15">
+                    </path>
+                </svg>
+                Tin công nghệ
+            </a>
+            <a href="#" class="flex items-center gap-1 hover:text-white transition-colors">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7">
+                    </path>
+                </svg>
+                Khuyến mãi
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Main Header -->
+<header class="bg-white border-b border-gray-200 py-5 sticky top-0 z-[100]">
+    <div class="max-w-[96%] w-full mx-auto px-4 flex flex-wrap md:flex-nowrap items-center gap-4 md:gap-8">
+        <a href="/" class="flex items-center gap-2 text-2xl font-extrabold tracking-wide text-gray-900">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                <rect x="9" y="9" width="6" height="6"></rect>
+                <line x1="9" y1="1" x2="9" y2="4"></line>
+                <line x1="15" y1="1" x2="15" y2="4"></line>
+                <line x1="9" y1="20" x2="9" y2="23"></line>
+                <line x1="15" y1="20" x2="15" y2="23"></line>
+                <line x1="20" y1="9" x2="23" y2="9"></line>
+                <line x1="20" y1="14" x2="23" y2="14"></line>
+                <line x1="1" y1="9" x2="4" y2="9"></line>
+                <line x1="1" y1="14" x2="4" y2="14"></line>
+            </svg>
+            LapZone
+        </a>
+
+        <form action="/home-page" method="get" class="flex-1 relative max-w-[600px] w-full order-3 md:order-none">
+            <svg class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" fill="none"
+                 stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            <input type="text" name="keyword" th:value="${keyword}" placeholder="Bạn muốn mua gì hôm nay..."
+                   class="w-full py-3 pl-11 pr-4 border border-gray-200 rounded-full text-[0.95rem] focus:outline-none focus:border-blue-500 focus:ring-[3px] focus:ring-blue-500/10 transition-all bg-white text-gray-900">
+        </form>
+
+        <div class="flex items-center gap-6 ml-auto order-2 md:order-none">
+            <a href="/cart"
+               class="flex items-center gap-3 text-[0.9rem] font-medium text-gray-900 hover:text-blue-600 group">
+                <div
+                        class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center border border-gray-200 group-hover:bg-gray-200 transition-colors">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+                         viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 0a2 2 0 100 4 2 2 0 000-4z">
+                        </path>
+                    </svg>
+                </div>
+                <span class="hidden sm:inline" th:text="'Giỏ hàng (' + ${cartItemCount} + ')'">Giỏ hàng</span>
+            </a>
+
+            <a href="/orders"
+               class="flex items-center gap-3 text-[0.9rem] font-medium text-gray-900 hover:text-blue-600 group">
+                <div
+                        class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center border border-gray-200 group-hover:bg-gray-200 transition-colors">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+                         viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01">
+                        </path>
+                    </svg>
+                </div>
+                <span class="hidden sm:inline">Đơn hàng</span>
+            </a>
+
+            <div th:if="${session.user != null}"
+                 class="flex items-center gap-3 text-[0.9rem] font-medium text-gray-900 group cursor-pointer relative">
+                    <span class="cursor-default whitespace-nowrap">Xin chào, <span
+                            th:text="${session.user.fullName}"></span></span>
+                <a href="/auth/logout"
+                   class="px-4 py-1.5 rounded-md bg-red-500 text-white border border-red-500 hover:bg-red-600 transition-colors">Đăng
+                    xuất</a>
+            </div>
+
+            <div th:if="${session.user == null}" class="flex items-center gap-3">
+                <a href="/auth/login"
+                   class="px-4 py-1.5 rounded-md border border-gray-200 bg-white hover:bg-gray-50 text-gray-900 transition-colors">Đăng
+                    nhập</a>
+                <a href="/auth/register"
+                   class="px-4 py-1.5 rounded-md bg-blue-500 text-white border border-blue-500 hover:bg-blue-600 transition-colors">Đăng
+                    ký</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Sub Nav -->
+<nav class="bg-white border-b border-gray-200 mb-8">
+    <div class="max-w-[96%] mx-auto px-4">
+        <ul class="flex justify-center gap-10 py-3.5 overflow-x-auto">
+            <li th:each="category : ${categories}">
+                <a th:href="@{/home-page(categoryId=${category.categoryId})}" th:text="${category.categoryName}"
+                   th:class="${selectedCategoryId == category.categoryId ? 'text-[0.9rem] font-semibold text-blue-500 whitespace-nowrap transition-colors' : 'text-[0.9rem] font-semibold text-gray-500 whitespace-nowrap hover:text-gray-900 transition-colors'}">
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<main class="flex-1 pb-12">
+    <div class="max-w-[96%] w-full mx-auto px-4">
+        <div
+                th:class="${(selectedCategoryId != null or keyword != null) ? 'grid grid-cols-1 md:grid-cols-[240px_1fr] gap-6 mb-6' : 'grid grid-cols-1 md:grid-cols-[240px_1fr] lg:grid-cols-[240px_1fr_300px] gap-6 mb-6'}">
+            <!-- Sidebar Menu -->
+            <aside class="hidden md:flex flex-col bg-white rounded-lg border border-gray-200 overflow-hidden">
+                <a th:href="@{/home-page}"
+                   th:class="${selectedCategoryId == null ? 'flex items-center gap-4 px-4 py-3.5 border-b border-gray-200 text-[0.95rem] font-semibold text-blue-500 bg-slate-50 transition-colors' : 'flex items-center gap-4 px-4 py-3.5 border-b border-gray-200 text-[0.95rem] font-semibold text-gray-900 hover:text-blue-500 hover:bg-slate-50 transition-colors group'}">
+                    <svg class="w-5 h-5 text-gray-500 group-hover:text-blue-500" fill="none" stroke="currentColor"
+                         viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4">
+                        </path>
+                    </svg>
+                    Tất cả Laptop
+                </a>
+                <a th:each="cat : ${categories}" th:href="@{/home-page(categoryId=${cat.categoryId})}"
+                   th:class="${selectedCategoryId == cat.categoryId ? 'flex items-center gap-4 px-4 py-3.5 border-b border-gray-200 text-[0.95rem] font-semibold text-blue-500 bg-slate-50 transition-colors last:border-b-0' : 'flex items-center gap-4 px-4 py-3.5 border-b border-gray-200 text-[0.95rem] font-semibold text-gray-900 hover:text-blue-500 hover:bg-slate-50 transition-colors group last:border-b-0'}">
+                    <svg class="w-5 h-5 text-gray-500 group-hover:text-blue-500" fill="none" stroke="currentColor"
+                         viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                        </path>
+                    </svg>
+                    <span th:text="${cat.categoryName}"></span>
+                </a>
+            </aside>
+
+            <!-- Hero Carousel -->
+            <div class="bg-gradient-to-br from-slate-950 to-slate-800 rounded-lg overflow-hidden relative flex items-center justify-center min-h-[400px] shadow-[inset_0_0_100px_rgba(0,0,0,0.5)] text-white text-center border border-gray-200"
+                 th:if="${selectedCategoryId == null and keyword == null}">
+                <div class="relative z-10">
+                    <h2
+                            class="text-5xl font-extrabold bg-gradient-to-b from-yellow-300 to-amber-500 bg-clip-text text-transparent mb-2 uppercase tracking-widest">
+                        SALE SOLE TO</h2>
+                    <p class="text-lg opacity-90 max-w-[300px] mx-auto leading-relaxed">Cơ hội sở hữu siêu phẩm với
+                        giá cực kỳ ưu đãi, chỉ có tại LapZone.</p>
+                </div>
+                <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+                    <div class="w-6 h-2 rounded bg-white cursor-pointer transition-all"></div>
+                    <div class="w-2 h-2 rounded-full bg-white/40 cursor-pointer hover:bg-white/60 transition-all">
+                    </div>
+                    <div class="w-2 h-2 rounded-full bg-white/40 cursor-pointer hover:bg-white/60 transition-all">
+                    </div>
+                    <div class="w-2 h-2 rounded-full bg-white/40 cursor-pointer hover:bg-white/60 transition-all">
+                    </div>
+                    <div class="w-2 h-2 rounded-full bg-white/40 cursor-pointer hover:bg-white/60 transition-all">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero Banners -->
+            <div class="hidden lg:flex flex-col gap-6" th:if="${selectedCategoryId == null and keyword == null}">
+                <div
+                        class="flex-1 rounded-lg overflow-hidden flex items-center justify-center text-white font-extrabold text-2xl text-center p-8 relative shadow-md bg-gradient-to-br from-sky-400 to-sky-600">
+                    <div class="drop-shadow-md leading-tight">
+                        KHUYẾN MÃI
+                        <span class="block text-amber-400 text-4xl mt-2">THÁNG NÀY</span>
+                    </div>
+                </div>
+                <div
+                        class="flex-1 rounded-lg overflow-hidden flex items-center justify-center text-white font-extrabold text-2xl text-center p-8 relative shadow-md bg-gradient-to-br from-blue-400 to-blue-600">
+                    <div class="drop-shadow-md leading-tight text-lg uppercase">
+                        Ưu đãi Học sinh - Sinh viên
+                        <span
+                                class="block text-white drop-shadow-none font-black tracking-wide text-3xl mt-2">LapZone
+                                EDU</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Section (Beside sidebar for search/category view) -->
+            <div class="mt-0" th:if="${selectedCategoryId != null or keyword != null}">
+                <h2 class="text-2xl font-extrabold mb-6 flex justify-between items-center text-gray-900">
+                        <span th:if="${keyword != null}" th:text="'Kết quả tìm kiếm cho: ' + ${keyword}">Danh Sách
+                            Laptop</span>
+                    <span th:if="${selectedCategoryId != null and keyword == null}">Danh Sách Laptop theo danh
+                            mục</span>
+                </h2>
+
+                <div th:if="${#lists.isEmpty(laptops)}"
+                     class="text-center p-12 bg-white rounded-lg border border-gray-200 text-gray-500">
+                    Không tìm thấy sản phẩm nào trong danh mục này.
+                </div>
+
+                <div th:unless="${#lists.isEmpty(laptops)}"
+                     class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div th:each="laptop : ${laptops}"
+                         class="bg-white border border-gray-200 rounded-lg p-4 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg cursor-pointer flex flex-col">
+                        <div class="h-40 bg-slate-50 rounded mb-4 flex items-center justify-center">
+                            <svg width="64" height="64" fill="none" stroke="#cbd5e1" stroke-width="1"
+                                 viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                                </path>
+                            </svg>
+                        </div>
+                        <h3 th:text="${laptop.laptopName}"
+                            class="font-bold text-lg mb-2 whitespace-nowrap overflow-hidden text-ellipsis text-gray-900">
+                            Tên Laptop</h3>
+                        <p class="text-sm text-gray-500 mb-4 line-clamp-2 h-10" th:text="${laptop.description}">Mô
+                            tả</p>
+
+                        <div class="mt-auto">
+                            <div class="font-extrabold text-red-500 text-lg mb-4">
+                                    <span
+                                            th:if="${laptop.configurationVersions != null and !laptop.configurationVersions.isEmpty()}"
+                                            th:text="${#numbers.formatDecimal(laptop.configurationVersions[0].price, 0, 'COMMA', 0, 'POINT')} + ' ₫'"></span>
+                                <span
+                                        th:unless="${laptop.configurationVersions != null and !laptop.configurationVersions.isEmpty()}">Liên
+                                        hệ</span>
+                            </div>
+
+                            <div class="w-full">
+                                <a th:href="@{/laptop/{id}(id=${laptop.laptopId})}"
+                                   class="block text-center bg-slate-200 text-slate-600 py-2 rounded-md font-semibold hover:bg-slate-300 transition-colors">Chi
+                                    tiết</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Section (Default view at bottom) -->
+        <div class="mt-8 mb-12" th:if="${newPromotionalLaptops != null and !newPromotionalLaptops.isEmpty() and selectedCategoryId == null and keyword == null}">
+            <h2 class="text-2xl font-extrabold mb-6 flex justify-between items-center text-red-600 uppercase tracking-wide">
+                Sản Phẩm Mới - Khuyến Mãi Hot
+            </h2>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div th:each="laptop : ${newPromotionalLaptops}"
+                     class="bg-white border-2 border-red-100 rounded-lg p-4 transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(239,68,68,0.15)] cursor-pointer flex flex-col relative overflow-hidden">
+
+                    <div class="absolute top-3 right-3 bg-red-500 text-white text-xs font-black px-2 py-1 rounded shadow-md z-10">NEW</div>
+
+                    <div class="h-40 bg-red-50/50 rounded mb-4 flex items-center justify-center relative">
+                        <svg width="64" height="64" fill="none" stroke="#fca5a5" stroke-width="1" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+
+                    <h3 th:text="${laptop.laptopName}" class="font-bold text-lg mb-2 whitespace-nowrap overflow-hidden text-ellipsis text-gray-900">Tên Laptop</h3>
+                    <p class="text-sm text-gray-500 mb-4 line-clamp-2 h-10" th:if="${laptop.category != null}" th:text="${laptop.category.categoryName}">Danh mục</p>
+
+                    <div class="mt-auto">
+                        <div class="w-full">
+                            <a th:href="@{/laptop/{id}(id=${laptop.laptopId})}" class="block text-center border-2 border-red-500 text-red-500 py-2 rounded-md font-bold hover:bg-red-500 hover:text-white transition-colors shadow-sm">Mua ngay</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="mt-12 border-gray-200">
+        </div>
+        <div class="mt-12" th:if="${selectedCategoryId == null and keyword == null}">
+            <h2 class="text-2xl font-extrabold mb-6 flex justify-between items-center text-gray-900">
+                Danh Sách Laptop
+            </h2>
+
+            <div th:if="${#lists.isEmpty(laptops)}"
+                 class="text-center p-12 bg-white rounded-lg border border-gray-200 text-gray-500">
+                Không tìm thấy sản phẩm nào trong danh mục này.
+            </div>
+
+            <div th:unless="${#lists.isEmpty(laptops)}"
+                 class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div th:each="laptop : ${laptops}"
+                     class="bg-white border border-gray-200 rounded-lg p-4 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg cursor-pointer flex flex-col">
+                    <div class="h-40 bg-slate-50 rounded mb-4 flex items-center justify-center">
+                        <svg width="64" height="64" fill="none" stroke="#cbd5e1" stroke-width="1"
+                             viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 th:text="${laptop.laptopName}"
+                        class="font-bold text-lg mb-2 whitespace-nowrap overflow-hidden text-ellipsis text-gray-900">
+                        Tên Laptop</h3>
+                    <p class="text-sm text-gray-500 mb-4 line-clamp-2 h-10" th:text="${laptop.description}">Mô tả
+                    </p>
+
+                    <div class="mt-auto">
+                        <div class="font-extrabold text-red-500 text-lg mb-4">
+                                <span
+                                        th:if="${laptop.configurationVersions != null and !laptop.configurationVersions.isEmpty()}"
+                                        th:text="${#numbers.formatDecimal(laptop.configurationVersions[0].price, 0, 'COMMA', 0, 'POINT')} + ' ₫'"></span>
+                            <span
+                                    th:unless="${laptop.configurationVersions != null and !laptop.configurationVersions.isEmpty()}">Liên
+                                    hệ</span>
+                        </div>
+
+                        <div class="w-full">
+                            <a th:href="@{/laptop/{id}(id=${laptop.laptopId})}"
+                               class="block text-center bg-slate-200 text-slate-600 py-2 rounded-md font-semibold hover:bg-slate-300 transition-colors">Chi
+                                tiết</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-slate-900 text-gray-400 py-10 mt-auto">
+    <div class="max-w-[96%] w-full mx-auto px-4 flex flex-wrap justify-between items-center gap-6">
+        <div>
+            <div class="text-white font-extrabold text-xl mb-2 flex items-center gap-2">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                    <rect x="9" y="9" width="6" height="6"></rect>
+                    <line x1="9" y1="1" x2="9" y2="4"></line>
+                    <line x1="15" y1="1" x2="15" y2="4"></line>
+                    <line x1="9" y1="20" x2="9" y2="23"></line>
+                    <line x1="15" y1="20" x2="15" y2="23"></line>
+                    <line x1="20" y1="9" x2="23" y2="9"></line>
+                    <line x1="20" y1="14" x2="23" y2="14"></line>
+                    <line x1="1" y1="9" x2="4" y2="9"></line>
+                    <line x1="1" y1="14" x2="4" y2="14"></line>
+                </svg>
+                LapZone
+            </div>
+            <div class="text-[0.9rem]">&copy; 2024 LapZone Systems. All rights reserved. Precision Engineering for
+                Professionals.</div>
+        </div>
+        <div class="flex gap-6 text-[0.9rem] font-medium">
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">Terms of Service</a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">Shipping Info</a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">Contact Support</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.body.addEventListener('submit', async function (e) {
+            const form = e.target;
+            if (form.classList.contains('ajax-cart-form')) {
+                e.preventDefault();
+
+                const formData = new FormData(form);
+                const urlEncodedData = new URLSearchParams(formData);
+
+                try {
+                    const response = await fetch(form.action, {
+                        method: form.method || 'POST',
+                        body: urlEncodedData,
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        redirect: 'follow'
+                    });
+
+                    if (response.ok) {
+                        alert("Đã thêm sản phẩm vào giỏ hàng thành công!");
+                    } else {
+                        alert("Có lỗi xảy ra, không thể thêm vào giỏ hàng.");
+                    }
+                } catch (error) {
+                    console.error("Lỗi:", error);
+                    alert("Có lỗi xảy ra, vui lòng thử lại.");
+                }
+            }
+        });
+    });
+</script>
 </body>
+
 </html>
