@@ -7,4 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ConfigurationVersionRepository extends JpaRepository<ConfigurationVersion, Integer> {
     ConfigurationVersion findByConfigurationId(int id);
+
+    @org.springframework.data.jpa.repository.Query("SELECT COALESCE(SUM(c.stockQuantity), 0) FROM ConfigurationVersion c")
+    long countTotalInventory();
 }

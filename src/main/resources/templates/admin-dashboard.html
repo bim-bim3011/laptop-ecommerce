@@ -23,11 +23,11 @@
                     <p class="font-label-md text-label-md text-on-surface-variant">Total Revenue</p>
                     <div class="w-8 h-8 rounded bg-blue-100 flex items-center justify-center text-blue-600"><span class="material-symbols-outlined">payments</span></div>
                 </div>
-                <h3 class="text-3xl font-bold text-on-surface">$1.2M</h3>
+                <h3 class="text-3xl font-bold text-on-surface" th:text="${totalRevenue != null ? #numbers.formatDecimal(totalRevenue, 0, 'COMMA', 0, 'POINT') + ' ₫' : '0 ₫'}">$1.2M</h3>
                 <div class="mt-4 flex items-center gap-1 text-sm">
                     <span class="material-symbols-outlined text-green-700 text-sm">trending_up</span>
-                    <span class="text-green-700 font-medium">+14.5%</span>
-                    <span class="text-on-surface-variant">vs last month</span>
+                    <span class="text-green-700 font-medium">Auto-updated</span>
+                    <span class="text-on-surface-variant">from completed orders</span>
                 </div>
             </div>
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md ambient-shadow">
@@ -35,11 +35,11 @@
                     <p class="font-label-md text-label-md text-on-surface-variant">Active Users</p>
                     <div class="w-8 h-8 rounded bg-purple-100 flex items-center justify-center text-purple-600"><span class="material-symbols-outlined">group</span></div>
                 </div>
-                <h3 class="text-3xl font-bold text-on-surface">45.2K</h3>
+                <h3 class="text-3xl font-bold text-on-surface" th:text="${activeUsers}">45.2K</h3>
                 <div class="mt-4 flex items-center gap-1 text-sm">
-                    <span class="material-symbols-outlined text-green-700 text-sm">trending_up</span>
-                    <span class="text-green-700 font-medium">+5.2%</span>
-                    <span class="text-on-surface-variant">vs last month</span>
+                    <span class="material-symbols-outlined text-green-700 text-sm">account_circle</span>
+                    <span class="text-green-700 font-medium">Real-time</span>
+                    <span class="text-on-surface-variant">active users</span>
                 </div>
             </div>
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md ambient-shadow">
@@ -47,22 +47,22 @@
                     <p class="font-label-md text-label-md text-on-surface-variant">Inventory</p>
                     <div class="w-8 h-8 rounded bg-yellow-100 flex items-center justify-center text-yellow-700"><span class="material-symbols-outlined">inventory_2</span></div>
                 </div>
-                <h3 class="text-3xl font-bold text-on-surface">8,432</h3>
+                <h3 class="text-3xl font-bold text-on-surface" th:text="${totalInventory}">8,432</h3>
                 <div class="mt-4 flex items-center gap-1 text-sm">
-                    <span class="material-symbols-outlined text-red-600 text-sm">trending_down</span>
-                    <span class="text-red-600 font-medium">-2.1%</span>
-                    <span class="text-on-surface-variant">requires restock</span>
+                    <span class="material-symbols-outlined text-yellow-700 text-sm">inventory</span>
+                    <span class="text-yellow-700 font-medium">Total items</span>
+                    <span class="text-on-surface-variant">in stock</span>
                 </div>
             </div>
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md ambient-shadow">
                 <div class="flex justify-between items-start mb-4">
-                    <p class="font-label-md text-label-md text-on-surface-variant">System Health</p>
-                    <div class="w-8 h-8 rounded bg-green-100 flex items-center justify-center text-green-600"><span class="material-symbols-outlined">dns</span></div>
+                    <p class="font-label-md text-label-md text-on-surface-variant">Total Orders</p>
+                    <div class="w-8 h-8 rounded bg-green-100 flex items-center justify-center text-green-600"><span class="material-symbols-outlined">shopping_cart</span></div>
                 </div>
-                <h3 class="text-3xl font-bold text-on-surface">99.9%</h3>
+                <h3 class="text-3xl font-bold text-on-surface" th:text="${totalOrders}">99.9%</h3>
                 <div class="mt-4 flex items-center gap-2 text-sm">
-                    <span class="w-2 h-2 rounded-full bg-green-600 animate-ping"></span>
-                    <span class="text-on-surface font-medium ml-1">All systems operational</span>
+                    <span class="material-symbols-outlined text-green-600 text-sm">receipt_long</span>
+                    <span class="text-on-surface font-medium ml-1">Total placed orders</span>
                 </div>
             </div>
         </div>
