@@ -5,13 +5,13 @@ import com.se1906.laptopshop.service.BrandService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/admin/api/brands")
+@Controller
+@RequestMapping("/admin/brands")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
 public class BrandController {
@@ -19,28 +19,30 @@ public class BrandController {
     BrandService brandService;
 
     @GetMapping
-    public List<Brand> getAllBrands() {
-        return brandService.getAllBrands();
+    public String listBrands(Model model) {
+        model.addAttribute("brands", brandService.getAllBrands());
+        model.addAttribute("brand", new Brand());
+        return "admin/brand-list";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Brand> getBrandById(@PathVariable int id) {
-        return ResponseEntity.ok(brandService.getBrandById(id));
+    @PostMapping("/create")
+    public String createBrand(@ModelAttribute Brand brand, RedirectAttributes redirectAttributes) {
+        brandService.createBrand(brand);
+        redirectAttributes.addFlashAttribute("successMessage", "Thêm Brand thành công!");
+        return "redirect:/admin/brands";
     }
 
-    @PostMapping
-    public ResponseEntity<Brand> createBrand(@RequestBody Brand brand) {
-        return ResponseEntity.ok(brandService.createBrand(brand));
+    @PostMapping("/update/{id}")
+    public String updateBrand(@PathVariable int id, @ModelAttribute Brand brand, RedirectAttributes redirectAttributes) {
+        brandService.updateBrand(id, brand);
+        redirectAttributes.addFlashAttribute("successMessage", "Cập nhật Brand thành công!");
+        return "redirect:/admin/brands";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Brand> updateBrand(@PathVariable int id, @RequestBody Brand brand) {
-        return ResponseEntity.ok(brandService.updateBrand(id, brand));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBrand(@PathVariable int id) {
+    @PostMapping("/delete/{id}")
+    public String deleteBrand(@PathVariable int id, RedirectAttributes redirectAttributes) {
         brandService.deleteBrand(id);
-        return ResponseEntity.noContent().build();
+        redirectAttributes.addFlashAttribute("successMessage", "Xóa Brand thành công!");
+        return "redirect:/admin/brands";
     }
 }

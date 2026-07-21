@@ -305,47 +305,22 @@
                     Phương thức thanh toán
                 </h2>
                 <div class="space-y-4">
-                    <!-- Credit Card -->
-                    <div class="border border-outline-variant rounded-lg overflow-hidden has-[:checked]:border-primary transition-all">
-                        <label class="flex items-center justify-between p-4 cursor-pointer hover:bg-surface-container-low bg-surface-container-lowest">
-                            <div class="flex items-center gap-4">
-                                <input checked="" class="text-primary focus:ring-primary" name="paymentMethod" onclick="document.getElementById('cardDetails').classList.remove('hidden')" type="radio" value="creditCard"/>
-                                <span class="text-label-md font-label-md text-on-surface">Thẻ Tín dụng / Ghi nợ (Visa/Mastercard)</span>
-                            </div>
-                            <span class="material-symbols-outlined text-on-surface-variant">credit_card</span>
-                        </label>
-                        <div class="p-4 bg-surface-container-low border-t border-outline-variant space-y-4" id="cardDetails">
-                            <div class="space-y-1">
-                                <label class="text-label-sm font-label-sm text-on-surface-variant" for="cardNumber">Số thẻ</label>
-                                <input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary" id="cardNumber" placeholder="0000 0000 0000 0000" type="text"/>
-                            </div>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div class="space-y-1">
-                                    <label class="text-label-sm font-label-sm text-on-surface-variant" for="cardExpiry">Ngày hết hạn (MM/YY)</label>
-                                    <input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary" id="cardExpiry" placeholder="MM/YY" type="text"/>
-                                </div>
-                                <div class="space-y-1">
-                                    <label class="text-label-sm font-label-sm text-on-surface-variant" for="cardCvv">Mã CVV</label>
-                                    <input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary" id="cardCvv" placeholder="123" type="text"/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Bank Transfer -->
-                    <label class="flex items-center justify-between p-4 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors has-[:checked]:border-primary">
+                    <!-- Thanh toán khi nhận hàng (COD) -->
+                    <label class="flex items-center justify-between p-4 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors has-[:checked]:border-primary bg-surface-container-lowest">
                         <div class="flex items-center gap-4">
-                            <input class="text-primary focus:ring-primary" name="paymentMethod" onclick="document.getElementById('cardDetails').classList.add('hidden')" type="radio" value="bankTransfer"/>
-                            <span class="text-label-md font-label-md text-on-surface">Chuyển khoản ngân hàng</span>
+                            <input checked="" class="text-primary focus:ring-primary" name="paymentMethod" type="radio" value="cod"/>
+                            <span class="text-label-md font-label-md text-on-surface">Thanh toán khi nhận hàng (COD)</span>
                         </div>
-                        <span class="material-symbols-outlined text-on-surface-variant">account_balance</span>
+                        <span class="material-symbols-outlined text-on-surface-variant">local_shipping</span>
                     </label>
-                    <!-- E-wallet -->
-                    <label class="flex items-center justify-between p-4 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors has-[:checked]:border-primary">
+
+                    <!-- VNPay -->
+                    <label class="flex items-center justify-between p-4 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors has-[:checked]:border-primary bg-surface-container-lowest">
                         <div class="flex items-center gap-4">
-                            <input class="text-primary focus:ring-primary" name="paymentMethod" onclick="document.getElementById('cardDetails').classList.add('hidden')" type="radio" value="ewallet"/>
-                            <span class="text-label-md font-label-md text-on-surface">Ví điện tử (Momo / ZaloPay)</span>
+                            <input class="text-primary focus:ring-primary" name="paymentMethod" type="radio" value="vnpay"/>
+                            <span class="text-label-md font-label-md text-on-surface">Thanh toán qua VNPay (Thẻ ATM/Visa/MasterCard/QR Code)</span>
                         </div>
-                        <span class="material-symbols-outlined text-on-surface-variant">account_balance_wallet</span>
+                        <img src="https://vnpay.vn/s1/statics.vnpay.vn/2023/6/0oxhzjmxbksr1686814746087.png" alt="VNPay" class="h-6 object-contain"/>
                     </label>
                 </div>
             </section>

@@ -115,6 +115,9 @@ public class OrderController {
         return "checkout";
     }
 
+    @Autowired
+    private com.se1906.laptopshop.service.PaymentService paymentService;
+
     // ==========================================
     // 3. XỬ LÝ ĐẶT HÀNG & CHUYỂN HƯỚNG
     // ==========================================
@@ -124,7 +127,9 @@ public class OrderController {
             @RequestParam("receiverName") String receiverName,
             @RequestParam("receiverPhone") String receiverPhone,
             @RequestParam("shippingAddress") String shippingAddress,
+            @RequestParam(value = "paymentMethod", required = false, defaultValue = "cod") String paymentMethod,
             HttpSession session,
+            jakarta.servlet.http.HttpServletRequest request,
             RedirectAttributes redirectAttributes) {
 
         User user = (User) session.getAttribute("user");
@@ -146,6 +151,15 @@ public class OrderController {
         newOrder.setUser(user);
         newOrder.setStatus("PENDING");
         newOrder.setOrderDate(LocalDateTime.now());
+        
+        if ("vnpay".equalsIgnoreCase(paymentMethod)) {
+            newOrder.setPaymentMethod("VNPAY");
+            newOrder.setPaymentStatus("PENDING");
+            newOrder.setStatus("PENDING_PAYMENT");
+        } else {
+            newOrder.setPaymentMethod("COD");
+            newOrder.setPaymentStatus("PENDING");
+        }
 
         // (Tùy chọn) Lưu thông tin người nhận nếu Entity Order có các thuộc tính này
         // newOrder.setReceiverName(receiverName);
@@ -177,6 +191,11 @@ public class OrderController {
         cartItemRepository.deleteAll(selectedItems);
 
         // 5. Thông báo và chuyển trang
+        if ("vnpay".equalsIgnoreCase(paymentMethod)) {
+            String vnpayUrl = paymentService.createVnPayPaymentUrl(request, (long) totalAmount, "Thanh toan don hang " + savedOrder.getOrderId(), String.valueOf(savedOrder.getOrderId()));
+            return "redirect:" + vnpayUrl;
+        }
+
         redirectAttributes.addFlashAttribute("successMessage", "Đơn hàng của bạn đã được đặt thành công!");
         return "redirect:/orders";
     }
