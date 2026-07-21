@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+﻿<!DOCTYPE html>
+<html lang="vi">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${laptop.laptopName} + ' - LapZone'">LapZone - Chi tiết sản phẩm</title>
+    <title>Dell XPS 15 9530 - LapZone</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
@@ -21,13 +21,13 @@
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
                     </svg>
-                    Hệ thống Showroom
+                    Hß╗ç thß╗æng Showroom
                 </a>
                 <a href="#" class="flex items-center gap-1 hover:text-white transition-colors">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                     </svg>
-                    Dành Cho Doanh Nghiệp
+                    D├ánh Cho Doanh Nghiß╗çp
                 </a>
                 <a href="#" class="flex items-center gap-1 hover:text-white transition-colors">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -47,13 +47,13 @@
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15"></path>
                     </svg>
-                    Tin công nghệ
+                    Tin c├┤ng nghß╗ç
                 </a>
                 <a href="#" class="flex items-center gap-1 hover:text-white transition-colors">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path>
                     </svg>
-                    Khuyến mãi
+                    Khuyß║┐n m├úi
                 </a>
             </div>
         </div>
@@ -82,7 +82,7 @@
                 <svg class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                 </svg>
-                <input type="text" name="keyword" placeholder="Bạn muốn mua gì hôm nay..." class="w-full py-3 pl-11 pr-4 border border-gray-200 rounded-full text-[0.95rem] focus:outline-none focus:border-blue-500 focus:ring-[3px] focus:ring-blue-500/10 transition-all bg-white text-gray-900">
+                <input type="text" name="keyword" placeholder="Bß║ín muß╗æn mua g├¼ h├┤m nay..." class="w-full py-3 pl-11 pr-4 border border-gray-200 rounded-full text-[0.95rem] focus:outline-none focus:border-blue-500 focus:ring-[3px] focus:ring-blue-500/10 transition-all bg-white text-gray-900">
             </form>
 
             <div class="flex items-center gap-6 ml-auto order-2 md:order-none">
@@ -92,26 +92,23 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 0a2 2 0 100 4 2 2 0 000-4z"></path>
                         </svg>
                     </div>
-                    <span class="hidden sm:inline" th:text="'Giỏ hàng (' + ${cartItemCount} + ')'">Giỏ hàng</span>
+                    <span class="hidden sm:inline">Giß╗Å h├áng (0)</span>
                 </a>
                 
-                <a href="/orders" class="flex items-center gap-3 text-[0.9rem] font-medium text-gray-900 hover:text-blue-600 group">
+                <a href="/order-history" class="flex items-center gap-3 text-[0.9rem] font-medium text-gray-900 hover:text-blue-600 group">
                     <div class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center border border-gray-200 group-hover:bg-gray-200 transition-colors">
                         <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
                         </svg>
                     </div>
-                    <span class="hidden sm:inline">Đơn hàng</span>
+                    <span class="hidden sm:inline">─É╞ín h├áng</span>
                 </a>
 
-                <div th:if="${session.user != null}" class="flex items-center gap-3 text-[0.9rem] font-medium text-gray-900 group cursor-pointer relative">
-                    <span class="cursor-default whitespace-nowrap">Xin chào, <span th:text="${session.user.fullName}"></span></span>
-                    <a href="/auth/logout" class="px-4 py-1.5 rounded-md bg-red-500 text-white border border-red-500 hover:bg-red-600 transition-colors">Đăng xuất</a>
-                </div>
+                
 
-                <div th:if="${session.user == null}" class="flex items-center gap-3">
-                    <a href="/auth/login" class="px-4 py-1.5 rounded-md border border-gray-200 bg-white hover:bg-gray-50 text-gray-900 transition-colors">Đăng nhập</a>
-                    <a href="/auth/register" class="px-4 py-1.5 rounded-md bg-blue-500 text-white border border-blue-500 hover:bg-blue-600 transition-colors">Đăng ký</a>
+                <div class="flex items-center gap-3">
+                    <a href="/auth/login" class="px-4 py-1.5 rounded-md border border-gray-200 bg-white hover:bg-gray-50 text-gray-900 transition-colors">─É─âng nhß║¡p</a>
+                    <a href="/auth/register" class="px-4 py-1.5 rounded-md bg-blue-500 text-white border border-blue-500 hover:bg-blue-600 transition-colors">─É─âng k├╜</a>
                 </div>
             </div>
         </div>
@@ -120,93 +117,75 @@
     <main class="max-w-[96%] mx-auto px-4 w-full flex-1">
         <!-- Breadcrumb -->
         <div class="py-6 text-sm text-gray-500">
-            <a href="/" class="text-blue-500 hover:underline">Trang chủ</a> &gt; 
-            <th:block th:if="${laptop.category != null}">
-                <a th:href="@{/home-page(categoryId=${laptop.category.categoryId})}" th:text="${laptop.category.categoryName}" class="text-blue-500 hover:underline">Danh mục</a> &gt; 
-            </th:block>
-            <span th:text="${laptop.laptopName}" class="text-gray-900 font-medium">Tên Laptop</span>
+            <a href="/" class="text-blue-500 hover:underline">Trang chß╗º</a> &gt; 
+            
+                <a href="/home-page?categoryId=5" class="text-blue-500 hover:underline">Mß╗Ång Nhß║╣ Cao Cß║Ñp</a> &gt; 
+            
+            <span class="text-gray-900 font-medium">Dell XPS 15 9530</span>
         </div>
 
         <!-- Detail Section -->
         <div class="grid grid-cols-2 gap-12 bg-white p-8 rounded-xl border border-gray-200 mb-8">
             <!-- Left: Gallery -->
             <div>
-                <div class="w-full aspect-[4/3] bg-slate-50 rounded-lg flex items-center justify-center mb-4 border border-gray-200 overflow-hidden">
-                    <img th:if="${laptop.imageUrl != null and !laptop.imageUrl.isEmpty()}" th:src="${laptop.imageUrl}" alt="Sản phẩm" class="object-contain w-full h-full p-2" />
-                    <svg th:unless="${laptop.imageUrl != null and !laptop.imageUrl.isEmpty()}" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-32 h-32 text-gray-300">
+                <div class="w-full aspect-[4/3] bg-slate-50 rounded-lg flex items-center justify-center mb-4 border border-gray-200">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-32 h-32 text-gray-300">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                     </svg>
                 </div>
                 <form action="/cart/add" method="post" class="w-full">
-                    <input type="hidden" name="configurationId" th:if="${not #lists.isEmpty(laptop.configurationVersions)}" th:value="${laptop.configurationVersions[0].configurationId}" />
+                    <input type="hidden" name="configurationId" value="1" />
                     <input type="hidden" name="quantity" value="1" />
                     <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 0a2 2 0 100 4 2 2 0 000-4z"></path></svg>
-                        THÊM VÀO GIỎ HÀNG
+                        TH├èM V├ÇO GIß╗Ä H├ÇNG
                     </button>
                 </form>
             </div>
 
             <!-- Right: Info -->
             <div>
-                <h1 class="text-3xl font-bold mb-4 leading-snug text-gray-900" th:text="${laptop.laptopName}">Laptop gaming Gigabyte A16 GA63H</h1>
-                <a href="#" class="text-blue-500 text-sm mb-6 block hover:underline">Xem đánh giá</a>
+                <h1 class="text-3xl font-bold mb-4 leading-snug text-gray-900">Dell XPS 15 9530</h1>
+                <a href="#" class="text-blue-500 text-sm mb-6 block hover:underline">Xem ─æ├ính gi├í</a>
 
                 <div class="flex items-end gap-4 mb-6 pb-6 border-b border-gray-200">
                     <div class="text-4xl font-extrabold text-red-500 leading-none">
-                        <span th:if="${not #lists.isEmpty(laptop.configurationVersions)}"
-                              th:text="${#numbers.formatDecimal(laptop.configurationVersions[0].price, 0, 'COMMA', 0, 'POINT')} + '₫'">38.990.000₫</span>
-                        <span th:unless="${not #lists.isEmpty(laptop.configurationVersions)}">Liên hệ</span>
+                        <span>45,000,000Γé½</span>
+                        
                     </div>
-                    <div th:if="${not #lists.isEmpty(laptop.configurationVersions)}">
-                        <div class="text-lg text-gray-500 line-through mb-1" th:text="${#numbers.formatDecimal(laptop.configurationVersions[0].price * 1.05, 0, 'COMMA', 0, 'POINT')} + '₫'">40.990.000₫</div>
+                    <div>
+                        <div class="text-lg text-gray-500 line-through mb-1">47,250,000Γé½</div>
                     </div>
-                    <div class="bg-red-50 text-red-500 border border-red-300 px-2 py-0.5 rounded text-sm font-bold mb-1" th:if="${not #lists.isEmpty(laptop.configurationVersions)}">-5%</div>
+                    <div class="bg-red-50 text-red-500 border border-red-300 px-2 py-0.5 rounded text-sm font-bold mb-1">-5%</div>
                 </div>
 
-                <!-- Quà tặng kèm theo -->
-                <div class="mb-6 border border-green-300 rounded-lg overflow-hidden" th:if="${not #lists.isEmpty(giftDetails)}">
-                    <div class="bg-green-100 text-green-700 px-4 py-2 font-bold uppercase text-sm border-b border-green-300 flex items-center gap-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path></svg>
-                        Quà tặng kèm theo
-                    </div>
-                    <div class="p-4 bg-white">
-                        <ul class="space-y-2">
-                            <li th:each="giftDetail : ${giftDetails}" class="flex items-start gap-3 text-sm text-gray-700">
-                                <div class="mt-0.5 text-green-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                </div>
-                                <div>
-                                    <span th:text="${giftDetail.giftItem?.itemName}" class="font-semibold text-gray-900">Chuột không dây</span>
-                                    <span th:if="${giftDetail.quantity > 1}" th:text="' (x' + ${giftDetail.quantity} + ')'" class="text-gray-500 font-medium"> (x1)</span>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                <!-- Qu├á tß║╖ng k├¿m theo -->
+                <div>DEBUG GIFTS SIZE: 0</div>
+                <div>DEBUG ERROR: Could not extract column [6] from JDBC ResultSet [The conversion from text to NCHAR is unsupported.] [n/a]</div>
+                
 
                 <!-- Specs Table -->
-                <div class="border border-gray-200 rounded-lg overflow-hidden" th:if="${not #lists.isEmpty(laptop.configurationVersions)}">
-                    <div class="bg-rose-600 text-white px-4 py-3 font-bold uppercase text-sm">ĐIỂM NỔI BẬT</div>
+                <div class="border border-gray-200 rounded-lg overflow-hidden">
+                    <div class="bg-rose-600 text-white px-4 py-3 font-bold uppercase text-sm">─ÉIß╗éM Nß╗öI Bß║¼T</div>
                     <table class="w-full border-collapse">
                         <tr class="border-b border-gray-200 last:border-0">
                             <td class="w-[35%] font-semibold bg-slate-50 px-4 py-3 border-r border-gray-200 text-sm">CPU</td>
-                            <td class="px-4 py-3 text-sm" th:text="${laptop.configurationVersions[0].cpu}">AMD Ryzen 7</td>
+                            <td class="px-4 py-3 text-sm">Intel Core i7-13700H</td>
                         </tr>
                         <tr class="border-b border-gray-200 last:border-0">
-                            <td class="w-[35%] font-semibold bg-slate-50 px-4 py-3 border-r border-gray-200 text-sm">Card đồ họa</td>
-                            <td class="px-4 py-3 text-sm" th:text="${laptop.configurationVersions[0].gpu}">NVIDIA GeForce RTX 5050</td>
+                            <td class="w-[35%] font-semibold bg-slate-50 px-4 py-3 border-r border-gray-200 text-sm">Card ─æß╗ô hß╗ìa</td>
+                            <td class="px-4 py-3 text-sm">NVIDIA RTX 4050 6GB</td>
                         </tr>
                         <tr class="border-b border-gray-200 last:border-0">
                             <td class="w-[35%] font-semibold bg-slate-50 px-4 py-3 border-r border-gray-200 text-sm">RAM</td>
-                            <td class="px-4 py-3 text-sm" th:text="${laptop.configurationVersions[0].ram}">16GB DDR5</td>
+                            <td class="px-4 py-3 text-sm">16GB DDR5</td>
                         </tr>
                         <tr class="border-b border-gray-200 last:border-0">
                             <td class="w-[35%] font-semibold bg-slate-50 px-4 py-3 border-r border-gray-200 text-sm">SSD</td>
-                            <td class="px-4 py-3 text-sm" th:text="${laptop.configurationVersions[0].storage}">512GB PCIe</td>
+                            <td class="px-4 py-3 text-sm">512GB NVMe SSD</td>
                         </tr>
                         <tr class="border-b border-gray-200 last:border-0">
-                            <td class="w-[35%] font-semibold bg-slate-50 px-4 py-3 border-r border-gray-200 text-sm">Kích thước màn hình</td>
+                            <td class="w-[35%] font-semibold bg-slate-50 px-4 py-3 border-r border-gray-200 text-sm">K├¡ch th╞░ß╗¢c m├án h├¼nh</td>
                             <td class="px-4 py-3 text-sm">16 inch (Mock)</td>
                         </tr>
                         <tr class="border-b border-gray-200 last:border-0">
@@ -214,61 +193,54 @@
                             <td class="px-4 py-3 text-sm">Li Polymer 76Wh (Mock)</td>
                         </tr>
                     </table>
-                    <button type="button" onclick="openSpecsModal()" class="w-full block text-center p-3 text-blue-500 font-medium border-t border-gray-200 hover:bg-slate-50 focus:outline-none">Xem cấu hình chi tiết ▸</button>
+                    <button type="button" onclick="openSpecsModal()" class="w-full block text-center p-3 text-blue-500 font-medium border-t border-gray-200 hover:bg-slate-50 focus:outline-none">Xem cß║Ñu h├¼nh chi tiß║┐t Γû╕</button>
                 </div>
             </div>
         </div>
 
         <!-- Similar Products -->
-        <h2 class="text-2xl font-extrabold mb-6">Sản phẩm tương tự</h2>
+        <h2 class="text-2xl font-extrabold mb-6">Sß║ún phß║⌐m t╞░╞íng tß╗▒</h2>
         <div class="grid grid-cols-4 gap-6 mb-12">
-            <div th:each="simLaptop : ${similarLaptops}" class="bg-white border border-gray-200 rounded-lg p-4 hover:-translate-y-1 hover:shadow-lg transition-all relative flex flex-col">
+            <div class="bg-white border border-gray-200 rounded-lg p-4 hover:-translate-y-1 hover:shadow-lg transition-all relative flex flex-col">
                 <div class="absolute top-2.5 -left-1.5 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded shadow-md z-10 before:content-[''] before:absolute before:-bottom-1 before:left-0 before:border-[5px] before:border-transparent before:border-t-red-800 before:border-r-red-800">HOT DEAL</div>
-                <div class="h-40 bg-slate-50 rounded mb-4 flex items-center justify-center overflow-hidden">
-                    <img th:if="${simLaptop.imageUrl != null and !simLaptop.imageUrl.isEmpty()}" th:src="${simLaptop.imageUrl}" alt="Sản phẩm" class="object-contain w-full h-full p-2" />
-                    <svg th:unless="${simLaptop.imageUrl != null and !simLaptop.imageUrl.isEmpty()}" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-16 h-16 text-gray-300">
+                <div class="h-40 bg-slate-50 rounded mb-4 flex items-center justify-center">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-16 h-16 text-gray-300">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                     </svg>
                 </div>
-                <h3 class="font-bold text-[1.05rem] mb-2 line-clamp-2 h-11" th:text="${simLaptop.laptopName}">Laptop gaming Lenovo LOQ</h3>
-                <div class="grid grid-cols-2 gap-2 bg-slate-100 p-2 rounded text-xs text-gray-500 mb-4" th:if="${not #lists.isEmpty(simLaptop.configurationVersions)}">
-                    <div class="truncate">⚙ <span th:text="${simLaptop.configurationVersions[0].cpu}">CPU</span></div>
-                    <div>⚡ 144 Hz</div>
-                    <div class="truncate">🖴 <span th:text="${simLaptop.configurationVersions[0].storage}">512GB</span></div>
-                    <div>🎮 <span th:text="${simLaptop.configurationVersions[0].ram}">16GB</span></div>
+                <h3 class="font-bold text-[1.05rem] mb-2 line-clamp-2 h-11">MacBook Air M1</h3>
+                <div class="grid grid-cols-2 gap-2 bg-slate-100 p-2 rounded text-xs text-gray-500 mb-4">
+                    <div class="truncate">ΓÜÖ <span>Apple M1</span></div>
+                    <div>ΓÜí 144 Hz</div>
+                    <div class="truncate">≡ƒû┤ <span>256GB SSD</span></div>
+                    <div>≡ƒÄ« <span>8GB Unified</span></div>
                 </div>
                 <div class="mt-auto">
                     <div class="flex items-baseline">
-                        <span class="text-sm text-gray-500 line-through" th:if="${not #lists.isEmpty(simLaptop.configurationVersions)}" 
-                              th:text="${#numbers.formatDecimal(simLaptop.configurationVersions[0].price * 1.05, 0, 'COMMA', 0, 'POINT')} + '₫'"></span>
+                        <span class="text-sm text-gray-500 line-through">19,425,000Γé½</span>
                         <span class="text-red-500 text-sm font-bold ml-2">-5%</span>
                     </div>
                     <div class="font-extrabold text-red-500 text-xl mt-1">
-                        <span th:if="${not #lists.isEmpty(simLaptop.configurationVersions)}"
-                              th:text="${#numbers.formatDecimal(simLaptop.configurationVersions[0].price, 0, 'COMMA', 0, 'POINT')} + '₫'"></span>
+                        <span>18,500,000Γé½</span>
                     </div>
-                    <div class="text-sm text-green-600 mt-1">Giảm 2.000.000₫</div>
+                    <div class="text-sm text-green-600 mt-1">Giß║úm 2.000.000Γé½</div>
                 </div>
-                <a th:href="@{/laptop/{id}(id=${simLaptop.laptopId})}" class="absolute inset-0 z-[5]"></a>
+                <a href="/laptop/7" class="absolute inset-0 z-[5]"></a>
             </div>
             
-            <div th:if="${#lists.isEmpty(similarLaptops)}" class="col-span-4 p-8 text-center text-gray-500 bg-white rounded-lg border border-gray-200">
-                Không có sản phẩm tương tự nào.
-            </div>
+            
         </div>
 
         <!-- Description Section -->
-        <h2 class="text-2xl font-extrabold mb-6">Thông tin sản phẩm</h2>
+        <h2 class="text-2xl font-extrabold mb-6">Th├┤ng tin sß║ún phß║⌐m</h2>
         <div class="bg-white rounded-xl border border-gray-200 p-8 relative mb-16">
             <div id="descContent" class="text-base leading-relaxed text-gray-700 max-h-[200px] overflow-hidden relative">
-                <h3 class="text-lg font-extrabold mb-4">Đánh giá chi tiết <span th:text="${laptop.laptopName}">Laptop</span></h3>
-                <div th:utext="${laptop.description}">
-                    Laptop này là lựa chọn lý tưởng cho các game thủ...
-                </div>
+                <h3 class="text-lg font-extrabold mb-4">─É├ính gi├í chi tiß║┐t <span>Dell XPS 15 9530</span></h3>
+                <div>Laptop doanh nh├ón cao cß║Ñp, thiß║┐t kß║┐ nh├┤m nguy├¬n khß╗æi, m├án h├¼nh OLED sß║»c n├⌐t, ph├╣ hß╗úp l├ám viß╗çc ─æa nhiß╗çm v├á ─æß╗ô hß╗ìa 2D.</div>
             </div>
             <div id="descOverlay" class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent flex items-end justify-center pb-4 rounded-b-xl">
                 <button onclick="document.getElementById('descContent').classList.remove('max-h-[200px]'); document.getElementById('descOverlay').style.display='none';" class="text-blue-500 font-semibold text-base flex items-center gap-2 hover:underline focus:outline-none">
-                    Đọc tiếp bài viết 
+                    ─Éß╗ìc tiß║┐p b├ái viß║┐t 
                     <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
                 </button>
             </div>
@@ -305,7 +277,7 @@
         </div>
     </footer>
 
-    <!-- Modal Cấu hình chi tiết -->
+    <!-- Modal Cß║Ñu h├¼nh chi tiß║┐t -->
     <div id="specsModal" class="fixed inset-0 z-[100] hidden">
         <div class="fixed inset-0 bg-black/50 transition-opacity" onclick="closeSpecsModal()"></div>
         <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
@@ -314,29 +286,29 @@
                     <div class="sm:flex sm:items-start">
                         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
                             <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4" id="modal-title">
-                                Cấu hình chi tiết
+                                Cß║Ñu h├¼nh chi tiß║┐t
                             </h3>
                             <div class="mt-2">
-                                <table class="w-full border-collapse" th:if="${not #lists.isEmpty(laptop.configurationVersions)}">
+                                <table class="w-full border-collapse">
                                     <tr class="border-b border-gray-200">
                                         <td class="w-[40%] font-semibold bg-slate-50 px-4 py-3 border-r border-gray-200 text-sm">CPU</td>
-                                        <td class="px-4 py-3 text-sm" th:text="${laptop.configurationVersions[0].cpu}"></td>
+                                        <td class="px-4 py-3 text-sm">Intel Core i7-13700H</td>
                                     </tr>
                                     <tr class="border-b border-gray-200">
                                         <td class="w-[40%] font-semibold bg-slate-50 px-4 py-3 border-r border-gray-200 text-sm">RAM</td>
-                                        <td class="px-4 py-3 text-sm" th:text="${laptop.configurationVersions[0].ram}"></td>
+                                        <td class="px-4 py-3 text-sm">16GB DDR5</td>
                                     </tr>
                                     <tr class="border-b border-gray-200">
-                                        <td class="w-[40%] font-semibold bg-slate-50 px-4 py-3 border-r border-gray-200 text-sm">Ổ cứng</td>
-                                        <td class="px-4 py-3 text-sm" th:text="${laptop.configurationVersions[0].storage}"></td>
+                                        <td class="w-[40%] font-semibold bg-slate-50 px-4 py-3 border-r border-gray-200 text-sm">ß╗ö cß╗⌐ng</td>
+                                        <td class="px-4 py-3 text-sm">512GB NVMe SSD</td>
                                     </tr>
                                     <tr class="border-b border-gray-200">
-                                        <td class="w-[40%] font-semibold bg-slate-50 px-4 py-3 border-r border-gray-200 text-sm">Card đồ họa (VGA)</td>
-                                        <td class="px-4 py-3 text-sm" th:text="${laptop.configurationVersions[0].gpu}"></td>
+                                        <td class="w-[40%] font-semibold bg-slate-50 px-4 py-3 border-r border-gray-200 text-sm">Card ─æß╗ô hß╗ìa (VGA)</td>
+                                        <td class="px-4 py-3 text-sm">NVIDIA RTX 4050 6GB</td>
                                     </tr>
                                     <tr class="border-b border-gray-200">
-                                        <td class="w-[40%] font-semibold bg-slate-50 px-4 py-3 border-r border-gray-200 text-sm">Tình trạng kho</td>
-                                        <td class="px-4 py-3 text-sm" th:text="${laptop.configurationVersions[0].stockQuantity} + ' sản phẩm'"></td>
+                                        <td class="w-[40%] font-semibold bg-slate-50 px-4 py-3 border-r border-gray-200 text-sm">T├¼nh trß║íng kho</td>
+                                        <td class="px-4 py-3 text-sm">10 sß║ún phß║⌐m</td>
                                     </tr>
                                 </table>
                             </div>
@@ -345,7 +317,7 @@
                 </div>
                 <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                     <button type="button" onclick="closeSpecsModal()" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
-                        Đóng
+                        ─É├│ng
                     </button>
                 </div>
             </div>

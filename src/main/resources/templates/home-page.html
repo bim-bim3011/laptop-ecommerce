@@ -305,8 +305,9 @@
 
                     <div class="absolute top-3 right-3 bg-red-500 text-white text-xs font-black px-2 py-1 rounded shadow-md z-10">NEW</div>
 
-                    <div class="h-40 bg-red-50/50 rounded mb-4 flex items-center justify-center relative">
-                        <svg width="64" height="64" fill="none" stroke="#fca5a5" stroke-width="1" viewBox="0 0 24 24">
+                    <div class="h-40 bg-red-50/50 rounded mb-4 flex items-center justify-center relative overflow-hidden">
+                        <img th:if="${laptop.imageUrl != null and !laptop.imageUrl.isEmpty()}" th:src="${laptop.imageUrl}" alt="Sản phẩm" class="object-contain w-full h-full p-2" />
+                        <svg th:unless="${laptop.imageUrl != null and !laptop.imageUrl.isEmpty()}" width="64" height="64" fill="none" stroke="#fca5a5" stroke-width="1" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                         </svg>
                     </div>
@@ -337,8 +338,9 @@
                  class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 <div th:each="laptop : ${laptops}"
                      class="bg-white border border-gray-200 rounded-lg p-4 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg cursor-pointer flex flex-col">
-                    <div class="h-40 bg-slate-50 rounded mb-4 flex items-center justify-center">
-                        <svg width="64" height="64" fill="none" stroke="#cbd5e1" stroke-width="1"
+                    <div class="h-40 bg-slate-50 rounded mb-4 flex items-center justify-center overflow-hidden">
+                        <img th:if="${laptop.imageUrl != null and !laptop.imageUrl.isEmpty()}" th:src="${laptop.imageUrl}" alt="Sản phẩm" class="object-contain w-full h-full p-2" />
+                        <svg th:unless="${laptop.imageUrl != null and !laptop.imageUrl.isEmpty()}" width="64" height="64" fill="none" stroke="#cbd5e1" stroke-width="1"
                              viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                   d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">

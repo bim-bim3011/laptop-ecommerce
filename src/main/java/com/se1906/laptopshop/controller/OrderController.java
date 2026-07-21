@@ -124,6 +124,9 @@ public class OrderController {
             @RequestParam("receiverName") String receiverName,
             @RequestParam("receiverPhone") String receiverPhone,
             @RequestParam("shippingAddress") String shippingAddress,
+            @RequestParam("province") String province,
+            @RequestParam("district") String district,
+            @RequestParam("ward") String ward,
             HttpSession session,
             RedirectAttributes redirectAttributes) {
 
@@ -148,9 +151,8 @@ public class OrderController {
         newOrder.setOrderDate(LocalDateTime.now());
 
         // (Tùy chọn) Lưu thông tin người nhận nếu Entity Order có các thuộc tính này
-        // newOrder.setReceiverName(receiverName);
-        // newOrder.setReceiverPhone(receiverPhone);
-        // newOrder.setShippingAddress(shippingAddress);
+        String fullAddress = shippingAddress + ", " + ward + ", " + district + ", " + province;
+
 
         // Tính tổng tiền
         double totalAmount = 0;
@@ -169,6 +171,11 @@ public class OrderController {
             detail.setConfigurationVersion(item.getConfigurationVersion());
             detail.setQuantity(item.getQuantity());
             detail.setPrice(item.getConfigurationVersion().getPrice());
+            
+            // Lưu thông tin địa chỉ vào OrderDetail theo yêu cầu
+            detail.setReceiverName(receiverName);
+            detail.setReceiverPhone(receiverPhone);
+            detail.setShippingAddress(fullAddress);
 
             orderDetailRepository.save(detail);
         }
@@ -213,7 +220,7 @@ public class OrderController {
     // ==========================================
     // 5. HIỂN THỊ CHI TIẾT ĐƠN HÀNG
     // ==========================================
-    @GetMapping("/orders/{id}")
+    @GetMapping("/orderdetail/{id}")
     public String viewOrderDetail(@PathVariable("id") int id, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         User user = (User) session.getAttribute("user");
         if (user == null) {

@@ -8,6 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const target = link.getAttribute('data-target');
             if(target) {
+                links.forEach(l => {
+                    l.classList.remove('bg-blue-500', 'text-white', 'active-nav');
+                    l.classList.add('hover:bg-surface-container-high', 'text-on-surface-variant');
+                });
+                link.classList.remove('hover:bg-surface-container-high', 'text-on-surface-variant');
+                link.classList.add('bg-blue-500', 'text-white', 'active-nav');
+                
                 sections.forEach(s => s.classList.add('hidden'));
                 document.getElementById(target).classList.remove('hidden');
                 loadData(target);
@@ -24,27 +31,33 @@ document.addEventListener('DOMContentLoaded', () => {
         if(section === 'section-gift-item') loadGiftItems();
     }
     
+    // Initial fetch to populate dropdowns across sections
+    loadBrands();
+    loadCategories();
+    
     // --- Brand ---
     function loadBrands() {
         fetch('/admin/api/brands')
             .then(res => res.json())
             .then(data => {
                 const tbody = document.getElementById('tbody-brand');
-                const brandSelects = [document.getElementById('laptopBrand'), document.getElementById('editLaptopBrand')];
-                tbody.innerHTML = '';
+                const brandSelects = [document.getElementById('laptopBrand'), document.getElementById('editLaptopBrand')].filter(Boolean);
+                if (tbody) tbody.innerHTML = '';
                 brandSelects.forEach(s => s.innerHTML = '<option value="">Select Brand</option>');
 
                 data.forEach(brand => {
-                    tbody.innerHTML += `
-                        <tr class="border-b border-outline-variant hover:bg-surface-container">
-                            <td class="p-4">${brand.brandId}</td>
-                            <td class="p-4">${brand.brandName}</td>
-                            <td class="p-4">
-                                <button onclick="editBrand(${brand.brandId}, '${brand.brandName}')" class="text-secondary mr-2">Edit</button>
-                                <button onclick="deleteBrand(${brand.brandId})" class="text-error">Delete</button>
-                            </td>
-                        </tr>
-                    `;
+                    if (tbody) {
+                        tbody.innerHTML += `
+                            <tr class="border-b border-outline-variant hover:bg-surface-container">
+                                <td class="p-4">${brand.brandId}</td>
+                                <td class="p-4">${brand.brandName}</td>
+                                <td class="p-4">
+                                    <button onclick="editBrand(${brand.brandId}, '${brand.brandName}')" class="text-blue-600 border border-blue-200 bg-transparent hover:bg-blue-50 px-3 py-1 rounded-full transition-colors mr-2 tooltip inline-flex items-center gap-1" title="Edit"><span class="material-symbols-outlined text-[16px]">edit</span> <span class="text-sm font-medium">Edit</span></button>
+                                    <button onclick="deleteBrand(${brand.brandId})" class="text-red-600 border border-red-200 bg-transparent hover:bg-red-50 px-3 py-1 rounded-full transition-colors tooltip inline-flex items-center gap-1" title="Delete"><span class="material-symbols-outlined text-[16px]">delete</span> <span class="text-sm font-medium">Delete</span></button>
+                                </td>
+                            </tr>
+                        `;
+                    }
                     brandSelects.forEach(s => s.innerHTML += `<option value="${brand.brandId}">${brand.brandName}</option>`);
                 });
             });
@@ -99,21 +112,23 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(res => res.json())
             .then(data => {
                 const tbody = document.getElementById('tbody-category');
-                const catSelects = [document.getElementById('laptopCategory'), document.getElementById('editLaptopCategory')];
-                tbody.innerHTML = '';
+                const catSelects = [document.getElementById('laptopCategory'), document.getElementById('editLaptopCategory')].filter(Boolean);
+                if (tbody) tbody.innerHTML = '';
                 catSelects.forEach(s => s.innerHTML = '<option value="">Select Category</option>');
 
                 data.forEach(cat => {
-                    tbody.innerHTML += `
-                        <tr class="border-b border-outline-variant hover:bg-surface-container">
-                            <td class="p-4">${cat.categoryId}</td>
-                            <td class="p-4">${cat.categoryName}</td>
-                            <td class="p-4">
-                                <button onclick="editCategory(${cat.categoryId}, '${cat.categoryName}')" class="text-secondary mr-2">Edit</button>
-                                <button onclick="deleteCategory(${cat.categoryId})" class="text-error">Delete</button>
-                            </td>
-                        </tr>
-                    `;
+                    if (tbody) {
+                        tbody.innerHTML += `
+                            <tr class="border-b border-outline-variant hover:bg-surface-container">
+                                <td class="p-4">${cat.categoryId}</td>
+                                <td class="p-4">${cat.categoryName}</td>
+                                <td class="p-4">
+                                    <button onclick="editCategory(${cat.categoryId}, '${cat.categoryName}')" class="text-blue-600 border border-blue-200 bg-transparent hover:bg-blue-50 px-3 py-1 rounded-full transition-colors mr-2 tooltip inline-flex items-center gap-1" title="Edit"><span class="material-symbols-outlined text-[16px]">edit</span> <span class="text-sm font-medium">Edit</span></button>
+                                    <button onclick="deleteCategory(${cat.categoryId})" class="text-red-600 border border-red-200 bg-transparent hover:bg-red-50 px-3 py-1 rounded-full transition-colors tooltip inline-flex items-center gap-1" title="Delete"><span class="material-symbols-outlined text-[16px]">delete</span> <span class="text-sm font-medium">Delete</span></button>
+                                </td>
+                            </tr>
+                        `;
+                    }
                     catSelects.forEach(s => s.innerHTML += `<option value="${cat.categoryId}">${cat.categoryName}</option>`);
                 });
             });
@@ -171,9 +186,9 @@ document.addEventListener('DOMContentLoaded', () => {
                             <td class="p-4">${user.userId}</td>
                             <td class="p-4">${user.email}</td>
                             <td class="p-4">${user.fullName}</td>
-                            <td class="p-4">${user.status}</td>
+                            <td class="p-4"><span class="px-3 py-1 rounded-full border border-gray-300 bg-transparent text-sm font-medium ${user.status === 'ACTIVE' ? 'text-green-600 border-green-200' : 'text-red-600 border-red-200'}">${user.status}</span></td>
                             <td class="p-4">
-                                <button onclick="deleteUser(${user.userId})" class="text-error">Delete</button>
+                                <button onclick="deleteUser(${user.userId})" class="text-red-600 border border-red-200 bg-transparent hover:bg-red-50 px-3 py-1 rounded-full transition-colors tooltip inline-flex items-center gap-1" title="Delete"><span class="material-symbols-outlined text-[16px]">delete</span> <span class="text-sm font-medium">Delete</span></button>
                             </td>
                         </tr>
                     `;
@@ -199,16 +214,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 data.forEach(laptop => {
                     const brandName = laptop.brand ? laptop.brand.brandName : 'N/A';
                     const catName = laptop.category ? laptop.category.categoryName : 'N/A';
+                    const imgHtml = laptop.imageUrl ? `<img src="${laptop.imageUrl}" alt="img" class="w-12 h-12 object-cover rounded">` : `<div class="w-12 h-12 bg-gray-200 rounded flex items-center justify-center text-xs text-gray-500">No Image</div>`;
                     tbody.innerHTML += `
                         <tr class="border-b border-outline-variant hover:bg-surface-container">
                             <td class="p-4">${laptop.laptopId}</td>
+                            <td class="p-4">${imgHtml}</td>
                             <td class="p-4">${laptop.laptopName}</td>
                             <td class="p-4">${laptop.description || ''}</td>
                             <td class="p-4">${brandName}</td>
                             <td class="p-4">${catName}</td>
                             <td class="p-4">
-                                <button onclick="editLaptop(${laptop.laptopId})" class="text-secondary mr-2">Edit</button>
-                                <button onclick="deleteLaptop(${laptop.laptopId})" class="text-error">Delete</button>
+                                <button onclick="editLaptop(${laptop.laptopId})" class="text-blue-600 border border-blue-200 bg-transparent hover:bg-blue-50 px-3 py-1 rounded-full transition-colors mr-2 tooltip inline-flex items-center gap-1" title="Edit"><span class="material-symbols-outlined text-[16px]">edit</span> <span class="text-sm font-medium">Edit</span></button>
+                                <button onclick="deleteLaptop(${laptop.laptopId})" class="text-red-600 border border-red-200 bg-transparent hover:bg-red-50 px-3 py-1 rounded-full transition-colors tooltip inline-flex items-center gap-1" title="Delete"><span class="material-symbols-outlined text-[16px]">delete</span> <span class="text-sm font-medium">Delete</span></button>
                             </td>
                         </tr>
                     `;
@@ -231,6 +248,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const desc = document.getElementById('laptopDesc').value;
         const brandId = document.getElementById('laptopBrand').value;
         const categoryId = document.getElementById('laptopCategory').value;
+        const fileInput = document.getElementById('laptopImage');
+        
         fetch('/admin/api/laptops', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -240,11 +259,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 brand: {brandId: brandId},
                 category: {categoryId: categoryId}
             })
-        }).then(() => {
+        })
+        .then(res => res.json())
+        .then(laptop => {
+            if(fileInput.files.length > 0) {
+                const formData = new FormData();
+                formData.append('file', fileInput.files[0]);
+                return fetch(`/admin/api/laptops/${laptop.laptopId}/image`, {
+                    method: 'POST',
+                    body: formData
+                });
+            }
+        })
+        .then(() => {
             document.getElementById('laptopName').value = '';
             document.getElementById('laptopDesc').value = '';
             document.getElementById('laptopBrand').value = '';
             document.getElementById('laptopCategory').value = '';
+            fileInput.value = '';
+            loadLaptops();
+        })
+        .catch(err => {
+            console.error('Error creating laptop:', err);
             loadLaptops();
         });
     };
@@ -325,8 +361,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             <td class="p-4">${conf.stockQuantity}</td>
                             <td class="p-4">
                                 <button onclick="manageConfigGifts(${conf.configurationId})" class="text-tertiary mr-2 text-sm font-medium">🎁 Gifts</button>
-                                <button onclick="editConfig(${conf.configurationId})" class="text-secondary mr-2">Edit</button>
-                                <button onclick="deleteConfig(${conf.configurationId})" class="text-error">Delete</button>
+                                <button onclick="editConfig(${conf.configurationId})" class="text-blue-600 border border-blue-200 bg-transparent hover:bg-blue-50 px-3 py-1 rounded-full transition-colors mr-2 tooltip inline-flex items-center gap-1" title="Edit"><span class="material-symbols-outlined text-[16px]">edit</span> <span class="text-sm font-medium">Edit</span></button>
+                                <button onclick="deleteConfig(${conf.configurationId})" class="text-red-600 border border-red-200 bg-transparent hover:bg-red-50 px-3 py-1 rounded-full transition-colors tooltip inline-flex items-center gap-1" title="Delete"><span class="material-symbols-outlined text-[16px]">delete</span> <span class="text-sm font-medium">Delete</span></button>
                             </td>
                         </tr>
                     `;
@@ -415,7 +451,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <td class="p-4">${promo.title}</td>
                             <td class="p-4">${promo.discountValue}</td>
                             <td class="p-4">
-                                <button onclick="deletePromotion(${promo.promotionId})" class="text-error">Delete</button>
+                                <button onclick="deletePromotion(${promo.promotionId})" class="text-red-600 border border-red-200 bg-transparent hover:bg-red-50 px-3 py-1 rounded-full transition-colors tooltip inline-flex items-center gap-1" title="Delete"><span class="material-symbols-outlined text-[16px]">delete</span> <span class="text-sm font-medium">Delete</span></button>
                             </td>
                         </tr>
                     `;
@@ -472,8 +508,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             <td class="p-4">${item.price}</td>
                             <td class="p-4">${item.description || ''}</td>
                             <td class="p-4">
-                                <button onclick="editGiftItem(${item.giftItemId})" class="text-secondary mr-2">Edit</button>
-                                <button onclick="deleteGiftItem(${item.giftItemId})" class="text-error">Delete</button>
+                                <button onclick="editGiftItem(${item.giftItemId})" class="text-blue-600 border border-blue-200 bg-transparent hover:bg-blue-50 px-3 py-1 rounded-full transition-colors mr-2 tooltip inline-flex items-center gap-1" title="Edit"><span class="material-symbols-outlined text-[16px]">edit</span> <span class="text-sm font-medium">Edit</span></button>
+                                <button onclick="deleteGiftItem(${item.giftItemId})" class="text-red-600 border border-red-200 bg-transparent hover:bg-red-50 px-3 py-1 rounded-full transition-colors tooltip inline-flex items-center gap-1" title="Delete"><span class="material-symbols-outlined text-[16px]">delete</span> <span class="text-sm font-medium">Delete</span></button>
                             </td>
                         </tr>
                     `;
@@ -605,3 +641,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 });
+

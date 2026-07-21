@@ -23,6 +23,9 @@ public class Laptop {
     @Column(name = "description", columnDefinition = "NVARCHAR(MAX)")
     private String description;
 
+    @Column(name = "image_url", columnDefinition = "NVARCHAR(MAX)")
+    private String imageUrl;
+
     @Column(name = "updated_at", nullable = false)
     @UpdateTimestamp
     private LocalDateTime updatedAt;
@@ -50,10 +53,11 @@ public class Laptop {
     public Laptop() {
     }
 
-    public Laptop(Integer laptopId, String laptopName, String description, LocalDateTime updatedAt, LocalDateTime createdAt, List<ConfigurationVersion> configurationVersions, Category category, Brand brand, List<Feedback> feedbacks) {
+    public Laptop(Integer laptopId, String laptopName, String description, String imageUrl, LocalDateTime updatedAt, LocalDateTime createdAt, List<ConfigurationVersion> configurationVersions, Category category, Brand brand, List<Feedback> feedbacks) {
         this.laptopId = laptopId;
         this.laptopName = laptopName;
         this.description = description;
+        this.imageUrl = imageUrl;
         this.updatedAt = updatedAt;
         this.createdAt = createdAt;
         this.configurationVersions = configurationVersions;
@@ -61,6 +65,7 @@ public class Laptop {
         this.brand = brand;
         this.feedbacks = feedbacks;
     }
+
 
     public Integer getLaptopId() {
         return laptopId;
@@ -84,6 +89,14 @@ public class Laptop {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public LocalDateTime getUpdatedAt() {

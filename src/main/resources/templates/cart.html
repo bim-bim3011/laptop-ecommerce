@@ -150,7 +150,8 @@
                        th:data-price="${item.configurationVersion.price * item.quantity}">
                 <div
                         class="w-24 h-24 sm:w-32 sm:h-32 bg-surface-container-low rounded-lg p-2 flex-shrink-0 flex items-center justify-center">
-                    <img alt="Sản phẩm" class="object-contain max-w-full max-h-full"
+                    <img th:if="${item.configurationVersion.laptop != null and item.configurationVersion.laptop.imageUrl != null and !item.configurationVersion.laptop.imageUrl.isEmpty()}" th:src="${item.configurationVersion.laptop.imageUrl}" alt="Sản phẩm" class="object-contain max-w-full max-h-full" />
+                    <img th:unless="${item.configurationVersion.laptop != null and item.configurationVersion.laptop.imageUrl != null and !item.configurationVersion.laptop.imageUrl.isEmpty()}" alt="Sản phẩm" class="object-contain max-w-full max-h-full"
                          src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNfgXG2VW3KuRQWjt275sT32q7JHz0Nsvm5HUO9_U9WCMo-XDPGLW9Cbj72ddo1riF9AJpoGAUKprUO2jUBwdx82ZmKImWh3Cxku6PgdWHfa8Gto8VysnPAaH7o7C-vC35TIYL-x0BakT9dtz3nHylD-7OIPMVKu27DIruMOf41uQSuG5LKa34EdS6AfvEplbd2K77UrqnlQzn5hiDwlg6PPzg8pWFeoA6Nqe4VxlH7ZO-1OOFmgiXiYiqs7gS5x-jy0KEIQC45dE" />
                 </div>
                 <div class="flex-1 w-full">
@@ -241,7 +242,7 @@
                 <button type="submit"
                         class="w-full bg-green-600 hover:bg-green-700 text-white font-headline-md text-headline-md py-4 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-md hover:shadow-lg"
                         onclick="return confirm('Bạn có chắc chắn muốn thanh toán đơn hàng này không?');">
-                    Thanh toán ngay
+                    Đặt Hàng
                     <span class="material-symbols-outlined">arrow_forward</span>
                 </button>
             </form>
