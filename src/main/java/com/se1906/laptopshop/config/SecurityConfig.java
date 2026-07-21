@@ -30,7 +30,10 @@ public class SecurityConfig {
         "/home-page/**",
         "/laptop/**",
         "/cart/**",
-        "/admin/login"
+        "/admin/login",
+        "/css/**",
+        "/js/**",
+        "/images/**"
     };
 
     @Bean
