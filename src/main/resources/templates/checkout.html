@@ -144,22 +144,19 @@
                     </div>
                     <div class="space-y-1">
                         <label class="text-label-md font-label-md text-on-surface-variant" for="province">Tỉnh/Thành phố</label>
-                        <select class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none" id="province">
+                        <select name="province" class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none" id="province" required>
                             <option disabled="" selected="" value="">Chọn Tỉnh/Thành phố</option>
-                            <option value="hanoi">Hà Nội</option>
-                            <option value="hcm">TP. Hồ Chí Minh</option>
-                            <option value="danang">Đà Nẵng</option>
                         </select>
                     </div>
                     <div class="space-y-1">
                         <label class="text-label-md font-label-md text-on-surface-variant" for="district">Quận/Huyện</label>
-                        <select class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none" disabled="" id="district">
+                        <select name="district" class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none" disabled="" id="district" required>
                             <option disabled="" selected="" value="">Chọn Quận/Huyện</option>
                         </select>
                     </div>
                     <div class="space-y-1">
                         <label class="text-label-md font-label-md text-on-surface-variant" for="ward">Phường/Xã</label>
-                        <select class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none" disabled="" id="ward">
+                        <select name="ward" class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none" disabled="" id="ward" required>
                             <option disabled="" selected="" value="">Chọn Phường/Xã</option>
                         </select>
                     </div>
@@ -181,7 +178,7 @@
                             <input checked="" class="mt-1 text-primary focus:ring-primary" name="shippingMethod" type="radio" value="standard"/>
                             <div>
                                 <div class="text-label-md font-label-md text-on-surface">Giao hàng tiêu chuẩn</div>
-                                <div class="text-label-sm font-label-sm text-on-surface-variant mt-1">Nhận hàng trong 3-5 ngày làm việc</div>
+                                <div class="text-label-sm font-label-sm text-on-surface-variant mt-1">Nhận hàng trong 3-5 ngày</div>
                             </div>
                         </div>
                         <div class="text-label-md font-label-md text-on-surface">Miễn phí</div>
@@ -191,8 +188,8 @@
                         <div class="flex items-start gap-4">
                             <input class="mt-1 text-primary focus:ring-primary" name="shippingMethod" type="radio" value="express"/>
                             <div>
-                                <div class="text-label-md font-label-md text-on-surface">Giao hàng hỏa tốc</div>
-                                <div class="text-label-sm font-label-sm text-on-surface-variant mt-1">Nhận hàng trong 24h</div>
+                                <div class="text-label-md font-label-md text-on-surface">Giao hàng nhanh</div>
+                                <div class="text-label-sm font-label-sm text-on-surface-variant mt-1">Nhận hàng trong 1-2 ngày</div>
                             </div>
                         </div>
                         <div class="text-label-md font-label-md text-on-surface">150.000 ₫</div>
@@ -318,7 +315,7 @@
                 <!-- Primary CTA -->
                 <button type="submit" class="w-full bg-primary text-on-primary py-4 rounded-lg font-bold text-label-md hover:bg-primary-container transition-colors shadow-sm flex justify-center items-center gap-2">
                     <span class="material-symbols-outlined">lock</span>
-                    Đặt hàng ngay
+                    Thanh Toán
                 </button>
                 <p class="text-label-sm font-label-sm text-center text-on-surface-variant">
                     Bằng việc đặt hàng, bạn đồng ý với <a class="text-primary underline" href="#">Điều khoản dịch vụ</a> và <a class="text-primary underline" href="#">Chính sách bảo mật</a> của chúng tôi.
@@ -343,4 +340,123 @@
         © 2024 LapZone Systems. All rights reserved. Precision Engineering for Professionals.
     </div>
 </footer>
+
+<script>
+    const addressData = {
+        "hanoi": {
+            name: "Hà Nội",
+            districts: {
+                "badinh": {
+                    name: "Quận Ba Đình",
+                    wards: ["Phường Cống Vị", "Phường Điện Biên", "Phường Đội Cấn", "Phường Giảng Võ", "Phường Kim Mã"]
+                },
+                "hoankiem": {
+                    name: "Quận Hoàn Kiếm",
+                    wards: ["Phường Chương Dương", "Phường Cửa Đông", "Phường Cửa Nam", "Phường Đồng Xuân", "Phường Hàng Bạc"]
+                },
+                "tayho": {
+                    name: "Quận Tây Hồ",
+                    wards: ["Phường Bưởi", "Phường Nhật Tân", "Phường Phú Thượng", "Phường Quảng An", "Phường Thụy Khuê"]
+                }
+            }
+        },
+        "hcm": {
+            name: "TP. Hồ Chí Minh",
+            districts: {
+                "quan1": {
+                    name: "Quận 1",
+                    wards: ["Phường Bến Nghé", "Phường Bến Thành", "Phường Cô Giang", "Phường Đa Kao", "Phường Nguyễn Thái Bình"]
+                },
+                "quan2": {
+                    name: "Quận 2",
+                    wards: ["Phường An Phú", "Phường Thảo Điền", "Phường Thủ Thiêm", "Phường Bình An", "Phường Bình Khánh"]
+                },
+                "quan3": {
+                    name: "Quận 3",
+                    wards: ["Phường Võ Thị Sáu", "Phường 13", "Phường 14", "Phường 11", "Phường 12"]
+                }
+            }
+        },
+        "danang": {
+            name: "Đà Nẵng",
+            districts: {
+                "haichau": {
+                    name: "Quận Hải Châu",
+                    wards: ["Phường Hải Châu I", "Phường Hải Châu II", "Phường Thạch Thang", "Phường Thanh Bình", "Phường Thuận Phước"]
+                },
+                "thanhkhe": {
+                    name: "Quận Thanh Khê",
+                    wards: ["Phường An Khê", "Phường Chính Gián", "Phường Hòa Khê", "Phường Thanh Khê Đông", "Phường Thanh Khê Tây"]
+                },
+                "sontra": {
+                    name: "Quận Sơn Trà",
+                    wards: ["Phường An Hải Bắc", "Phường An Hải Đông", "Phường An Hải Tây", "Phường Mân Thái", "Phường Nại Hiên Đông"]
+                }
+            }
+        }
+    };
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const provinceSelect = document.getElementById('province');
+        const districtSelect = document.getElementById('district');
+        const wardSelect = document.getElementById('ward');
+
+        // Populate provinces
+        Object.keys(addressData).forEach(provinceKey => {
+            const province = addressData[provinceKey];
+            const option = document.createElement('option');
+            option.value = province.name;
+            option.text = province.name;
+            option.dataset.key = provinceKey;
+            provinceSelect.appendChild(option);
+        });
+
+        provinceSelect.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const provinceKey = selectedOption.dataset.key;
+            
+            // Reset districts and wards
+            districtSelect.innerHTML = '<option disabled selected value="">Chọn Quận/Huyện</option>';
+            wardSelect.innerHTML = '<option disabled selected value="">Chọn Phường/Xã</option>';
+            districtSelect.disabled = true;
+            wardSelect.disabled = true;
+
+            if (provinceKey && addressData[provinceKey]) {
+                const districts = addressData[provinceKey].districts;
+                Object.keys(districts).forEach(districtKey => {
+                    const district = districts[districtKey];
+                    const option = document.createElement('option');
+                    option.value = district.name;
+                    option.text = district.name;
+                    option.dataset.provinceKey = provinceKey;
+                    option.dataset.key = districtKey;
+                    districtSelect.appendChild(option);
+                });
+                districtSelect.disabled = false;
+            }
+        });
+
+        districtSelect.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const provinceKey = selectedOption.dataset.provinceKey;
+            const districtKey = selectedOption.dataset.key;
+            
+            // Reset wards
+            wardSelect.innerHTML = '<option disabled selected value="">Chọn Phường/Xã</option>';
+            wardSelect.disabled = true;
+
+            if (provinceKey && districtKey && addressData[provinceKey].districts[districtKey]) {
+                const wards = addressData[provinceKey].districts[districtKey].wards;
+                wards.forEach(wardName => {
+                    const option = document.createElement('option');
+                    option.value = wardName;
+                    option.text = wardName;
+                    wardSelect.appendChild(option);
+                });
+                wardSelect.disabled = false;
+            }
+        });
+    });
+</script>
+
 </body></html>

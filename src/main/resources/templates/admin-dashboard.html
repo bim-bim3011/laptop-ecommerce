@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -247,12 +247,7 @@
 <!-- TopNavBar -->
 <header class="bg-surface/80 backdrop-blur-md border-b border-outline-variant h-16 sticky top-0 z-10 flex justify-between items-center px-lg transition-all duration-300 hover:bg-surface">
 <div class="flex items-center flex-1">
-<!-- Search on left as per JSON -->
-<div class="relative w-full max-w-md focus-within:ring-2 focus-within:ring-secondary focus-within:ring-opacity-50 rounded-lg transition-all duration-300">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant transition-colors duration-300">search</span>
-<input class="w-full bg-surface-container-low border border-outline-variant rounded-lg py-2 pl-10 pr-4 font-label-md text-label-md text-on-surface focus:outline-none focus:border-secondary focus:bg-surface transition-all duration-300 shadow-sm hover:shadow-md" placeholder="Search resources..." type="text">
-</div>
-</div>
+
 <div class="flex items-center gap-4">
 <button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-all duration-300 hover:scale-110 hover:shadow-sm relative group">
 <span class="material-symbols-outlined group-hover:animate-ping-short">notifications</span>
@@ -358,9 +353,9 @@
 </div>
 </div>
 <!-- Main Content Area: Charts & Tables -->
-<div class="grid grid-cols-1 xl:grid-cols-3 gap-gutter">
+<div class="flex flex-col gap-gutter">
 <!-- Activity Table (Spans 2 columns on XL) -->
-<div class="xl:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-xl ambient-shadow flex flex-col hover:shadow-lg transition-shadow duration-300">
+<div class="w-full bg-surface-container-lowest border border-outline-variant rounded-xl ambient-shadow flex flex-col hover:shadow-lg transition-shadow duration-300">
 <div class="p-md border-b border-outline-variant flex justify-between items-center bg-surface-container-lowest rounded-t-xl">
 <h3 class="font-headline-md text-headline-md text-primary">Recent Activity</h3>
 <button class="text-secondary font-label-md text-label-md hover:text-secondary-container transition-colors flex items-center gap-1 group">
@@ -384,7 +379,7 @@
 <td class="p-4">New user registration: <strong>john.doe@enterprise.com</strong></td>
 <td class="p-4 text-on-surface-variant group-hover:text-on-surface transition-colors">User Mgt</td>
 <td class="p-4">
-<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-[#dcfce7] text-[#166534] text-xs font-label-md border border-[#bbf7d0] shadow-sm">Success</span>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-[#166534]/10 text-[#166534] text-xs font-label-md border-transparent shadow-sm">Success</span>
 </td>
 <td class="p-4 text-right text-on-surface-variant group-hover:text-on-surface transition-colors whitespace-nowrap">2 mins ago</td>
 </tr>
@@ -393,7 +388,7 @@
 <td class="p-4">Inventory update: <strong>ThinkPad X1 Carbon</strong> batch added</td>
 <td class="p-4 text-on-surface-variant group-hover:text-on-surface transition-colors">Inventory</td>
 <td class="p-4">
-<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-[#dcfce7] text-[#166534] text-xs font-label-md border border-[#bbf7d0] shadow-sm">Completed</span>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-[#166534]/10 text-[#166534] text-xs font-label-md border-transparent shadow-sm">Completed</span>
 </td>
 <td class="p-4 text-right text-on-surface-variant group-hover:text-on-surface transition-colors whitespace-nowrap">15 mins ago</td>
 </tr>
@@ -402,7 +397,7 @@
 <td class="p-4">Configuration sync failed for <strong>Region US-East</strong></td>
 <td class="p-4 text-on-surface-variant group-hover:text-on-surface transition-colors">System</td>
 <td class="p-4">
-<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-error-container text-on-error-container text-xs font-label-md border border-red-200 shadow-sm">Failed</span>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-red-500/10 text-red-700 text-xs font-label-md border-transparent shadow-sm">Failed</span>
 </td>
 <td class="p-4 text-right text-on-surface-variant group-hover:text-on-surface transition-colors whitespace-nowrap">1 hour ago</td>
 </tr>
@@ -411,7 +406,7 @@
 <td class="p-4">Brand asset updated: <strong>Primary Logo SVG</strong></td>
 <td class="p-4 text-on-surface-variant group-hover:text-on-surface transition-colors">Brand</td>
 <td class="p-4">
-<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed text-xs font-label-md border border-blue-200 shadow-sm">Pending Review</span>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-700 text-xs font-label-md border-transparent shadow-sm">Pending Review</span>
 </td>
 <td class="p-4 text-right text-on-surface-variant group-hover:text-on-surface transition-colors whitespace-nowrap">3 hours ago</td>
 </tr>
@@ -420,7 +415,7 @@
 <td class="p-4">Category created: <strong>Ultra-Mobile Workstations</strong></td>
 <td class="p-4 text-on-surface-variant group-hover:text-on-surface transition-colors">Category</td>
 <td class="p-4">
-<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-[#dcfce7] text-[#166534] text-xs font-label-md border border-[#bbf7d0] shadow-sm">Success</span>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-[#166534]/10 text-[#166534] text-xs font-label-md border-transparent shadow-sm">Success</span>
 </td>
 <td class="p-4 text-right text-on-surface-variant group-hover:text-on-surface transition-colors whitespace-nowrap">5 hours ago</td>
 </tr>
@@ -475,20 +470,11 @@
 
 <!-- Laptop Section -->
 <div id="section-laptop" class="admin-section hidden animate-fade-in-up">
-    <h2 class="font-headline-lg text-headline-lg text-primary mb-4">Laptops</h2>
-    <div class="bg-surface-container-lowest p-md rounded-xl ambient-shadow mb-6">
-        <form onsubmit="createLaptop(event)" class="flex gap-4 flex-wrap">
-            <input type="text" id="laptopName" placeholder="Laptop Name" class="border p-2 rounded" required>
-            <input type="text" id="laptopDesc" placeholder="Description" class="border p-2 rounded">
-            <select id="laptopBrand" class="border p-2 rounded" required>
-                <option value="">Select Brand</option>
-            </select>
-            <select id="laptopCategory" class="border p-2 rounded" required>
-                <option value="">Select Category</option>
-            </select>
-            <button type="submit" class="bg-primary text-on-primary px-4 py-2 rounded">Add Laptop</button>
-        </form>
-    </div>
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="font-headline-lg text-headline-lg text-primary">Laptops</h2>
+      <button onclick="document.getElementById('modal-add-laptop').classList.remove('hidden')" class="px-4 py-2 bg-blue-500 text-white rounded-2xl font-label-md hover:bg-blue-600 transition-colors shadow-sm flex items-center gap-2"><span class="material-symbols-outlined text-sm">add</span> New Laptop</button>
+  </div>
+    
     <div class="bg-surface-container-lowest rounded-xl ambient-shadow overflow-x-auto">
         <table class="w-full text-left">
             <thead>
@@ -509,20 +495,7 @@
 <!-- Laptop Configuration Section -->
 <div id="section-laptop-config" class="admin-section hidden animate-fade-in-up">
     <h2 class="font-headline-lg text-headline-lg text-primary mb-4" id="config-title">Laptop Configurations</h2>
-    <div class="bg-surface-container-lowest p-md rounded-xl ambient-shadow mb-6">
-        <form onsubmit="createConfig(event)" class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <select id="confLaptop" class="border p-2 rounded md:col-span-2" required>
-                <option value="">Select Laptop</option>
-            </select>
-            <input type="text" id="confCpu" placeholder="CPU" class="border p-2 rounded" required>
-            <input type="text" id="confRam" placeholder="RAM" class="border p-2 rounded" required>
-            <input type="text" id="confStorage" placeholder="Storage" class="border p-2 rounded" required>
-            <input type="text" id="confGpu" placeholder="GPU" class="border p-2 rounded">
-            <input type="number" id="confPrice" placeholder="Price" class="border p-2 rounded" required>
-            <input type="number" id="confStock" placeholder="Stock" class="border p-2 rounded" required>
-            <button type="submit" class="bg-primary text-on-primary px-4 py-2 rounded md:col-span-2">Add Configuration</button>
-        </form>
-    </div>
+    
     <div class="bg-surface-container-lowest rounded-xl ambient-shadow overflow-x-auto">
         <table class="w-full text-left">
             <thead>
@@ -544,15 +517,7 @@
 <!-- Promotion Section -->
 <div id="section-promotion" class="admin-section hidden animate-fade-in-up">
     <h2 class="font-headline-lg text-headline-lg text-primary mb-4">Promotions</h2>
-    <div class="bg-surface-container-lowest p-md rounded-xl ambient-shadow mb-6">
-        <form onsubmit="createPromotion(event)" class="flex gap-4 flex-wrap">
-            <input type="text" id="promoCode" placeholder="Coupon Code" class="border p-2 rounded" required>
-            <input type="text" id="promoTitle" placeholder="Title" class="border p-2 rounded" required>
-            <input type="text" id="promoDiscount" placeholder="Discount Type" class="border p-2 rounded">
-            <input type="number" id="promoValue" placeholder="Value" class="border p-2 rounded" required>
-            <button type="submit" class="bg-primary text-on-primary px-4 py-2 rounded">Add Promotion</button>
-        </form>
-    </div>
+    
     <div class="bg-surface-container-lowest rounded-xl ambient-shadow overflow-x-auto">
         <table class="w-full text-left">
             <thead>
@@ -571,13 +536,11 @@
 
 <!-- Brand Section -->
 <div id="section-brand" class="admin-section hidden animate-fade-in-up">
-    <h2 class="font-headline-lg text-headline-lg text-primary mb-4">Brands</h2>
-    <div class="bg-surface-container-lowest p-md rounded-xl ambient-shadow mb-6">
-        <form onsubmit="createBrand(event)" class="flex gap-4">
-            <input type="text" id="brandName" placeholder="Brand Name" class="border p-2 rounded" required>
-            <button type="submit" class="bg-primary text-on-primary px-4 py-2 rounded">Add Brand</button>
-        </form>
-    </div>
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="font-headline-lg text-headline-lg text-primary">Brands</h2>
+      <button onclick="document.getElementById('modal-add-brand').classList.remove('hidden')" class="px-4 py-2 bg-blue-500 text-white rounded-2xl font-label-md hover:bg-blue-600 transition-colors shadow-sm flex items-center gap-2"><span class="material-symbols-outlined text-sm">add</span> New Brand</button>
+  </div>
+    
     <div class="bg-surface-container-lowest rounded-xl ambient-shadow overflow-x-auto">
         <table class="w-full text-left">
             <thead>
@@ -594,13 +557,11 @@
 
 <!-- Category Section -->
 <div id="section-category" class="admin-section hidden animate-fade-in-up">
-    <h2 class="font-headline-lg text-headline-lg text-primary mb-4">Categories</h2>
-    <div class="bg-surface-container-lowest p-md rounded-xl ambient-shadow mb-6">
-        <form onsubmit="createCategory(event)" class="flex gap-4">
-            <input type="text" id="categoryName" placeholder="Category Name" class="border p-2 rounded" required>
-            <button type="submit" class="bg-primary text-on-primary px-4 py-2 rounded">Add Category</button>
-        </form>
-    </div>
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="font-headline-lg text-headline-lg text-primary">Categories</h2>
+      <button onclick="document.getElementById('modal-add-category').classList.remove('hidden')" class="px-4 py-2 bg-blue-500 text-white rounded-2xl font-label-md hover:bg-blue-600 transition-colors shadow-sm flex items-center gap-2"><span class="material-symbols-outlined text-sm">add</span> New Category</button>
+  </div>
+    
     <div class="bg-surface-container-lowest rounded-xl ambient-shadow overflow-x-auto">
         <table class="w-full text-left">
             <thead>
@@ -636,16 +597,11 @@
 
 <!-- Gift Item Section -->
 <div id="section-gift-item" class="admin-section hidden animate-fade-in-up">
-    <h2 class="font-headline-lg text-headline-lg text-primary mb-4">Gift Items</h2>
-    <div class="bg-surface-container-lowest p-md rounded-xl ambient-shadow mb-6">
-        <form onsubmit="createGiftItem(event)" class="grid grid-cols-2 gap-4">
-            <input type="text" id="giftItemName" placeholder="Item Name" class="border p-2 rounded" required>
-            <input type="number" step="0.01" id="giftItemPrice" placeholder="Price" class="border p-2 rounded" required>
-            <input type="text" id="giftItemImageUrl" placeholder="Image URL" class="border p-2 rounded">
-            <input type="text" id="giftItemDesc" placeholder="Description" class="border p-2 rounded col-span-2">
-            <button type="submit" class="bg-primary text-on-primary px-4 py-2 rounded col-span-2">Add Gift Item</button>
-        </form>
-    </div>
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="font-headline-lg text-headline-lg text-primary">Gift Items</h2>
+      <button onclick="document.getElementById('modal-add-gift-item').classList.remove('hidden')" class="px-4 py-2 bg-blue-500 text-white rounded-2xl font-label-md hover:bg-blue-600 transition-colors shadow-sm flex items-center gap-2"><span class="material-symbols-outlined text-sm">add</span> New Gift Item</button>
+  </div>
+    
     <div class="bg-surface-container-lowest rounded-xl ambient-shadow overflow-x-auto">
         <table class="w-full text-left">
             <thead>
@@ -842,5 +798,176 @@
     </div>
 </div>
 
+
+<!-- Add New Brand Modal -->
+<div id="modal-add-brand" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+    <div class="bg-surface p-6 rounded-3xl w-[500px] shadow-2xl animate-fade-in-up">
+        <h3 class="text-xl font-bold mb-6 text-primary">New Brand</h3>
+        <form onsubmit="createBrand(event); closeModal('modal-add-brand');">
+            <input type="text" id="brandName" placeholder="Brand Name" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full" required>
+            <div class="col-span-full flex justify-end gap-3 mt-8 w-full">
+                <button type="button" onclick="closeModal('modal-add-brand')" class="px-6 py-2.5 text-on-surface-variant bg-surface-container hover:bg-surface-container-high rounded-2xl transition-colors font-medium">Cancel</button>
+                <button type="submit" class="px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-2xl shadow-sm hover:shadow-md transition-all font-medium">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Add New Category Modal -->
+<div id="modal-add-category" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+    <div class="bg-surface p-6 rounded-3xl w-[500px] shadow-2xl animate-fade-in-up">
+        <h3 class="text-xl font-bold mb-6 text-primary">New Category</h3>
+        <form onsubmit="createCategory(event); closeModal('modal-add-category');">
+            <input type="text" id="categoryName" placeholder="Category Name" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full" required>
+            <div class="col-span-full flex justify-end gap-3 mt-8 w-full">
+                <button type="button" onclick="closeModal('modal-add-category')" class="px-6 py-2.5 text-on-surface-variant bg-surface-container hover:bg-surface-container-high rounded-2xl transition-colors font-medium">Cancel</button>
+                <button type="submit" class="px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-2xl shadow-sm hover:shadow-md transition-all font-medium">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Add New Laptop Modal -->
+<div id="modal-add-laptop" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+    <div class="bg-surface p-6 rounded-3xl w-[500px] shadow-2xl animate-fade-in-up">
+        <h3 class="text-xl font-bold mb-6 text-primary">New Laptop</h3>
+        <form onsubmit="createLaptop(event); closeModal('modal-add-laptop');">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block mb-1 text-sm font-medium">Laptop Name</label>
+                    <input type="text" id="laptopName" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest" required>
+                </div>
+                <div>
+                    <label class="block mb-1 text-sm font-medium">Brand</label>
+                    <select id="laptopBrand" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest" required></select>
+                </div>
+                <div>
+                    <label class="block mb-1 text-sm font-medium">Category</label>
+                    <select id="laptopCategory" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest" required></select>
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block mb-1 text-sm font-medium">Description</label>
+                    <input type="text" id="laptopDesc" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest md:col-span-2">
+                </div>
+            </div>
+            <div class="col-span-full flex justify-end gap-3 mt-8 w-full">
+                <button type="button" onclick="closeModal('modal-add-laptop')" class="px-6 py-2.5 text-on-surface-variant bg-surface-container hover:bg-surface-container-high rounded-2xl transition-colors font-medium">Cancel</button>
+                <button type="submit" class="px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-2xl shadow-sm hover:shadow-md transition-all font-medium">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Add New Config Modal -->
+<div id="modal-add-laptop-config" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+    <div class="bg-surface p-6 rounded-3xl w-[500px] shadow-2xl animate-fade-in-up">
+        <h3 class="text-xl font-bold mb-6 text-primary">New Config</h3>
+        <form onsubmit="createConfig(event); closeModal('modal-add-laptop-config');">
+            <div class="grid grid-cols-2 gap-4">
+                <div class="col-span-2">
+                    <label class="block mb-1 text-sm font-medium">Laptop</label>
+                    <select id="confLaptop" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest" required></select>
+                </div>
+                <div>
+                    <label class="block mb-1 text-sm font-medium">CPU</label>
+                    <input type="text" id="confCpu" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest" required>
+                </div>
+                <div>
+                    <label class="block mb-1 text-sm font-medium">RAM</label>
+                    <input type="text" id="confRam" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest" required>
+                </div>
+                <div>
+                    <label class="block mb-1 text-sm font-medium">Storage</label>
+                    <input type="text" id="confStorage" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest" required>
+                </div>
+                <div>
+                    <label class="block mb-1 text-sm font-medium">GPU</label>
+                    <input type="text" id="confGpu" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest">
+                </div>
+                <div>
+                    <label class="block mb-1 text-sm font-medium">Price</label>
+                    <input type="number" step="0.01" id="confPrice" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest" required>
+                </div>
+                <div>
+                    <label class="block mb-1 text-sm font-medium">Stock</label>
+                    <input type="number" id="confStock" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest" required>
+                </div>
+            </div>
+            <div class="col-span-full flex justify-end gap-3 mt-8 w-full">
+                <button type="button" onclick="closeModal('modal-add-laptop-config')" class="px-6 py-2.5 text-on-surface-variant bg-surface-container hover:bg-surface-container-high rounded-2xl transition-colors font-medium">Cancel</button>
+                <button type="submit" class="px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-2xl shadow-sm hover:shadow-md transition-all font-medium">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Add New Promotion Modal -->
+<div id="modal-add-promotion" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+    <div class="bg-surface p-6 rounded-3xl w-[500px] shadow-2xl animate-fade-in-up">
+        <h3 class="text-xl font-bold mb-6 text-primary">New Promotion</h3>
+        <form onsubmit="createPromotion(event); closeModal('modal-add-promotion');">
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block mb-1 text-sm font-medium">Coupon Code</label>
+                    <input type="text" id="promoCode" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest" required>
+                </div>
+                <div>
+                    <label class="block mb-1 text-sm font-medium">Title</label>
+                    <input type="text" id="promoTitle" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest" required>
+                </div>
+                <div>
+                    <label class="block mb-1 text-sm font-medium">Discount Type</label>
+                    <select id="promoDiscount" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest" required>
+                        <option value="PERCENTAGE">PERCENTAGE</option>
+                        <option value="FIXED_AMOUNT">FIXED AMOUNT</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block mb-1 text-sm font-medium">Value</label>
+                    <input type="number" step="0.01" id="promoValue" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest" required>
+                </div>
+            </div>
+            <div class="col-span-full flex justify-end gap-3 mt-8 w-full">
+                <button type="button" onclick="closeModal('modal-add-promotion')" class="px-6 py-2.5 text-on-surface-variant bg-surface-container hover:bg-surface-container-high rounded-2xl transition-colors font-medium">Cancel</button>
+                <button type="submit" class="px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-2xl shadow-sm hover:shadow-md transition-all font-medium">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Add New Gift Item Modal -->
+<div id="modal-add-gift-item" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+    <div class="bg-surface p-6 rounded-3xl w-[500px] shadow-2xl animate-fade-in-up">
+        <h3 class="text-xl font-bold mb-6 text-primary">New Gift Item</h3>
+        <form onsubmit="createGiftItem(event); closeModal('modal-add-gift-item');">
+            <div class="grid grid-cols-2 gap-4">
+                <div class="col-span-2">
+                    <label class="block mb-1 text-sm font-medium">Item Name</label>
+                    <input type="text" id="giftItemName" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest" required>
+                </div>
+                <div>
+                    <label class="block mb-1 text-sm font-medium">Price</label>
+                    <input type="number" step="0.01" id="giftItemPrice" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest" required>
+                </div>
+                <div>
+                    <label class="block mb-1 text-sm font-medium">Image URL</label>
+                    <input type="text" id="giftItemImageUrl" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest">
+                </div>
+                <div class="col-span-2">
+                    <label class="block mb-1 text-sm font-medium">Description</label>
+                    <input type="text" id="giftItemDesc" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest">
+                </div>
+            </div>
+            <div class="col-span-full flex justify-end gap-3 mt-8 w-full">
+                <button type="button" onclick="closeModal('modal-add-gift-item')" class="px-6 py-2.5 text-on-surface-variant bg-surface-container hover:bg-surface-container-high rounded-2xl transition-colors font-medium">Cancel</button>
+                <button type="submit" class="px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-2xl shadow-sm hover:shadow-md transition-all font-medium">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
 </body>
 </html>
+
+
+
+
