@@ -41,6 +41,7 @@ public class LaptopServiceImpl implements LaptopService {
         Laptop existing = getLaptopById(id);
         existing.setLaptopName(laptop.getLaptopName());
         existing.setDescription(laptop.getDescription());
+        existing.setImageUrl(laptop.getImageUrl());
         existing.setBrand(laptop.getBrand());
         existing.setCategory(laptop.getCategory());
         return laptopRepository.save(existing);
