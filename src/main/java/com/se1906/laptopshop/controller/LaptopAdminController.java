@@ -1,90 +1,158 @@
 package com.se1906.laptopshop.controller;
 
-import com.se1906.laptopshop.entity.Laptop;
 import com.se1906.laptopshop.entity.ConfigurationVersion;
+import com.se1906.laptopshop.entity.Laptop;
+import com.se1906.laptopshop.service.BrandService;
+import com.se1906.laptopshop.service.CategoryService;
+import com.se1906.laptopshop.service.CloudinaryService;
 import com.se1906.laptopshop.service.LaptopService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import com.se1906.laptopshop.service.CloudinaryService;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
+import java.math.BigDecimal;
 
-@RestController
-@RequestMapping("/admin/api/laptops")
+@Controller
+@RequestMapping("/admin/laptops")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
 public class LaptopAdminController {
 
     LaptopService laptopService;
+    BrandService brandService;
+    CategoryService categoryService;
     CloudinaryService cloudinaryService;
 
     @GetMapping
-    public List<Laptop> getAllLaptops() {
-        return laptopService.getAllLaptops();
+    public String listLaptops(Model model) {
+        model.addAttribute("laptops", laptopService.getAllLaptops());
+        model.addAttribute("brands", brandService.getAllBrands());
+        model.addAttribute("categories", categoryService.getAllCategories());
+        return "admin/laptop-list";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Laptop> getLaptopById(@PathVariable int id) {
-        return ResponseEntity.ok(laptopService.getLaptopById(id));
-    }
-
-    @PostMapping
-    public ResponseEntity<Laptop> createLaptop(@RequestBody Laptop laptop) {
-        return ResponseEntity.ok(laptopService.createLaptop(laptop));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Laptop> updateLaptop(@PathVariable int id, @RequestBody Laptop laptop) {
-        return ResponseEntity.ok(laptopService.updateLaptop(id, laptop));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteLaptop(@PathVariable int id) {
-        laptopService.deleteLaptop(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    @PostMapping("/{id}/image")
-    public ResponseEntity<Laptop> uploadImage(@PathVariable int id, @RequestParam("file") MultipartFile file) {
+    @PostMapping("/create")
+    public String createLaptop(@RequestParam("laptopName") String laptopName,
+                               @RequestParam("description") String description,
+                               @RequestParam("brandId") int brandId,
+                               @RequestParam("categoryId") int categoryId,
+                               @RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
+                               RedirectAttributes redirectAttributes) {
         try {
-            String imageUrl = cloudinaryService.upload(file);
-            Laptop laptop = laptopService.getLaptopById(id);
-            laptop.setImageUrl(imageUrl);
-            laptopService.updateLaptop(id, laptop);
-            return ResponseEntity.ok(laptop);
+            Laptop laptop = new Laptop();
+            laptop.setLaptopName(laptopName);
+            laptop.setDescription(description);
+            laptop.setBrand(brandService.getBrandById(brandId));
+            laptop.setCategory(categoryService.getCategoryById(categoryId));
+
+            if (imageFile != null && !imageFile.isEmpty()) {
+                String imageUrl = cloudinaryService.upload(imageFile);
+                laptop.setImageUrl(imageUrl);
+            }
+
+            laptopService.createLaptop(laptop);
+            redirectAttributes.addFlashAttribute("successMessage", "Thêm Laptop thành công!");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            redirectAttributes.addFlashAttribute("errorMessage", "Lỗi: " + e.getMessage());
         }
+        return "redirect:/admin/laptops";
     }
 
-    @GetMapping("/configurations")
-    public List<ConfigurationVersion> getAllConfigurations() {
-        return laptopService.getAllConfigurations();
+    @PostMapping("/update/{id}")
+    public String updateLaptop(@PathVariable int id,
+                               @RequestParam("laptopName") String laptopName,
+                               @RequestParam("description") String description,
+                               @RequestParam("brandId") int brandId,
+                               @RequestParam("categoryId") int categoryId,
+                               @RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
+                               RedirectAttributes redirectAttributes) {
+        try {
+            Laptop laptop = laptopService.getLaptopById(id);
+            laptop.setLaptopName(laptopName);
+            laptop.setDescription(description);
+            laptop.setBrand(brandService.getBrandById(brandId));
+            laptop.setCategory(categoryService.getCategoryById(categoryId));
+
+            if (imageFile != null && !imageFile.isEmpty()) {
+                String imageUrl = cloudinaryService.upload(imageFile);
+                laptop.setImageUrl(imageUrl);
+            }
+
+            laptopService.updateLaptop(id, laptop);
+            redirectAttributes.addFlashAttribute("successMessage", "Cập nhật Laptop thành công!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Lỗi: " + e.getMessage());
+        }
+        return "redirect:/admin/laptops";
     }
 
-    @GetMapping("/{id}/configurations")
-    public List<ConfigurationVersion> getConfigurationsByLaptopId(@PathVariable int id) {
-        return laptopService.getConfigurationsByLaptopId(id);
+    @PostMapping("/delete/{id}")
+    public String deleteLaptop(@PathVariable int id, RedirectAttributes redirectAttributes) {
+        laptopService.deleteLaptop(id);
+        redirectAttributes.addFlashAttribute("successMessage", "Xóa Laptop thành công!");
+        return "redirect:/admin/laptops";
     }
 
-    @PostMapping("/{id}/configurations")
-    public ResponseEntity<ConfigurationVersion> createConfiguration(@PathVariable int id, @RequestBody ConfigurationVersion configuration) {
-        return ResponseEntity.ok(laptopService.createConfiguration(id, configuration));
+    // ==================== CONFIGURATIONS ====================
+
+    @GetMapping("/configs")
+    public String listConfigs(Model model) {
+        model.addAttribute("configs", laptopService.getAllConfigurations());
+        model.addAttribute("laptops", laptopService.getAllLaptops());
+        return "admin/config-list";
     }
 
-    @PutMapping("/configurations/{configId}")
-    public ResponseEntity<ConfigurationVersion> updateConfiguration(@PathVariable int configId, @RequestBody ConfigurationVersion configuration) {
-        return ResponseEntity.ok(laptopService.updateConfiguration(configId, configuration));
+    @PostMapping("/configs/create")
+    public String createConfig(@RequestParam("laptopId") int laptopId,
+                               @RequestParam("cpu") String cpu,
+                               @RequestParam("ram") String ram,
+                               @RequestParam("storage") String storage,
+                               @RequestParam(value = "gpu", required = false) String gpu,
+                               @RequestParam("price") BigDecimal price,
+                               @RequestParam("stockQuantity") int stockQuantity,
+                               RedirectAttributes redirectAttributes) {
+        ConfigurationVersion config = new ConfigurationVersion();
+        config.setCpu(cpu);
+        config.setRam(ram);
+        config.setStorage(storage);
+        config.setGpu(gpu);
+        config.setPrice(price);
+        config.setStockQuantity(stockQuantity);
+        laptopService.createConfiguration(laptopId, config);
+        redirectAttributes.addFlashAttribute("successMessage", "Thêm Configuration thành công!");
+        return "redirect:/admin/laptops/configs";
     }
 
-    @DeleteMapping("/configurations/{configId}")
-    public ResponseEntity<Void> deleteConfiguration(@PathVariable int configId) {
+    @PostMapping("/configs/update/{configId}")
+    public String updateConfig(@PathVariable int configId,
+                               @RequestParam("cpu") String cpu,
+                               @RequestParam("ram") String ram,
+                               @RequestParam("storage") String storage,
+                               @RequestParam(value = "gpu", required = false) String gpu,
+                               @RequestParam("price") BigDecimal price,
+                               @RequestParam("stockQuantity") int stockQuantity,
+                               RedirectAttributes redirectAttributes) {
+        ConfigurationVersion config = new ConfigurationVersion();
+        config.setCpu(cpu);
+        config.setRam(ram);
+        config.setStorage(storage);
+        config.setGpu(gpu);
+        config.setPrice(price);
+        config.setStockQuantity(stockQuantity);
+        laptopService.updateConfiguration(configId, config);
+        redirectAttributes.addFlashAttribute("successMessage", "Cập nhật Configuration thành công!");
+        return "redirect:/admin/laptops/configs";
+    }
+
+    @PostMapping("/configs/delete/{configId}")
+    public String deleteConfig(@PathVariable int configId, RedirectAttributes redirectAttributes) {
         laptopService.deleteConfiguration(configId);
-        return ResponseEntity.noContent().build();
+        redirectAttributes.addFlashAttribute("successMessage", "Xóa Configuration thành công!");
+        return "redirect:/admin/laptops/configs";
     }
 }

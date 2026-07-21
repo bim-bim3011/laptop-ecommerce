@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/admin-layout :: head('LapZone - Quản lý Users')}"></head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+<aside th:replace="~{admin/admin-layout :: sidebar('user')}"></aside>
+<div class="flex-1 flex flex-col md:ml-[280px] w-full min-h-screen">
+    <header th:replace="~{admin/admin-layout :: header}"></header>
+    <main class="flex-1 p-md md:p-lg lg:p-xl">
+        <div class="mb-lg">
+            <h2 class="font-headline-lg text-headline-lg text-primary tracking-tight">Quản lý Users</h2>
+            <p class="font-body-md text-body-md text-on-surface-variant mt-xs">Xem và quản lý tài khoản người dùng.</p>
+        </div>
+        <div th:if="${successMessage}" class="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg flex items-center gap-2">
+            <span class="material-symbols-outlined">check_circle</span><span th:text="${successMessage}"></span>
+        </div>
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl ambient-shadow overflow-hidden">
+            <div class="p-6 border-b border-outline-variant">
+                <h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+                    <span class="material-symbols-outlined text-secondary">group</span> Danh sách Users
+                    <span class="ml-2 px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded-full font-label-md" th:text="${#lists.size(users)}">0</span>
+                </h3>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-surface-container-high">
+                        <tr>
+                            <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">ID</th>
+                            <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">Họ tên</th>
+                            <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">Email</th>
+                            <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">SĐT</th>
+                            <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">Trạng thái</th>
+                            <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="u : ${users}" class="border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+                            <td class="p-4 font-label-md text-label-md" th:text="${u.userId}"></td>
+                            <td class="p-4" th:text="${u.fullName}"></td>
+                            <td class="p-4 font-label-md text-label-md" th:text="${u.email}"></td>
+                            <td class="p-4" th:text="${u.phoneNumber}"></td>
+                            <td class="p-4">
+                                <span th:if="${u.status == 'ACTIVE'}" class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full font-label-md">ACTIVE</span>
+                                <span th:unless="${u.status == 'ACTIVE'}" class="px-2 py-1 bg-red-100 text-red-700 text-xs rounded-full font-label-md" th:text="${u.status}">INACTIVE</span>
+                            </td>
+                            <td class="p-4">
+                                <form th:action="@{/admin/users/delete/{id}(id=${u.userId})}" method="POST" class="inline" onsubmit="return confirm('Bạn có chắc muốn xóa User này?');">
+                                    <button type="submit" class="text-red-600 border border-red-200 bg-transparent hover:bg-red-50 px-3 py-1 rounded-full transition-colors inline-flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-[16px]">delete</span><span class="text-sm font-medium">Delete</span>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(users)}"><td colspan="6" class="p-8 text-center text-on-surface-variant">Chưa có User nào.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

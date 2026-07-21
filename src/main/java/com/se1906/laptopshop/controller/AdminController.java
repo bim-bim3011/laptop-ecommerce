@@ -32,6 +32,9 @@ import java.util.stream.Collectors;
 public class AdminController {
 
     AuthService authService;
+    com.se1906.laptopshop.repository.OrderRepository orderRepository;
+    com.se1906.laptopshop.repository.UserRepository userRepository;
+    com.se1906.laptopshop.repository.ConfigurationVersionRepository configurationVersionRepository;
 
     @GetMapping("/login")
     public String login() {
@@ -39,19 +42,22 @@ public class AdminController {
     }
 
     @GetMapping("/dashboard")
-    public String dashboard(HttpSession session) {
+    public String dashboard(HttpSession session, Model model) {
         if (session.getAttribute("admin") == null) {
             return "redirect:/admin/login";
         }
+        
+        model.addAttribute("totalRevenue", orderRepository.calculateTotalRevenue());
+        model.addAttribute("activeUsers", userRepository.countActiveUsers());
+        model.addAttribute("totalInventory", configurationVersionRepository.countTotalInventory());
+        model.addAttribute("totalOrders", orderRepository.countTotalOrders());
+        
         return "admin-dashboard";
     }
 
     @GetMapping
-    public String adminPage(HttpSession session) {
-        if (session.getAttribute("admin") == null) {
-            return "redirect:/admin/login";
-        }
-        return "admin-dashboard";
+    public String adminPage(HttpSession session, Model model) {
+        return dashboard(session, model);
     }
 
     @PostMapping("/login")

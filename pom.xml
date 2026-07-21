@@ -61,12 +61,7 @@
         </dependency>
 
         <!-- DevTools: Hỗ trợ tự động reload code -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency>
+
 
         <!-- SQL Server JDBC Driver -->
         <dependency>

@@ -5,13 +5,13 @@ import com.se1906.laptopshop.service.CategoryService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/admin/api/categories")
+@Controller
+@RequestMapping("/admin/categories")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
 public class CategoryController {
@@ -19,28 +19,29 @@ public class CategoryController {
     CategoryService categoryService;
 
     @GetMapping
-    public List<Category> getAllCategories() {
-        return categoryService.getAllCategories();
+    public String listCategories(Model model) {
+        model.addAttribute("categories", categoryService.getAllCategories());
+        return "admin/category-list";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Category> getCategoryById(@PathVariable int id) {
-        return ResponseEntity.ok(categoryService.getCategoryById(id));
+    @PostMapping("/create")
+    public String createCategory(@ModelAttribute Category category, RedirectAttributes redirectAttributes) {
+        categoryService.createCategory(category);
+        redirectAttributes.addFlashAttribute("successMessage", "Thêm Category thành công!");
+        return "redirect:/admin/categories";
     }
 
-    @PostMapping
-    public ResponseEntity<Category> createCategory(@RequestBody Category category) {
-        return ResponseEntity.ok(categoryService.createCategory(category));
+    @PostMapping("/update/{id}")
+    public String updateCategory(@PathVariable int id, @ModelAttribute Category category, RedirectAttributes redirectAttributes) {
+        categoryService.updateCategory(id, category);
+        redirectAttributes.addFlashAttribute("successMessage", "Cập nhật Category thành công!");
+        return "redirect:/admin/categories";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Category> updateCategory(@PathVariable int id, @RequestBody Category category) {
-        return ResponseEntity.ok(categoryService.updateCategory(id, category));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable int id) {
+    @PostMapping("/delete/{id}")
+    public String deleteCategory(@PathVariable int id, RedirectAttributes redirectAttributes) {
         categoryService.deleteCategory(id);
-        return ResponseEntity.noContent().build();
+        redirectAttributes.addFlashAttribute("successMessage", "Xóa Category thành công!");
+        return "redirect:/admin/categories";
     }
 }

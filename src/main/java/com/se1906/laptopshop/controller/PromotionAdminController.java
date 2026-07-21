@@ -1,18 +1,17 @@
 package com.se1906.laptopshop.controller;
 
 import com.se1906.laptopshop.entity.Promotion;
-import com.se1906.laptopshop.entity.GiftDetail;
 import com.se1906.laptopshop.service.PromotionService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/admin/api/promotions")
+@Controller
+@RequestMapping("/admin/promotions")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
 public class PromotionAdminController {
@@ -20,49 +19,29 @@ public class PromotionAdminController {
     PromotionService promotionService;
 
     @GetMapping
-    public List<Promotion> getAllPromotions() {
-        return promotionService.getAllPromotions();
+    public String listPromotions(Model model) {
+        model.addAttribute("promotions", promotionService.getAllPromotions());
+        return "admin/promotion-list";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Promotion> getPromotionById(@PathVariable int id) {
-        return ResponseEntity.ok(promotionService.getPromotionById(id));
+    @PostMapping("/create")
+    public String createPromotion(@ModelAttribute Promotion promotion, RedirectAttributes redirectAttributes) {
+        promotionService.createPromotion(promotion);
+        redirectAttributes.addFlashAttribute("successMessage", "Thêm Promotion thành công!");
+        return "redirect:/admin/promotions";
     }
 
-    @PostMapping
-    public ResponseEntity<Promotion> createPromotion(@RequestBody Promotion promotion) {
-        return ResponseEntity.ok(promotionService.createPromotion(promotion));
+    @PostMapping("/update/{id}")
+    public String updatePromotion(@PathVariable int id, @ModelAttribute Promotion promotion, RedirectAttributes redirectAttributes) {
+        promotionService.updatePromotion(id, promotion);
+        redirectAttributes.addFlashAttribute("successMessage", "Cập nhật Promotion thành công!");
+        return "redirect:/admin/promotions";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Promotion> updatePromotion(@PathVariable int id, @RequestBody Promotion promotion) {
-        return ResponseEntity.ok(promotionService.updatePromotion(id, promotion));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePromotion(@PathVariable int id) {
+    @PostMapping("/delete/{id}")
+    public String deletePromotion(@PathVariable int id, RedirectAttributes redirectAttributes) {
         promotionService.deletePromotion(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/{id}/gifts")
-    public List<GiftDetail> getGiftDetailsByPromotionId(@PathVariable int id) {
-        return promotionService.getGiftDetailsByPromotionId(id);
-    }
-
-    @PostMapping("/{id}/gifts")
-    public ResponseEntity<GiftDetail> createGiftDetail(@PathVariable int id, @RequestBody GiftDetail giftDetail) {
-        return ResponseEntity.ok(promotionService.createGiftDetail(id, giftDetail));
-    }
-
-    @PutMapping("/gifts/{giftId}")
-    public ResponseEntity<GiftDetail> updateGiftDetail(@PathVariable int giftId, @RequestBody GiftDetail giftDetail) {
-        return ResponseEntity.ok(promotionService.updateGiftDetail(giftId, giftDetail));
-    }
-
-    @DeleteMapping("/gifts/{giftId}")
-    public ResponseEntity<Void> deleteGiftDetail(@PathVariable int giftId) {
-        promotionService.deleteGiftDetail(giftId);
-        return ResponseEntity.noContent().build();
+        redirectAttributes.addFlashAttribute("successMessage", "Xóa Promotion thành công!");
+        return "redirect:/admin/promotions";
     }
 }
