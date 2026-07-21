@@ -199,9 +199,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 data.forEach(laptop => {
                     const brandName = laptop.brand ? laptop.brand.brandName : 'N/A';
                     const catName = laptop.category ? laptop.category.categoryName : 'N/A';
+                    const imgHtml = laptop.imageUrl ? `<img src="${laptop.imageUrl}" alt="img" class="w-12 h-12 object-cover rounded">` : `<div class="w-12 h-12 bg-gray-200 rounded flex items-center justify-center text-xs text-gray-500">No Image</div>`;
                     tbody.innerHTML += `
                         <tr class="border-b border-outline-variant hover:bg-surface-container">
                             <td class="p-4">${laptop.laptopId}</td>
+                            <td class="p-4">${imgHtml}</td>
                             <td class="p-4">${laptop.laptopName}</td>
                             <td class="p-4">${laptop.description || ''}</td>
                             <td class="p-4">${brandName}</td>
@@ -231,6 +233,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const desc = document.getElementById('laptopDesc').value;
         const brandId = document.getElementById('laptopBrand').value;
         const categoryId = document.getElementById('laptopCategory').value;
+        const fileInput = document.getElementById('laptopImage');
+        
         fetch('/admin/api/laptops', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -240,11 +244,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 brand: {brandId: brandId},
                 category: {categoryId: categoryId}
             })
-        }).then(() => {
+        })
+        .then(res => res.json())
+        .then(laptop => {
+            if(fileInput.files.length > 0) {
+                const formData = new FormData();
+                formData.append('file', fileInput.files[0]);
+                return fetch(`/admin/api/laptops/${laptop.laptopId}/image`, {
+                    method: 'POST',
+                    body: formData
+                });
+            }
+        })
+        .then(() => {
             document.getElementById('laptopName').value = '';
             document.getElementById('laptopDesc').value = '';
             document.getElementById('laptopBrand').value = '';
             document.getElementById('laptopCategory').value = '';
+            fileInput.value = '';
+            loadLaptops();
+        })
+        .catch(err => {
+            console.error('Error creating laptop:', err);
             loadLaptops();
         });
     };
