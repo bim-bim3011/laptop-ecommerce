@@ -7,7 +7,10 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import com.se1906.laptopshop.service.CloudinaryService;
 
 import java.util.List;
 
@@ -18,6 +21,7 @@ import java.util.List;
 public class LaptopAdminController {
 
     LaptopService laptopService;
+    CloudinaryService cloudinaryService;
 
     @GetMapping
     public List<Laptop> getAllLaptops() {
@@ -43,6 +47,19 @@ public class LaptopAdminController {
     public ResponseEntity<Void> deleteLaptop(@PathVariable int id) {
         laptopService.deleteLaptop(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{id}/image")
+    public ResponseEntity<Laptop> uploadImage(@PathVariable int id, @RequestParam("file") MultipartFile file) {
+        try {
+            String imageUrl = cloudinaryService.upload(file);
+            Laptop laptop = laptopService.getLaptopById(id);
+            laptop.setImageUrl(imageUrl);
+            laptopService.updateLaptop(id, laptop);
+            return ResponseEntity.ok(laptop);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @GetMapping("/configurations")
