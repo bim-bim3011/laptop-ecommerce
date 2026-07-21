@@ -28,6 +28,15 @@ public class OrderDetail {
     @Column(name = "is_gift")
     private boolean isGift;
 
+    @Column(name = "receiver_name", columnDefinition = "NVARCHAR(255)")
+    private String receiverName;
+
+    @Column(name = "receiver_phone")
+    private String receiverPhone;
+
+    @Column(name = "shipping_address", columnDefinition = "NVARCHAR(MAX)")
+    private String shippingAddress;
+
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
@@ -82,5 +91,29 @@ public class OrderDetail {
 
     public void setConfigurationVersion(ConfigurationVersion configurationVersion) {
         this.configurationVersion = configurationVersion;
+    }
+
+    public String getReceiverName() {
+        return receiverName;
+    }
+
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
+    }
+
+    public String getReceiverPhone() {
+        return receiverPhone;
+    }
+
+    public void setReceiverPhone(String receiverPhone) {
+        this.receiverPhone = receiverPhone;
+    }
+
+    public String getShippingAddress() {
+        return shippingAddress;
+    }
+
+    public void setShippingAddress(String shippingAddress) {
+        this.shippingAddress = shippingAddress;
     }
 }

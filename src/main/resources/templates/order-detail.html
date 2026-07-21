@@ -41,6 +41,24 @@
             </div>
         </div>
 
+        <h2 class="text-lg font-bold text-gray-900 mb-4">Thông tin giao hàng</h2>
+        <div class="bg-slate-50 border border-gray-200 rounded-lg p-5 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <p class="text-sm text-gray-500 mb-1">Người nhận</p>
+                    <p class="font-medium text-gray-900" th:text="${(order.orderDetails != null and order.orderDetails.size() > 0 and order.orderDetails[0].receiverName != null) ? order.orderDetails[0].receiverName : (order.user != null ? order.user.fullName : 'N/A')}">Nguyễn Văn A</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500 mb-1">Số điện thoại</p>
+                    <p class="font-medium text-gray-900" th:text="${(order.orderDetails != null and order.orderDetails.size() > 0 and order.orderDetails[0].receiverPhone != null) ? order.orderDetails[0].receiverPhone : (order.user != null ? order.user.phoneNumber : 'N/A')}">0987654321</p>
+                </div>
+                <div class="md:col-span-2 mt-2">
+                    <p class="text-sm text-gray-500 mb-1">Địa chỉ nhận hàng</p>
+                    <p class="font-medium text-gray-900" th:text="${(order.orderDetails != null and order.orderDetails.size() > 0 and order.orderDetails[0].shippingAddress != null) ? order.orderDetails[0].shippingAddress : (order.user != null ? order.user.address : 'N/A')}">123 Đường ABC, Quận XYZ, TP.HCM</p>
+                </div>
+            </div>
+        </div>
+
         <h2 class="text-lg font-bold text-gray-900 mb-4">Sản phẩm đã đặt</h2>
         <div class="space-y-4 mb-8">
             <div th:each="detail : ${order.orderDetails}" class="flex items-start gap-4 p-4 border border-gray-100 rounded-lg bg-slate-50">

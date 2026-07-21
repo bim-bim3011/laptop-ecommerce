@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
 public class AdminController {
 
     AuthService authService;
+    com.se1906.laptopshop.repository.OrderRepository orderRepository;
 
     @GetMapping("/login")
     public String login() {
@@ -39,10 +40,27 @@ public class AdminController {
     }
 
     @GetMapping("/dashboard")
-    public String dashboard(HttpSession session) {
+    public String dashboard(HttpSession session, Model model) {
         if (session.getAttribute("admin") == null) {
             return "redirect:/admin/login";
         }
+        
+        java.math.BigDecimal totalRevenue = orderRepository.sumTotalRevenue();
+        if (totalRevenue == null) {
+            totalRevenue = java.math.BigDecimal.ZERO;
+        }
+        
+        long pendingOrders = orderRepository.countByStatus("PENDING");
+        long deliveringOrders = orderRepository.countByStatus("SHIPPING");
+        if (deliveringOrders == 0) deliveringOrders = orderRepository.countByStatus("PROCESSING");
+        long deliveredOrders = orderRepository.countByStatus("DELIVERED");
+        if (deliveredOrders == 0) deliveredOrders = orderRepository.countByStatus("COMPLETED");
+        
+        model.addAttribute("totalRevenue", totalRevenue);
+        model.addAttribute("pendingOrders", pendingOrders);
+        model.addAttribute("deliveringOrders", deliveringOrders);
+        model.addAttribute("deliveredOrders", deliveredOrders);
+        
         return "admin-dashboard";
     }
 

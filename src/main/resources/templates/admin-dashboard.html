@@ -290,7 +290,7 @@
 </div>
 </div>
 <div class="flex items-baseline gap-2">
-<h3 class="font-display-lg text-display-lg text-on-surface transition-colors hover:text-secondary">$1.2M</h3>
+<h3 class="font-display-lg text-display-lg text-on-surface transition-colors hover:text-secondary" th:text="${totalRevenue != null ? '$' + #numbers.formatDecimal(totalRevenue, 0, 'COMMA', 2, 'POINT') : '$0'}">$1.2M</h3>
 </div>
 <div class="mt-4 flex items-center gap-1 text-sm">
 <span class="material-symbols-outlined text-[#166534] text-sm animate-bounce-slow">trending_up</span>
@@ -301,13 +301,13 @@
 <!-- KPI Card 2: Active Users -->
 <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md ambient-shadow kpi-card">
 <div class="flex justify-between items-start mb-4">
-<p class="font-label-md text-label-md text-on-surface-variant">Active Users</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Số Đơn Chờ Xác Nhận</p>
 <div class="w-8 h-8 rounded bg-primary-fixed flex items-center justify-center text-primary transition-transform duration-500 hover:rotate-12 hover:scale-110">
 <span class="material-symbols-outlined">group</span>
 </div>
 </div>
 <div class="flex items-baseline gap-2">
-<h3 class="font-display-lg text-display-lg text-on-surface transition-colors hover:text-primary-container">45.2K</h3>
+<h3 class="font-display-lg text-display-lg text-on-surface transition-colors hover:text-primary-container" th:text="${pendingOrders}">45.2K</h3>
 </div>
 <div class="mt-4 flex items-center gap-1 text-sm">
 <span class="material-symbols-outlined text-[#166534] text-sm animate-bounce-slow">trending_up</span>
@@ -318,13 +318,13 @@
 <!-- KPI Card 3: Product Inventory -->
 <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md ambient-shadow kpi-card">
 <div class="flex justify-between items-start mb-4">
-<p class="font-label-md text-label-md text-on-surface-variant">Inventory Status</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Số Đơn Đang Giao</p>
 <div class="w-8 h-8 rounded bg-tertiary-fixed flex items-center justify-center text-tertiary transition-transform duration-500 hover:-rotate-12 hover:scale-110">
 <span class="material-symbols-outlined">inventory_2</span>
 </div>
 </div>
 <div class="flex items-baseline gap-2">
-<h3 class="font-display-lg text-display-lg text-on-surface transition-colors hover:text-tertiary">8,432</h3>
+<h3 class="font-display-lg text-display-lg text-on-surface transition-colors hover:text-tertiary" th:text="${deliveringOrders}">8,432</h3>
 </div>
 <div class="mt-4 flex items-center gap-1 text-sm">
 <span class="material-symbols-outlined text-error text-sm">trending_down</span>
@@ -337,13 +337,13 @@
 <div class="absolute inset-0 bg-secondary-container opacity-5 group-hover:opacity-10 transition-opacity duration-500"></div>
 <div class="relative z-10">
 <div class="flex justify-between items-start mb-4">
-<p class="font-label-md text-label-md text-on-surface-variant">System Health</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Số Đơn Đã Giao</p>
 <div class="w-8 h-8 rounded bg-secondary-fixed flex items-center justify-center text-secondary transition-transform duration-500 group-hover:scale-110">
 <span class="material-symbols-outlined">dns</span>
 </div>
 </div>
 <div class="flex items-baseline gap-2">
-<h3 class="font-display-lg text-display-lg text-on-surface transition-colors hover:text-secondary-container">99.9%</h3>
+<h3 class="font-display-lg text-display-lg text-on-surface transition-colors hover:text-secondary-container" th:text="${deliveredOrders}">99.9%</h3>
 </div>
 <div class="mt-4 flex items-center gap-2 text-sm">
 <span class="w-2 h-2 rounded-full bg-[#166534] animate-ping"></span>
@@ -476,7 +476,7 @@
   </div>
     
     <div class="bg-surface-container-lowest rounded-xl ambient-shadow overflow-x-auto">
-        <table class="w-full text-left">
+        <table class="w-full text-left table-fixed">
             <thead>
                 <tr class="bg-surface-container-low border-b">
                     <th class="p-4">ID</th>
@@ -497,7 +497,7 @@
     <h2 class="font-headline-lg text-headline-lg text-primary mb-4" id="config-title">Laptop Configurations</h2>
     
     <div class="bg-surface-container-lowest rounded-xl ambient-shadow overflow-x-auto">
-        <table class="w-full text-left">
+        <table class="w-full text-left table-fixed">
             <thead>
                 <tr class="bg-surface-container-low border-b">
                     <th class="p-4">ID</th>
@@ -519,7 +519,7 @@
     <h2 class="font-headline-lg text-headline-lg text-primary mb-4">Promotions</h2>
     
     <div class="bg-surface-container-lowest rounded-xl ambient-shadow overflow-x-auto">
-        <table class="w-full text-left">
+        <table class="w-full text-left table-fixed">
             <thead>
                 <tr class="bg-surface-container-low border-b">
                     <th class="p-4">ID</th>
@@ -542,7 +542,7 @@
   </div>
     
     <div class="bg-surface-container-lowest rounded-xl ambient-shadow overflow-x-auto">
-        <table class="w-full text-left">
+        <table class="w-full text-left table-fixed">
             <thead>
                 <tr class="bg-surface-container-low border-b">
                     <th class="p-4">ID</th>
@@ -563,7 +563,7 @@
   </div>
     
     <div class="bg-surface-container-lowest rounded-xl ambient-shadow overflow-x-auto">
-        <table class="w-full text-left">
+        <table class="w-full text-left table-fixed">
             <thead>
                 <tr class="bg-surface-container-low border-b">
                     <th class="p-4">ID</th>
@@ -580,7 +580,7 @@
 <div id="section-user" class="admin-section hidden animate-fade-in-up">
     <h2 class="font-headline-lg text-headline-lg text-primary mb-4">User Management</h2>
     <div class="bg-surface-container-lowest rounded-xl ambient-shadow overflow-x-auto">
-        <table class="w-full text-left">
+        <table class="w-full text-left table-fixed">
             <thead>
                 <tr class="bg-surface-container-low border-b">
                     <th class="p-4">ID</th>
@@ -603,7 +603,7 @@
   </div>
     
     <div class="bg-surface-container-lowest rounded-xl ambient-shadow overflow-x-auto">
-        <table class="w-full text-left">
+        <table class="w-full text-left table-fixed">
             <thead>
                 <tr class="bg-surface-container-low border-b">
                     <th class="p-4">ID</th>
@@ -629,11 +629,11 @@
         <form onsubmit="submitEditBrand(event)">
             <input type="hidden" id="editBrandId">
             <label class="block mb-2">Brand Name</label>
-            <input type="text" id="editBrandName" class="border w-full p-2 rounded mb-4" required>
-            <div class="flex justify-end gap-2">
-                <button type="button" onclick="closeModal('modal-edit-brand')" class="px-4 py-2 text-secondary">Cancel</button>
-                <button type="submit" class="bg-primary text-on-primary px-4 py-2 rounded">Save</button>
-            </div>
+            <input type="text" id="editBrandName" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full mb-4" required>
+            <div class="col-span-full flex justify-end gap-3 mt-6 w-full">
+    <button type="button" onclick="closeModal('modal-edit-brand')" class="px-6 py-2.5 text-on-surface-variant bg-surface-container hover:bg-surface-container-high rounded-2xl transition-colors font-medium">Cancel</button>
+    <button type="submit" class="px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-2xl shadow-sm transition-colors font-medium">Save</button>
+</div>
         </form>
     </div>
 </div>
@@ -645,11 +645,11 @@
         <form onsubmit="submitEditCategory(event)">
             <input type="hidden" id="editCategoryId">
             <label class="block mb-2">Category Name</label>
-            <input type="text" id="editCategoryName" class="border w-full p-2 rounded mb-4" required>
-            <div class="flex justify-end gap-2">
-                <button type="button" onclick="closeModal('modal-edit-category')" class="px-4 py-2 text-secondary">Cancel</button>
-                <button type="submit" class="bg-primary text-on-primary px-4 py-2 rounded">Save</button>
-            </div>
+            <input type="text" id="editCategoryName" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full mb-4" required>
+            <div class="col-span-full flex justify-end gap-3 mt-6 w-full">
+    <button type="button" onclick="closeModal('modal-edit-category')" class="px-6 py-2.5 text-on-surface-variant bg-surface-container hover:bg-surface-container-high rounded-2xl transition-colors font-medium">Cancel</button>
+    <button type="submit" class="px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-2xl shadow-sm transition-colors font-medium">Save</button>
+</div>
         </form>
     </div>
 </div>
@@ -663,33 +663,33 @@
             <div class="grid grid-cols-2 gap-4 mb-4">
                 <div>
                     <label class="block mb-1 text-sm">CPU</label>
-                    <input type="text" id="editConfCpu" class="border w-full p-2 rounded" required>
+                    <input type="text" id="editConfCpu" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full" required>
                 </div>
                 <div>
                     <label class="block mb-1 text-sm">RAM</label>
-                    <input type="text" id="editConfRam" class="border w-full p-2 rounded" required>
+                    <input type="text" id="editConfRam" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full" required>
                 </div>
                 <div>
                     <label class="block mb-1 text-sm">Storage</label>
-                    <input type="text" id="editConfStorage" class="border w-full p-2 rounded" required>
+                    <input type="text" id="editConfStorage" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full" required>
                 </div>
                 <div>
                     <label class="block mb-1 text-sm">GPU</label>
-                    <input type="text" id="editConfGpu" class="border w-full p-2 rounded">
+                    <input type="text" id="editConfGpu" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full">
                 </div>
                 <div>
                     <label class="block mb-1 text-sm">Price</label>
-                    <input type="number" id="editConfPrice" class="border w-full p-2 rounded" required>
+                    <input type="number" id="editConfPrice" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full" required>
                 </div>
                 <div>
                     <label class="block mb-1 text-sm">Stock Quantity</label>
-                    <input type="number" id="editConfStock" class="border w-full p-2 rounded" required>
+                    <input type="number" id="editConfStock" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full" required>
                 </div>
             </div>
-            <div class="flex justify-end gap-2 mt-4">
-                <button type="button" onclick="closeModal('modal-edit-config')" class="px-4 py-2 text-secondary">Cancel</button>
-                <button type="submit" class="bg-primary text-on-primary px-4 py-2 rounded">Save Changes</button>
-            </div>
+            <div class="col-span-full flex justify-end gap-3 mt-6 w-full">
+    <button type="button" onclick="closeModal('modal-edit-config')" class="px-6 py-2.5 text-on-surface-variant bg-surface-container hover:bg-surface-container-high rounded-2xl transition-colors font-medium">Cancel</button>
+    <button type="submit" class="px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-2xl shadow-sm transition-colors font-medium">Save Changes</button>
+</div>
         </form>
     </div>
 </div>
@@ -703,25 +703,25 @@
             <div class="grid grid-cols-1 gap-4 mb-4">
                 <div>
                     <label class="block mb-1 text-sm">Laptop Name</label>
-                    <input type="text" id="editLaptopName" class="border w-full p-2 rounded" required>
+                    <input type="text" id="editLaptopName" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full" required>
                 </div>
                 <div>
                     <label class="block mb-1 text-sm">Description</label>
-                    <input type="text" id="editLaptopDesc" class="border w-full p-2 rounded">
+                    <input type="text" id="editLaptopDesc" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full">
                 </div>
                 <div>
                     <label class="block mb-1 text-sm">Brand</label>
-                    <select id="editLaptopBrand" class="border w-full p-2 rounded" required></select>
+                    <select id="editLaptopBrand" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full" required></select>
                 </div>
                 <div>
                     <label class="block mb-1 text-sm">Category</label>
-                    <select id="editLaptopCategory" class="border w-full p-2 rounded" required></select>
+                    <select id="editLaptopCategory" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full" required></select>
                 </div>
             </div>
-            <div class="flex justify-end gap-2 mt-4">
-                <button type="button" onclick="closeModal('modal-edit-laptop')" class="px-4 py-2 text-secondary">Cancel</button>
-                <button type="submit" class="bg-primary text-on-primary px-4 py-2 rounded">Save Changes</button>
-            </div>
+            <div class="col-span-full flex justify-end gap-3 mt-6 w-full">
+    <button type="button" onclick="closeModal('modal-edit-laptop')" class="px-6 py-2.5 text-on-surface-variant bg-surface-container hover:bg-surface-container-high rounded-2xl transition-colors font-medium">Cancel</button>
+    <button type="submit" class="px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-2xl shadow-sm transition-colors font-medium">Save Changes</button>
+</div>
         </form>
     </div>
 </div>
@@ -735,25 +735,25 @@
             <div class="grid grid-cols-2 gap-4 mb-4">
                 <div class="col-span-2">
                     <label class="block mb-1 text-sm">Item Name</label>
-                    <input type="text" id="editGiftItemName" class="border w-full p-2 rounded" required>
+                    <input type="text" id="editGiftItemName" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full" required>
                 </div>
                 <div>
                     <label class="block mb-1 text-sm">Price</label>
-                    <input type="number" step="0.01" id="editGiftItemPrice" class="border w-full p-2 rounded" required>
+                    <input type="number" step="0.01" id="editGiftItemPrice" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full" required>
                 </div>
                 <div>
                     <label class="block mb-1 text-sm">Image URL</label>
-                    <input type="text" id="editGiftItemImageUrl" class="border w-full p-2 rounded">
+                    <input type="text" id="editGiftItemImageUrl" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full">
                 </div>
                 <div class="col-span-2">
                     <label class="block mb-1 text-sm">Description</label>
-                    <input type="text" id="editGiftItemDesc" class="border w-full p-2 rounded">
+                    <input type="text" id="editGiftItemDesc" class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full">
                 </div>
             </div>
-            <div class="flex justify-end gap-2 mt-4">
-                <button type="button" onclick="closeModal('modal-edit-gift-item')" class="px-4 py-2 text-secondary">Cancel</button>
-                <button type="submit" class="bg-primary text-on-primary px-4 py-2 rounded">Save Changes</button>
-            </div>
+            <div class="col-span-full flex justify-end gap-3 mt-6 w-full">
+    <button type="button" onclick="closeModal('modal-edit-gift-item')" class="px-6 py-2.5 text-on-surface-variant bg-surface-container hover:bg-surface-container-high rounded-2xl transition-colors font-medium">Cancel</button>
+    <button type="submit" class="px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-2xl shadow-sm transition-colors font-medium">Save Changes</button>
+</div>
         </form>
     </div>
 </div>
@@ -778,7 +778,7 @@
 
         <!-- Assigned Gifts Table -->
         <div class="flex-1 overflow-y-auto border border-outline-variant rounded-lg">
-            <table class="w-full text-left">
+            <table class="w-full text-left table-fixed">
                 <thead class="sticky top-0 bg-surface-container-high border-b border-outline-variant">
                     <tr>
                         <th class="p-3 text-sm">Gift Name</th>
@@ -967,6 +967,7 @@
 </div>
 </body>
 </html>
+
 
 
 
