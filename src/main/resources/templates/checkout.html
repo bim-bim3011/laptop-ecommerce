@@ -358,7 +358,8 @@
                 <div class="space-y-4">
                     <div th:each="item : ${selectedItems}" class="flex items-start gap-4 pb-4 border-b border-surface-container-highest">
                         <div class="w-16 h-16 bg-surface-container-low rounded-lg overflow-hidden flex-shrink-0">
-                            <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNfgXG2VW3KuRQWjt275sT32q7JHz0Nsvm5HUO9_U9WCMo-XDPGLW9Cbj72ddo1riF9AJpoGAUKprUO2jUBwdx82ZmKImWh3Cxku6PgdWHfa8Gto8VysnPAaH7o7C-vC35TIYL-x0BakT9dtz3nHylD-7OIPMVKu27DIruMOf41uQSuG5LKa34EdS6AfvEplbd2K77UrqnlQzn5hiDwlg6PPzg8pWFeoA6Nqe4VxlH7ZO-1OOFmgiXiYiqs7gS5x-jy0KEIQC45dE" />
+                            <img th:if="${item.configurationVersion.laptop != null and item.configurationVersion.laptop.imageUrl != null and !item.configurationVersion.laptop.imageUrl.isEmpty()}" class="w-full h-full object-cover" th:src="${item.configurationVersion.laptop.imageUrl}" />
+                            <img th:unless="${item.configurationVersion.laptop != null and item.configurationVersion.laptop.imageUrl != null and !item.configurationVersion.laptop.imageUrl.isEmpty()}" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNfgXG2VW3KuRQWjt275sT32q7JHz0Nsvm5HUO9_U9WCMo-XDPGLW9Cbj72ddo1riF9AJpoGAUKprUO2jUBwdx82ZmKImWh3Cxku6PgdWHfa8Gto8VysnPAaH7o7C-vC35TIYL-x0BakT9dtz3nHylD-7OIPMVKu27DIruMOf41uQSuG5LKa34EdS6AfvEplbd2K77UrqnlQzn5hiDwlg6PPzg8pWFeoA6Nqe4VxlH7ZO-1OOFmgiXiYiqs7gS5x-jy0KEIQC45dE" />
                         </div>
                         <div class="flex-grow">
                             <div class="text-label-md font-label-md text-on-surface line-clamp-2" th:text="${item.configurationVersion.laptop != null ? item.configurationVersion.laptop.laptopName : 'Laptop'}">Dell XPS 15</div>

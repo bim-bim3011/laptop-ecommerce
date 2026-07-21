@@ -221,7 +221,8 @@
                              class="flex flex-col sm:flex-row gap-4 border-b border-outline-variant pb-4 last:border-0 last:pb-0">
                             <div
                                     class="w-20 h-20 bg-surface rounded-lg p-2 flex-shrink-0 flex items-center justify-center border border-outline-variant">
-                                <img alt="Sản phẩm" class="object-contain max-w-full max-h-full"
+                                <img th:if="${detail.configurationVersion.laptop != null and detail.configurationVersion.laptop.imageUrl != null and !detail.configurationVersion.laptop.imageUrl.isEmpty()}" th:src="${detail.configurationVersion.laptop.imageUrl}" alt="Sản phẩm" class="object-contain max-w-full max-h-full" />
+                                <img th:unless="${detail.configurationVersion.laptop != null and detail.configurationVersion.laptop.imageUrl != null and !detail.configurationVersion.laptop.imageUrl.isEmpty()}" alt="Sản phẩm" class="object-contain max-w-full max-h-full"
                                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNfgXG2VW3KuRQWjt275sT32q7JHz0Nsvm5HUO9_U9WCMo-XDPGLW9Cbj72ddo1riF9AJpoGAUKprUO2jUBwdx82ZmKImWh3Cxku6PgdWHfa8Gto8VysnPAaH7o7C-vC35TIYL-x0BakT9dtz3nHylD-7OIPMVKu27DIruMOf41uQSuG5LKa34EdS6AfvEplbd2K77UrqnlQzn5hiDwlg6PPzg8pWFeoA6Nqe4VxlH7ZO-1OOFmgiXiYiqs7gS5x-jy0KEIQC45dE" />
                             </div>
                             <div class="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
