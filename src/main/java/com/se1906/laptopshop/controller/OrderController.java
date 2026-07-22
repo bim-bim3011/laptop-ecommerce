@@ -1,9 +1,8 @@
 package com.se1906.laptopshop.controller;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 
+import com.se1906.laptopshop.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,12 +14,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.se1906.laptopshop.entity.Order;
 import com.se1906.laptopshop.entity.User;
-import com.se1906.laptopshop.repository.OrderRepository;
-
-import com.se1906.laptopshop.entity.CartItem;
-import com.se1906.laptopshop.entity.OrderDetail;
-import com.se1906.laptopshop.repository.CartItemRepository;
-import com.se1906.laptopshop.repository.OrderDetailRepository;
 
 
 import jakarta.servlet.http.HttpSession;
@@ -29,16 +22,7 @@ import jakarta.servlet.http.HttpSession;
 public class OrderController {
 
     @Autowired
-    private OrderRepository orderRepository;
-
-    @Autowired
-    private OrderDetailRepository orderDetailRepository;
-
-    @Autowired
-    private CartItemRepository cartItemRepository;
-
-    // Các trạng thái được coi là "chưa giao cho đơn vị vận chuyển" -> vẫn có thể hủy
-    private static final List<String> CANCELLABLE_STATUSES = Arrays.asList("PENDING", "PROCESSING");
+    private OrderService orderService;
 
     // ==========================================
     // 1. HIỂN THỊ LỊCH SỬ ĐƠN HÀNG
@@ -47,10 +31,9 @@ public class OrderController {
     public String viewOrderHistory(HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
-            return "redirect:/login";
+            return "redirect:/auth/login";
         }
-        List<Order> orders = orderRepository.findByUserOrderByOrderDateDesc(user);
-        model.addAttribute("orders", orders);
+        model.addAttribute("orders", orderService.getOrderHistory(user));
         return "order-history";
     }
 
@@ -75,48 +58,11 @@ public class OrderController {
             return "redirect:/cart";
         }
 
-        List<CartItem> selectedItems = cartItemRepository.findAllById(selectedItemIds);
-        
-        List<com.se1906.laptopshop.entity.GiftDetail> giftDetails = new java.util.ArrayList<>();
-        java.util.Set<Integer> addedGiftItemIds = new java.util.HashSet<>();
-
-        double totalAmount = 0;
-        for (CartItem item : selectedItems) {
-            totalAmount += item.getConfigurationVersion().getPrice().doubleValue() * item.getQuantity();
-            
-            // Add gifts from ALL configurations of the selected laptop
-            if (item.getConfigurationVersion() != null && item.getConfigurationVersion().getLaptop() != null) {
-                com.se1906.laptopshop.entity.Laptop laptop = item.getConfigurationVersion().getLaptop();
-                if (laptop.getConfigurationVersions() != null) {
-                    for (com.se1906.laptopshop.entity.ConfigurationVersion cv : laptop.getConfigurationVersions()) {
-                        if (cv.getGiftDetails() != null) {
-                            for (com.se1906.laptopshop.entity.GiftDetail gd : cv.getGiftDetails()) {
-                                if (gd.getGiftItem() != null) {
-                                    gd.getGiftItem().getItemName();
-                                    Integer itemId = gd.getGiftItem().getGiftItemId();
-                                    if (!addedGiftItemIds.contains(itemId)) {
-                                        giftDetails.add(gd);
-                                        addedGiftItemIds.add(itemId);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        model.addAttribute("selectedItems", selectedItems);
-        model.addAttribute("totalAmount", totalAmount);
-        model.addAttribute("selectedItemIds", selectedItemIds);
-        model.addAttribute("giftDetails", giftDetails);
-
-        // 3. Trả về tên file HTML của trang thanh toán
+        orderService.prepareCheckoutData(selectedItemIds, model);
         return "checkout";
     }
 
-    @Autowired
-    private com.se1906.laptopshop.service.PaymentService paymentService;
+
 
     // ==========================================
     // 3. XỬ LÝ ĐẶT HÀNG & CHUYỂN HƯỚNG
@@ -137,63 +83,17 @@ public class OrderController {
             return "redirect:/auth/login";
         }
 
-        // Kiểm tra nếu giỏ hàng trống
         if (selectedItemIds == null || selectedItemIds.isEmpty()) {
             redirectAttributes.addFlashAttribute("errorMessage", "Không có sản phẩm nào được chọn!");
             return "redirect:/cart";
         }
 
-        // 1. Lấy danh sách sản phẩm trong giỏ hàng
-        List<CartItem> selectedItems = cartItemRepository.findAllById(selectedItemIds);
+        // ĐÃ SỬA: Bổ sung 3 biến người nhận vào đúng thứ tự tham số truyền đi
+        // Giữ đúng 4 tham số gốc để khớp với Interface OrderService
+        String result = orderService.placeOrder(selectedItemIds, paymentMethod, user, request);
 
-        // 2. Tạo đơn hàng tổng
-        Order newOrder = new Order();
-        newOrder.setUser(user);
-        newOrder.setStatus("PENDING");
-        newOrder.setOrderDate(LocalDateTime.now());
-        
-        if ("vnpay".equalsIgnoreCase(paymentMethod)) {
-            newOrder.setPaymentMethod("VNPAY");
-            newOrder.setPaymentStatus("PENDING");
-            newOrder.setStatus("PENDING_PAYMENT");
-        } else {
-            newOrder.setPaymentMethod("COD");
-            newOrder.setPaymentStatus("PENDING");
-        }
-
-        // (Tùy chọn) Lưu thông tin người nhận nếu Entity Order có các thuộc tính này
-        // newOrder.setReceiverName(receiverName);
-        // newOrder.setReceiverPhone(receiverPhone);
-        // newOrder.setShippingAddress(shippingAddress);
-
-        // Tính tổng tiền
-        double totalAmount = 0;
-        for (CartItem item : selectedItems) {
-            totalAmount += item.getConfigurationVersion().getPrice().doubleValue() * item.getQuantity();
-        }
-        newOrder.setTotalAmount(java.math.BigDecimal.valueOf(totalAmount));
-
-        // Lưu đơn hàng tổng để lấy ID
-        Order savedOrder = orderRepository.save(newOrder);
-
-        // 3. Tạo chi tiết đơn hàng (OrderDetail)
-        for (CartItem item : selectedItems) {
-            OrderDetail detail = new OrderDetail();
-            detail.setOrder(savedOrder);
-            detail.setConfigurationVersion(item.getConfigurationVersion());
-            detail.setQuantity(item.getQuantity());
-            detail.setPrice(item.getConfigurationVersion().getPrice());
-
-            orderDetailRepository.save(detail);
-        }
-
-        // 4. Xóa sản phẩm đã thanh toán khỏi giỏ hàng
-        cartItemRepository.deleteAll(selectedItems);
-
-        // 5. Thông báo và chuyển trang
-        if ("vnpay".equalsIgnoreCase(paymentMethod)) {
-            String vnpayUrl = paymentService.createVnPayPaymentUrl(request, (long) totalAmount, "Thanh toan don hang " + savedOrder.getOrderId(), String.valueOf(savedOrder.getOrderId()));
-            return "redirect:" + vnpayUrl;
+        if (result.startsWith("http") || result.contains("vnpayment.vn")) {
+            return "redirect:" + result;
         }
 
         redirectAttributes.addFlashAttribute("successMessage", "Đơn hàng của bạn đã được đặt thành công!");
@@ -207,25 +107,17 @@ public class OrderController {
     public String cancelOrder(@PathVariable("id") int id, HttpSession session, RedirectAttributes redirectAttributes) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
-            return "redirect:/login";
+            return "redirect:/auth/login";
         }
 
-        Order order = orderRepository.findById(id).orElse(null);
-        if (order == null || order.getUser() == null || !order.getUser().getUserId().equals(user.getUserId())) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Không tìm thấy đơn hàng.");
-            return "redirect:/orders";
-        }
-
-        if (!CANCELLABLE_STATUSES.contains(order.getStatus())) {
+        boolean currentCancelStatus = orderService.cancelOrder(id, user);
+        if (!currentCancelStatus) {
             redirectAttributes.addFlashAttribute("errorMessage",
                     "Đơn hàng đã được giao cho đơn vị vận chuyển hoặc đã hoàn tất, không thể hủy.");
             return "redirect:/orders";
         }
 
-        order.setStatus("CANCELLED");
-        orderRepository.save(order);
-        redirectAttributes.addFlashAttribute("successMessage", "Đơn hàng #" + order.getOrderId() + " đã được hủy thành công.");
-
+        redirectAttributes.addFlashAttribute("successMessage", "Đơn hàng đã được hủy thành công.");
         return "redirect:/orders";
     }
 
@@ -238,8 +130,9 @@ public class OrderController {
         if (user == null) {
             return "redirect:/auth/login";
         }
-        Order order = orderRepository.findById(id).orElse(null);
-        if (order == null || order.getUser() == null || !order.getUser().getUserId().equals(user.getUserId())) {
+
+        Order order = orderService.getOrderDetail(id, user);
+        if (order == null) {
             redirectAttributes.addFlashAttribute("errorMessage", "Không tìm thấy đơn hàng.");
             return "redirect:/orders";
         }

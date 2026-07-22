@@ -54,17 +54,17 @@
                     <span class="text-on-surface-variant">in stock</span>
                 </div>
             </div>
-            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md ambient-shadow">
+            <a th:href="@{/admin/orders}" class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md ambient-shadow block hover:border-primary hover:shadow-md transition-all group duration-200 cursor-pointer">
                 <div class="flex justify-between items-start mb-4">
-                    <p class="font-label-md text-label-md text-on-surface-variant">Total Orders</p>
-                    <div class="w-8 h-8 rounded bg-green-100 flex items-center justify-center text-green-600"><span class="material-symbols-outlined">shopping_cart</span></div>
+                    <p class="font-label-md text-label-md text-on-surface-variant group-hover:text-primary transition-colors">Total Orders</p>
+                    <div class="w-8 h-8 rounded bg-green-100 flex items-center justify-center text-green-600 group-hover:bg-green-600 group-hover:text-white transition-colors"><span class="material-symbols-outlined">shopping_cart</span></div>
                 </div>
-                <h3 class="text-3xl font-bold text-on-surface" th:text="${totalOrders}">99.9%</h3>
+                <h3 class="text-3xl font-bold text-on-surface" th:text="${totalOrders}">0</h3>
                 <div class="mt-4 flex items-center gap-2 text-sm">
                     <span class="material-symbols-outlined text-green-600 text-sm">receipt_long</span>
                     <span class="text-on-surface font-medium ml-1">Total placed orders</span>
                 </div>
-            </div>
+            </a>
         </div>
 
         <!-- Quick Links -->

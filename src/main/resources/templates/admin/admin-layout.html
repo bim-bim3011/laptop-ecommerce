@@ -81,6 +81,12 @@
            class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg font-body-md text-body-md">
             <span class="material-symbols-outlined">laptop_mac</span> Laptops
         </a>
+        <a th:href="@{/admin/orders}"
+           th:classappend="${activeMenu == 'orders'} ? 'bg-blue-500 text-white' : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'"
+           class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg font-body-md text-body-md">
+            <span class="material-symbols-outlined">receipt_long</span> Orders
+        </a>
+
         <a th:href="@{/admin/users}"
            th:classappend="${activeMenu == 'user'} ? 'bg-blue-500 text-white' : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'"
            class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg font-body-md text-body-md">
