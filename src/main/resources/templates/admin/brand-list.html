@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/admin-layout :: head('LapZone - Quản lý Brand')}"></head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+
+<aside th:replace="~{admin/admin-layout :: sidebar('brand')}"></aside>
+
+<div class="flex-1 flex flex-col md:ml-[280px] w-full min-h-screen">
+    <header th:replace="~{admin/admin-layout :: header}"></header>
+
+    <main class="flex-1 p-md md:p-lg lg:p-xl">
+        <div class="mb-lg">
+            <h2 class="font-headline-lg text-headline-lg text-primary tracking-tight">Quản lý Brand</h2>
+            <p class="font-body-md text-body-md text-on-surface-variant mt-xs">Thêm, sửa, xóa các thương hiệu laptop.</p>
+        </div>
+
+        <!-- Thông báo -->
+        <div th:if="${successMessage}" class="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg flex items-center gap-2">
+            <span class="material-symbols-outlined">check_circle</span>
+            <span th:text="${successMessage}"></span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+            <!-- Form thêm mới -->
+            <div class="lg:col-span-1">
+                <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 ambient-shadow">
+                    <h3 class="font-headline-md text-headline-md text-on-surface mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-secondary">add_circle</span>
+                        Thêm Brand mới
+                    </h3>
+                    <form th:action="@{/admin/brands/create}" method="POST">
+                        <div class="mb-4">
+                            <label class="block font-label-md text-label-md text-on-surface-variant mb-2" for="brandName">Tên Brand</label>
+                            <input type="text" id="brandName" name="brandName" required
+                                   class="w-full border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent transition-all bg-surface-container-lowest"
+                                   placeholder="Nhập tên brand...">
+                        </div>
+                        <button type="submit"
+                                class="w-full bg-secondary text-on-secondary py-2.5 rounded-lg font-label-md text-label-md hover:bg-blue-700 transition-colors flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined text-sm">add</span>
+                            Thêm Brand
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Bảng danh sách -->
+            <div class="lg:col-span-2">
+                <div class="bg-surface-container-lowest border border-outline-variant rounded-xl ambient-shadow overflow-hidden">
+                    <div class="p-6 border-b border-outline-variant">
+                        <h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+                            <span class="material-symbols-outlined text-secondary">list</span>
+                            Danh sách Brand
+                            <span class="ml-2 px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded-full font-label-md" th:text="${#lists.size(brands)}">0</span>
+                        </h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-surface-container-high">
+                                <tr>
+                                    <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">ID</th>
+                                    <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">Tên Brand</th>
+                                    <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="b : ${brands}" class="border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+                                    <td class="p-4 font-label-md text-label-md" th:text="${b.brandId}"></td>
+                                    <td class="p-4" th:text="${b.brandName}"></td>
+                                    <td class="p-4 flex items-center gap-2">
+                                        <!-- Nút Edit - mở form inline -->
+                                        <button type="button"
+                                                th:data-id="${b.brandId}" th:data-name="${b.brandName}"
+                                                onclick="openEditModal(this.getAttribute('data-id'), this.getAttribute('data-name'))"
+                                                class="text-blue-600 border border-blue-200 bg-transparent hover:bg-blue-50 px-3 py-1 rounded-full transition-colors inline-flex items-center gap-1">
+                                            <span class="material-symbols-outlined text-[16px]">edit</span>
+                                            <span class="text-sm font-medium">Edit</span>
+                                        </button>
+                                        <!-- Nút Delete -->
+                                        <form th:action="@{/admin/brands/delete/{id}(id=${b.brandId})}" method="POST" class="inline"
+                                              onsubmit="return confirm('Bạn có chắc muốn xóa Brand này?');">
+                                            <button type="submit"
+                                                    class="text-red-600 border border-red-200 bg-transparent hover:bg-red-50 px-3 py-1 rounded-full transition-colors inline-flex items-center gap-1">
+                                                <span class="material-symbols-outlined text-[16px]">delete</span>
+                                                <span class="text-sm font-medium">Delete</span>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(brands)}">
+                                    <td colspan="3" class="p-8 text-center text-on-surface-variant">Chưa có Brand nào.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Modal Edit Brand -->
+<div id="modal-edit-brand" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center">
+    <div class="bg-surface-container-lowest rounded-xl p-6 w-full max-w-md shadow-xl border border-outline-variant">
+        <h3 class="font-headline-md text-headline-md text-on-surface mb-6 flex items-center gap-2">
+            <span class="material-symbols-outlined text-secondary">edit</span>
+            Chỉnh sửa Brand
+        </h3>
+        <form id="editBrandForm" method="POST">
+            <div class="mb-4">
+                <label class="block font-label-md text-label-md text-on-surface-variant mb-2">Tên Brand</label>
+                <input type="text" id="editBrandName" name="brandName" required
+                       class="w-full border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent transition-all bg-surface-container-lowest">
+            </div>
+            <div class="flex gap-3">
+                <button type="submit"
+                        class="flex-1 bg-secondary text-on-secondary py-2.5 rounded-lg font-label-md text-label-md hover:bg-blue-700 transition-colors">
+                    Lưu thay đổi
+                </button>
+                <button type="button" onclick="closeEditModal()"
+                        class="flex-1 border border-outline-variant text-on-surface py-2.5 rounded-lg font-label-md text-label-md hover:bg-surface-container-high transition-colors">
+                    Hủy
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openEditModal(id, name) {
+        document.getElementById('editBrandName').value = name;
+        document.getElementById('editBrandForm').action = '/admin/brands/update/' + id;
+        document.getElementById('modal-edit-brand').classList.remove('hidden');
+    }
+    function closeEditModal() {
+        document.getElementById('modal-edit-brand').classList.add('hidden');
+    }
+</script>
+</body>
+</html>

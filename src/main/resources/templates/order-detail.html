@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Chi tiết đơn hàng - LapZone</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-gray-900 font-sans min-h-screen flex flex-col">
+
+<!-- Header (Simplified) -->
+<header class="bg-white border-b border-gray-200 py-5 sticky top-0 z-[100]">
+    <div class="max-w-[96%] w-full mx-auto px-4 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-2 text-2xl font-extrabold tracking-wide text-gray-900">
+            LapZone
+        </a>
+        <a href="/orders" class="text-blue-600 hover:underline font-medium text-sm flex items-center gap-1">
+            <span class="material-symbols-outlined text-sm">arrow_back</span>
+            Quay lại lịch sử đơn hàng
+        </a>
+    </div>
+</header>
+
+<main class="flex-grow w-full max-w-4xl mx-auto px-4 py-12">
+    <div class="bg-white rounded-xl border border-gray-200 p-8 shadow-sm">
+        <div class="flex justify-between items-start mb-6 border-b border-gray-200 pb-6">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900 mb-2">Chi tiết đơn hàng <span class="text-blue-600" th:text="${'#' + order.orderId}">#10024</span></h1>
+                <p class="text-gray-500 text-sm" th:text="${'Ngày đặt: ' + #temporals.format(order.orderDate, 'dd/MM/yyyy HH:mm')}">Ngày đặt: 24/06/2026</p>
+            </div>
+            <div>
+                <span th:if="${order.status == 'PENDING'}" class="px-4 py-2 bg-yellow-100 text-yellow-800 rounded-full font-bold text-sm">Chờ xác nhận</span>
+                <span th:if="${order.status == 'PROCESSING'}" class="px-4 py-2 bg-blue-100 text-blue-800 rounded-full font-bold text-sm">Đang xử lý</span>
+                <span th:if="${order.status == 'DELIVERED'}" class="px-4 py-2 bg-green-100 text-green-800 rounded-full font-bold text-sm">Đã giao</span>
+                <span th:if="${order.status == 'CANCELLED'}" class="px-4 py-2 bg-red-100 text-red-800 rounded-full font-bold text-sm">Đã hủy</span>
+            </div>
+        </div>
+
+        <h2 class="text-lg font-bold text-gray-900 mb-4">Sản phẩm đã đặt</h2>
+        <div class="space-y-4 mb-8">
+            <div th:each="detail : ${order.orderDetails}" class="flex items-start gap-4 p-4 border border-gray-100 rounded-lg bg-slate-50">
+                <div class="w-16 h-16 bg-white rounded flex items-center justify-center border border-gray-200 flex-shrink-0">
+                    <span class="material-symbols-outlined text-3xl text-gray-300">laptop_mac</span>
+                </div>
+                <div class="flex-grow">
+                    <div class="font-semibold text-gray-900 line-clamp-2" th:text="${detail.configurationVersion.laptop != null ? detail.configurationVersion.laptop.laptopName + ' - ' + detail.configurationVersion.cpu + ', ' + detail.configurationVersion.ram + ', ' + detail.configurationVersion.storage : 'Sản phẩm'}">Dell XPS 15</div>
+                    <div class="text-sm text-gray-500 mt-1" th:text="'Số lượng: ' + ${detail.quantity}">SL: 1</div>
+                </div>
+                <div class="font-bold text-gray-900" th:text="${#numbers.formatDecimal(detail.price * detail.quantity, 0, 'COMMA', 0, 'POINT') + ' ₫'}">85.990.000 ₫</div>
+            </div>
+        </div>
+
+        <div class="border-t border-gray-200 pt-6">
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-gray-600 font-medium">Tạm tính:</span>
+                <span class="text-gray-900 font-medium" th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 0, 'POINT') + ' ₫'}">85.990.000 ₫</span>
+            </div>
+            <div class="flex justify-between items-center text-xl font-bold">
+                <span class="text-gray-900">Tổng cộng:</span>
+                <span class="text-red-600" th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 0, 'POINT') + ' ₫'}">85.990.000 ₫</span>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

@@ -1,5 +1,7 @@
 package com.se1906.laptopshop.controller;
 
+import com.se1906.laptopshop.dto.AddToCartRequest;
+import com.se1906.laptopshop.dto.UpdateCartItemRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,7 +48,7 @@ public class CartController {
     }
 
     @PostMapping("/cart/add")
-    public String addToCart(@ModelAttribute com.se1906.laptopshop.dto.AddToCartRequest request,
+    public String addToCart(@ModelAttribute AddToCartRequest request,
             HttpSession session,
             @RequestHeader(value = "Referer", required = false) String referer,
             RedirectAttributes redirectAttributes,
@@ -77,7 +79,7 @@ public class CartController {
     }
 
     @PostMapping("/cart/update")
-    public String updateCartItem(@ModelAttribute com.se1906.laptopshop.dto.UpdateCartItemRequest request,
+    public String updateCartItem(@ModelAttribute UpdateCartItemRequest request,
             RedirectAttributes redirectAttributes,
             Model model) {
         try {

@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Thanh Toán - LapZone</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "tertiary": "#000000",
+                        "secondary": "#505f76",
+                        "inverse-on-surface": "#eff1f3",
+                        "primary-fixed": "#dae2fd",
+                        "on-tertiary-fixed-variant": "#004e60",
+                        "on-secondary-container": "#54647a",
+                        "inverse-surface": "#2d3133",
+                        "surface-variant": "#e0e3e5",
+                        "secondary-fixed": "#d3e4fe",
+                        "on-surface-variant": "#45464d",
+                        "surface-container-high": "#e6e8ea",
+                        "on-surface": "#191c1e",
+                        "on-tertiary-fixed": "#001f28",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "primary": "#000000",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#eceef0",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "outline-variant": "#c6c6cd",
+                        "surface-container-low": "#f2f4f6",
+                        "inverse-primary": "#bec6e0",
+                        "primary-container": "#131b2e",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "tertiary-fixed": "#b7eaff",
+                        "primary-fixed-dim": "#bec6e0",
+                        "on-tertiary-container": "#0090b0",
+                        "error-container": "#ffdad6",
+                        "secondary-container": "#d0e1fb",
+                        "background": "#f7f9fb",
+                        "on-secondary-fixed": "#0b1c30",
+                        "outline": "#76777d",
+                        "on-primary": "#ffffff",
+                        "surface-tint": "#565e74",
+                        "on-background": "#191c1e",
+                        "surface": "#f7f9fb",
+                        "on-tertiary": "#ffffff",
+                        "surface-bright": "#f7f9fb",
+                        "on-primary-fixed": "#131b2e",
+                        "tertiary-fixed-dim": "#4cd6ff",
+                        "surface-dim": "#d8dadc",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#001f28",
+                        "on-primary-container": "#7c839b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "margin-mobile": "16px",
+                        "section-gap": "80px",
+                        "base": "8px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "display-xl": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "display-xl": ["60px", { "lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-lg min-h-screen flex flex-col">
+<!-- Top Bar -->
+<div class="bg-[#2b313b] text-gray-300 text-xs py-2">
+    <div class="max-w-[96%] w-full mx-auto px-4 flex justify-between items-center">
+        <div class="flex gap-6 items-center">
+            <a href="#" class="flex items-center gap-1 hover:text-white transition-colors">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                </svg>
+                Hệ thống Showroom
+            </a>
+            <a href="#" class="flex items-center gap-1 hover:text-white transition-colors">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                </svg>
+                Dành Cho Doanh Nghiệp
+            </a>
+            <a href="#" class="flex items-center gap-1 hover:text-white transition-colors">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                </svg>
+                Apple Education
+            </a>
+        </div>
+        <div class="flex gap-6 items-center">
+            <a href="#" class="flex items-center gap-1 hover:text-white transition-colors">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                </svg>
+                Hotline: 18006867
+            </a>
+            <a href="#" class="flex items-center gap-1 hover:text-white transition-colors">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15"></path>
+                </svg>
+                Tin công nghệ
+            </a>
+            <a href="#" class="flex items-center gap-1 hover:text-white transition-colors">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path>
+                </svg>
+                Khuyến mãi
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Main Header -->
+<header class="bg-white border-b border-gray-200 py-5 sticky top-0 z-[100]">
+    <div class="max-w-[96%] w-full mx-auto px-4 flex flex-wrap md:flex-nowrap items-center gap-4 md:gap-8">
+        <a href="/" class="flex items-center gap-2 text-2xl font-extrabold tracking-wide text-gray-900">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                <rect x="9" y="9" width="6" height="6"></rect>
+                <line x1="9" y1="1" x2="9" y2="4"></line>
+                <line x1="15" y1="1" x2="15" y2="4"></line>
+                <line x1="9" y1="20" x2="9" y2="23"></line>
+                <line x1="15" y1="20" x2="15" y2="23"></line>
+                <line x1="20" y1="9" x2="23" y2="9"></line>
+                <line x1="20" y1="14" x2="23" y2="14"></line>
+                <line x1="1" y1="9" x2="4" y2="9"></line>
+                <line x1="1" y1="14" x2="4" y2="14"></line>
+            </svg>
+            LapZone
+        </a>
+
+        <form action="/home-page" method="get" class="flex-1 relative max-w-[600px] w-full order-3 md:order-none">
+            <svg class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            <input type="text" name="keyword" placeholder="Bạn muốn mua gì hôm nay..." class="w-full py-3 pl-11 pr-4 border border-gray-200 rounded-full text-[0.95rem] focus:outline-none focus:border-blue-500 focus:ring-[3px] focus:ring-blue-500/10 transition-all bg-white text-gray-900">
+        </form>
+
+        <div class="flex items-center gap-6 ml-auto order-2 md:order-none">
+            <a href="/cart" class="flex items-center gap-3 text-[0.9rem] font-medium text-gray-900 hover:text-blue-600 group">
+                <div class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center border border-gray-200 group-hover:bg-gray-200 transition-colors">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 0a2 2 0 100 4 2 2 0 000-4z"></path>
+                    </svg>
+                </div>
+                <span class="hidden sm:inline" th:text="'Giỏ hàng (' + ${cartItemCount} + ')'">Giỏ hàng</span>
+            </a>
+
+            <a href="/orders" class="flex items-center gap-3 text-[0.9rem] font-medium text-gray-900 hover:text-blue-600 group">
+                <div class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center border border-gray-200 group-hover:bg-gray-200 transition-colors">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                    </svg>
+                </div>
+                <span class="hidden sm:inline">Đơn hàng</span>
+            </a>
+
+            <div th:if="${session.user != null}" class="flex items-center gap-3 text-[0.9rem] font-medium text-gray-900 group cursor-pointer relative">
+                <span class="cursor-default whitespace-nowrap">Xin chào, <span th:text="${session.user.fullName}"></span></span>
+                <a href="/auth/logout" class="px-4 py-1.5 rounded-md bg-red-500 text-white border border-red-500 hover:bg-red-600 transition-colors">Đăng xuất</a>
+            </div>
+
+            <div th:if="${session.user == null}" class="flex items-center gap-3">
+                <a href="/auth/login" class="px-4 py-1.5 rounded-md border border-gray-200 bg-white hover:bg-gray-50 text-gray-900 transition-colors">Đăng nhập</a>
+                <a href="/auth/register" class="px-4 py-1.5 rounded-md bg-blue-500 text-white border border-blue-500 hover:bg-blue-600 transition-colors">Đăng ký</a>
+            </div>
+        </div>
+    </div>
+</header>
+<main class="flex-grow w-full max-w-7xl mx-auto px-4 md:px-margin-desktop py-12">
+    <div class="mb-4">
+        <a class="text-primary hover:text-blue-600 transition-colors text-label-md font-label-md flex items-center gap-2 w-fit"
+           href="/cart">
+            <span class="material-symbols-outlined text-sm">arrow_back</span>
+            Quay lại giỏ hàng
+        </a>
+    </div>
+    <h1 class="text-headline-lg font-headline-lg mb-8">Thanh toán</h1>
+    <form th:action="@{/orders/place-order}" method="POST" class="flex flex-col lg:flex-row gap-gutter">
+        <th:block th:each="id : ${selectedItemIds}">
+            <input type="hidden" name="selectedItemIds" th:value="${id}" />
+        </th:block>
+        <!-- Left Column: Checkout Form -->
+        <div class="w-full lg:w-2/3 flex flex-col gap-8">
+            <!-- Shipping Information -->
+            <section class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm">
+                <h2 class="text-headline-md font-headline-md mb-6 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">local_shipping</span>
+                    Thông tin giao hàng
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-label-md font-label-md text-on-surface-variant" for="fullName">Họ và tên</label>
+                        <input name="receiverName" class="w-full bg-surface-container-lowest..." id="fullName" placeholder="Nhập họ và tên" type="text" required/>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-label-md font-label-md text-on-surface-variant" for="phone">Số điện thoại</label>
+                        <input name="receiverPhone" class="w-full bg-surface-container-lowest..." id="phone" placeholder="Nhập số điện thoại" type="tel" required/>
+                    </div>
+                    <div class="space-y-1 md:col-span-2">
+                        <label class="text-label-md font-label-md text-on-surface-variant" for="email">Email</label>
+                        <input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" id="email" placeholder="Nhập email" type="email"/>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-label-md font-label-md text-on-surface-variant" for="province">Tỉnh/Thành phố</label>
+                        <select name="province" class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none" id="province" required>
+                            <option disabled="" selected="" value="">Chọn Tỉnh/Thành phố</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-label-md font-label-md text-on-surface-variant" for="district">Quận/Huyện</label>
+                        <select name="district" class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none" disabled="" id="district" required>
+                            <option disabled="" selected="" value="">Chọn Quận/Huyện</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-label-md font-label-md text-on-surface-variant" for="ward">Phường/Xã</label>
+                        <select name="ward" class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none" disabled="" id="ward" required>
+                            <option disabled="" selected="" value="">Chọn Phường/Xã</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1 md:col-span-2">
+                        <label class="text-label-md font-label-md text-on-surface-variant" for="address">Địa chỉ chi tiết</label>
+                        <input name="shippingAddress" class="w-full bg-surface-container-lowest..." id="address" placeholder="Số nhà, tên đường..." type="text" required/>
+                    </div>
+                </div>
+            </section>
+            <!-- Shipping Method -->
+            <section class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm">
+                <h2 class="text-headline-md font-headline-md mb-6 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">inventory_2</span>
+                    Phương thức vận chuyển
+                </h2>
+                <div class="space-y-4">
+                    <label class="flex items-start justify-between p-4 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary-fixed/20 relative">
+                        <div class="flex items-start gap-4">
+                            <input checked="" class="mt-1 text-primary focus:ring-primary" name="shippingMethod" type="radio" value="standard"/>
+                            <div>
+                                <div class="text-label-md font-label-md text-on-surface">Giao hàng tiêu chuẩn</div>
+                                <div class="text-label-sm font-label-sm text-on-surface-variant mt-1">Nhận hàng trong 3-5 ngày</div>
+                            </div>
+                        </div>
+                        <div class="text-label-md font-label-md text-on-surface">Miễn phí</div>
+                        <div class="absolute inset-0 border-2 border-primary rounded-lg opacity-0 pointer-events-none has-[:checked]:opacity-100"></div>
+                    </label>
+                    <label class="flex items-start justify-between p-4 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary-fixed/20 relative">
+                        <div class="flex items-start gap-4">
+                            <input class="mt-1 text-primary focus:ring-primary" name="shippingMethod" type="radio" value="express"/>
+                            <div>
+                                <div class="text-label-md font-label-md text-on-surface">Giao hàng nhanh</div>
+                                <div class="text-label-sm font-label-sm text-on-surface-variant mt-1">Nhận hàng trong 1-2 ngày</div>
+                            </div>
+                        </div>
+                        <div class="text-label-md font-label-md text-on-surface">150.000 ₫</div>
+                        <div class="absolute inset-0 border-2 border-primary rounded-lg opacity-0 pointer-events-none has-[:checked]:opacity-100"></div>
+                    </label>
+                </div>
+            </section>
+            <!-- Payment Method -->
+            <section class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm">
+                <h2 class="text-headline-md font-headline-md mb-6 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">payments</span>
+                    Phương thức thanh toán
+                </h2>
+                <div class="space-y-4">
+                    <!-- Thanh toán khi nhận hàng (COD) -->
+                    <label class="flex items-center justify-between p-4 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors has-[:checked]:border-primary bg-surface-container-lowest">
+                        <div class="flex items-center gap-4">
+                            <input checked="" class="text-primary focus:ring-primary" name="paymentMethod" type="radio" value="cod"/>
+                            <span class="text-label-md font-label-md text-on-surface">Thanh toán khi nhận hàng (COD)</span>
+                        </div>
+                        <span class="material-symbols-outlined text-on-surface-variant">local_shipping</span>
+                    </label>
+
+                    <!-- VNPay -->
+                    <label class="flex items-center justify-between p-4 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors has-[:checked]:border-primary bg-surface-container-lowest">
+                        <div class="flex items-center gap-4">
+                            <input class="text-primary focus:ring-primary" name="paymentMethod" type="radio" value="vnpay"/>
+                            <span class="text-label-md font-label-md text-on-surface">Thanh toán qua VNPay (Thẻ ATM/Visa/MasterCard/QR Code)</span>
+                        </div>
+                        <img src="https://vnpay.vn/s1/statics.vnpay.vn/2023/6/0oxhzjmxbksr1686814746087.png" alt="VNPay" class="h-6 object-contain"/>
+                    </label>
+                </div>
+            </section>
+        </div>
+        <!-- Right Column: Order Summary (Sticky) -->
+        <div class="w-full lg:w-1/3">
+            <div class="sticky top-24 bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm flex flex-col gap-6">
+                <h2 class="text-headline-md font-headline-md">Đơn hàng của bạn</h2>
+                <!-- Items List -->
+                <div class="space-y-4">
+                    <div th:each="item : ${selectedItems}" class="flex items-start gap-4 pb-4 border-b border-surface-container-highest">
+                        <div class="w-16 h-16 bg-surface-container-low rounded-lg overflow-hidden flex-shrink-0">
+                            <img th:if="${item.configurationVersion.laptop != null and item.configurationVersion.laptop.imageUrl != null and !item.configurationVersion.laptop.imageUrl.isEmpty()}" class="w-full h-full object-cover" th:src="${item.configurationVersion.laptop.imageUrl}" />
+                            <img th:unless="${item.configurationVersion.laptop != null and item.configurationVersion.laptop.imageUrl != null and !item.configurationVersion.laptop.imageUrl.isEmpty()}" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNfgXG2VW3KuRQWjt275sT32q7JHz0Nsvm5HUO9_U9WCMo-XDPGLW9Cbj72ddo1riF9AJpoGAUKprUO2jUBwdx82ZmKImWh3Cxku6PgdWHfa8Gto8VysnPAaH7o7C-vC35TIYL-x0BakT9dtz3nHylD-7OIPMVKu27DIruMOf41uQSuG5LKa34EdS6AfvEplbd2K77UrqnlQzn5hiDwlg6PPzg8pWFeoA6Nqe4VxlH7ZO-1OOFmgiXiYiqs7gS5x-jy0KEIQC45dE" />
+                        </div>
+                        <div class="flex-grow">
+                            <div class="text-label-md font-label-md text-on-surface line-clamp-2" th:text="${item.configurationVersion.laptop != null ? item.configurationVersion.laptop.laptopName : 'Laptop'}">Dell XPS 15</div>
+                            <div class="text-label-sm font-label-sm text-on-surface-variant mt-1" th:text="'SL: ' + ${item.quantity}">SL: 1</div>
+                        </div>
+                        <div class="text-label-md font-label-md text-on-surface whitespace-nowrap" th:text="${#numbers.formatDecimal(item.configurationVersion.price * item.quantity, 0, 'COMMA', 0, 'POINT') + ' ₫'}">85.990.000 ₫</div>
+                    </div>
+                </div>
+
+                <!-- Quà tặng kèm theo -->
+                <div class="mb-4 border border-green-300 rounded-lg overflow-hidden" th:if="${not #lists.isEmpty(giftDetails)}">
+                    <div class="bg-green-100 text-green-700 px-4 py-2 font-bold uppercase text-sm border-b border-green-300 flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path></svg>
+                        Quà tặng kèm theo
+                    </div>
+                    <div class="p-4 bg-white">
+                        <ul class="space-y-2">
+                            <li th:each="giftDetail : ${giftDetails}" class="flex items-start gap-3 text-sm text-gray-700">
+                                <div class="mt-0.5 text-green-500">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                </div>
+                                <div>
+                                    <span th:text="${giftDetail.giftItem?.itemName}" class="font-semibold text-gray-900">Chuột</span>
+                                    <span th:if="${giftDetail.quantity > 1}" th:text="' (x' + ${giftDetail.quantity} + ')'" class="text-gray-500 font-medium"> (x1)</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Coupon Input -->
+                <div class="flex gap-2">
+                    <input class="flex-grow bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Mã giảm giá" type="text"/>
+                    <button type="button" class="bg-surface-container-high text-on-surface px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-outline-variant transition-colors">Áp dụng</button>
+                </div>
+                <!-- Price Breakdown -->
+                <div class="space-y-3 pt-4 border-t border-surface-container-highest text-body-md font-body-md">
+                    <div class="flex justify-between text-on-surface-variant">
+                        <span>Tạm tính</span>
+                        <span th:text="${#numbers.formatDecimal(totalAmount, 0, 'COMMA', 0, 'POINT') + ' ₫'}">85.990.000 ₫</span>
+                    </div>
+                    <div class="flex justify-between text-on-surface-variant">
+                        <span>Phí vận chuyển</span>
+                        <span>Miễn phí</span>
+                    </div>
+                    <div class="flex justify-between text-error">
+                        <span>Giảm giá</span>
+                        <span>- 0 ₫</span>
+                    </div>
+                    <div class="flex justify-between items-center pt-3 border-t border-surface-container-highest mt-3">
+                        <span class="text-headline-md font-headline-md">Tổng cộng</span>
+                        <span class="text-headline-md font-headline-md text-primary" th:text="${#numbers.formatDecimal(totalAmount, 0, 'COMMA', 0, 'POINT') + ' ₫'}">85.990.000 ₫</span>
+                    </div>
+                </div>
+                <!-- Primary CTA -->
+                <button type="submit" class="w-full bg-primary text-on-primary py-4 rounded-lg font-bold text-label-md hover:bg-primary-container transition-colors shadow-sm flex justify-center items-center gap-2">
+                    <span class="material-symbols-outlined">lock</span>
+                    Thanh Toán
+                </button>
+                <p class="text-label-sm font-label-sm text-center text-on-surface-variant">
+                    Bằng việc đặt hàng, bạn đồng ý với <a class="text-primary underline" href="#">Điều khoản dịch vụ</a> và <a class="text-primary underline" href="#">Chính sách bảo mật</a> của chúng tôi.
+                </p>
+            </div>
+        </div>
+    </form>
+</main>
+<!-- Footer -->
+<!-- Content injected from JSON -->
+<footer class="w-full py-12 px-margin-desktop mt-section-gap flex flex-col md:flex-row justify-between items-center bg-primary-container text-on-primary-container border-t border-on-primary-fixed-variant">
+    <div class="text-headline-sm font-headline-sm text-on-primary mb-6 md:mb-0">
+        LAPZONE
+    </div>
+    <div class="flex flex-wrap justify-center gap-6 mb-6 md:mb-0">
+        <a class="text-label-sm font-label-sm text-on-primary-container hover:text-tertiary-fixed-dim transition-colors duration-200" href="#">Privacy Policy</a>
+        <a class="text-label-sm font-label-sm text-on-primary-container hover:text-tertiary-fixed-dim transition-colors duration-200" href="#">Terms of Service</a>
+        <a class="text-label-sm font-label-sm text-on-primary-container hover:text-tertiary-fixed-dim transition-colors duration-200" href="#">Shipping Info</a>
+        <a class="text-label-sm font-label-sm text-on-primary-container hover:text-tertiary-fixed-dim transition-colors duration-200" href="#">Contact Support</a>
+    </div>
+    <div class="text-label-sm font-label-sm text-on-primary-container text-center md:text-right">
+        © 2024 LapZone Systems. All rights reserved. Precision Engineering for Professionals.
+    </div>
+</footer>
+
+<script>
+    const addressData = {
+        "hanoi": {
+            name: "Hà Nội",
+            districts: {
+                "badinh": {
+                    name: "Quận Ba Đình",
+                    wards: ["Phường Cống Vị", "Phường Điện Biên", "Phường Đội Cấn", "Phường Giảng Võ", "Phường Kim Mã"]
+                },
+                "hoankiem": {
+                    name: "Quận Hoàn Kiếm",
+                    wards: ["Phường Chương Dương", "Phường Cửa Đông", "Phường Cửa Nam", "Phường Đồng Xuân", "Phường Hàng Bạc"]
+                },
+                "tayho": {
+                    name: "Quận Tây Hồ",
+                    wards: ["Phường Bưởi", "Phường Nhật Tân", "Phường Phú Thượng", "Phường Quảng An", "Phường Thụy Khuê"]
+                }
+            }
+        },
+        "hcm": {
+            name: "TP. Hồ Chí Minh",
+            districts: {
+                "quan1": {
+                    name: "Quận 1",
+                    wards: ["Phường Bến Nghé", "Phường Bến Thành", "Phường Cô Giang", "Phường Đa Kao", "Phường Nguyễn Thái Bình"]
+                },
+                "quan2": {
+                    name: "Quận 2",
+                    wards: ["Phường An Phú", "Phường Thảo Điền", "Phường Thủ Thiêm", "Phường Bình An", "Phường Bình Khánh"]
+                },
+                "quan3": {
+                    name: "Quận 3",
+                    wards: ["Phường Võ Thị Sáu", "Phường 13", "Phường 14", "Phường 11", "Phường 12"]
+                }
+            }
+        },
+        "danang": {
+            name: "Đà Nẵng",
+            districts: {
+                "haichau": {
+                    name: "Quận Hải Châu",
+                    wards: ["Phường Hải Châu I", "Phường Hải Châu II", "Phường Thạch Thang", "Phường Thanh Bình", "Phường Thuận Phước"]
+                },
+                "thanhkhe": {
+                    name: "Quận Thanh Khê",
+                    wards: ["Phường An Khê", "Phường Chính Gián", "Phường Hòa Khê", "Phường Thanh Khê Đông", "Phường Thanh Khê Tây"]
+                },
+                "sontra": {
+                    name: "Quận Sơn Trà",
+                    wards: ["Phường An Hải Bắc", "Phường An Hải Đông", "Phường An Hải Tây", "Phường Mân Thái", "Phường Nại Hiên Đông"]
+                }
+            }
+        }
+    };
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const provinceSelect = document.getElementById('province');
+        const districtSelect = document.getElementById('district');
+        const wardSelect = document.getElementById('ward');
+
+        // Populate provinces
+        Object.keys(addressData).forEach(provinceKey => {
+            const province = addressData[provinceKey];
+            const option = document.createElement('option');
+            option.value = province.name;
+            option.text = province.name;
+            option.dataset.key = provinceKey;
+            provinceSelect.appendChild(option);
+        });
+
+        provinceSelect.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const provinceKey = selectedOption.dataset.key;
+            
+            // Reset districts and wards
+            districtSelect.innerHTML = '<option disabled selected value="">Chọn Quận/Huyện</option>';
+            wardSelect.innerHTML = '<option disabled selected value="">Chọn Phường/Xã</option>';
+            districtSelect.disabled = true;
+            wardSelect.disabled = true;
+
+            if (provinceKey && addressData[provinceKey]) {
+                const districts = addressData[provinceKey].districts;
+                Object.keys(districts).forEach(districtKey => {
+                    const district = districts[districtKey];
+                    const option = document.createElement('option');
+                    option.value = district.name;
+                    option.text = district.name;
+                    option.dataset.provinceKey = provinceKey;
+                    option.dataset.key = districtKey;
+                    districtSelect.appendChild(option);
+                });
+                districtSelect.disabled = false;
+            }
+        });
+
+        districtSelect.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const provinceKey = selectedOption.dataset.provinceKey;
+            const districtKey = selectedOption.dataset.key;
+            
+            // Reset wards
+            wardSelect.innerHTML = '<option disabled selected value="">Chọn Phường/Xã</option>';
+            wardSelect.disabled = true;
+
+            if (provinceKey && districtKey && addressData[provinceKey].districts[districtKey]) {
+                const wards = addressData[provinceKey].districts[districtKey].wards;
+                wards.forEach(wardName => {
+                    const option = document.createElement('option');
+                    option.value = wardName;
+                    option.text = wardName;
+                    wardSelect.appendChild(option);
+                });
+                wardSelect.disabled = false;
+            }
+        });
+    });
+</script>
+
+</body></html>

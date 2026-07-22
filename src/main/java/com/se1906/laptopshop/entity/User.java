@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Table(name = "users")
 @Getter
@@ -22,7 +23,7 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userId;
+    private Integer userId;
 
     @Column(name = "name", length = 50, nullable = false)
     private String fullName;
@@ -46,22 +47,28 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @Column(name = "status" , nullable = false, length = 15)
+    @Column(name = "status", nullable = false, length = 15)
     private String status;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Cart cart;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Feedback> feedbacks = new ArrayList<>();
 
-
-    @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+        name = "users_roles",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
     Set<Role> roles = new HashSet<>();
 
-
 }
-

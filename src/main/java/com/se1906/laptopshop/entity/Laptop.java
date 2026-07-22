@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Table(name = "laptops")
 @Entity
@@ -14,13 +15,16 @@ public class Laptop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "laptop_id")
-    private int laptopId;
+    private Integer laptopId;
 
     @Column(name = "laptop_name", length = 150, nullable = false)
     private String laptopName;
 
     @Column(name = "description", columnDefinition = "NVARCHAR(MAX)")
     private String description;
+
+    @Column(name = "image_url", columnDefinition = "NVARCHAR(MAX)")
+    private String imageUrl;
 
     @Column(name = "updated_at", nullable = false)
     @UpdateTimestamp
@@ -30,6 +34,7 @@ public class Laptop {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "laptop", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ConfigurationVersion> configurationVersions = new ArrayList<>();
 
@@ -41,16 +46,18 @@ public class Laptop {
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "laptop", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Feedback> feedbacks = new ArrayList<>();
 
     public Laptop() {
     }
 
-    public Laptop(int laptopId, String laptopName, String description, LocalDateTime updatedAt, LocalDateTime createdAt, List<ConfigurationVersion> configurationVersions, Category category, Brand brand, List<Feedback> feedbacks) {
+    public Laptop(Integer laptopId, String laptopName, String description, String imageUrl, LocalDateTime updatedAt, LocalDateTime createdAt, List<ConfigurationVersion> configurationVersions, Category category, Brand brand, List<Feedback> feedbacks) {
         this.laptopId = laptopId;
         this.laptopName = laptopName;
         this.description = description;
+        this.imageUrl = imageUrl;
         this.updatedAt = updatedAt;
         this.createdAt = createdAt;
         this.configurationVersions = configurationVersions;
@@ -59,11 +66,12 @@ public class Laptop {
         this.feedbacks = feedbacks;
     }
 
-    public int getLaptopId() {
+
+    public Integer getLaptopId() {
         return laptopId;
     }
 
-    public void setLaptopId(int laptopId) {
+    public void setLaptopId(Integer laptopId) {
         this.laptopId = laptopId;
     }
 
@@ -81,6 +89,14 @@ public class Laptop {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public LocalDateTime getUpdatedAt() {

@@ -21,6 +21,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SecurityConfig {
 
+    // Gom hết tất cả các endpoint công khai vào đây
     final String[] PUBLIC_ENDPOINTS = {
         "/auth/**",
         "/",
@@ -28,20 +29,23 @@ public class SecurityConfig {
         "/home-page",
         "/home-page/**",
         "/laptop/**",
-        "/cart/**"
+        "/cart/**",
+        "/admin/login",
+        "/css/**",
+        "/js/**",
+        "/images/**"
     };
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                .requestMatchers(PUBLIC_ENDPOINTS).permitAll()
-                .requestMatchers("/admin/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
+                .requestMatchers(PUBLIC_ENDPOINTS).permitAll() // Cho phép truy cập không cần login
+                .requestMatchers("/admin/**").hasRole("ADMIN") // Chỉ ADMIN mới được vào /admin/**
+                .anyRequest().authenticated() // Các request khác phải login
                 );
 
         return http.build();

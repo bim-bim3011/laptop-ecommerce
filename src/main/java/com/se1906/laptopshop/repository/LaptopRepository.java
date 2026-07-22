@@ -10,4 +10,6 @@ import java.util.List;
 public interface LaptopRepository extends JpaRepository<Laptop, Integer> {
     List<Laptop> findByCategory_CategoryId(int categoryId);
     List<Laptop> findByLaptopNameContainingIgnoreCase(String keyword);
+
+
 }
