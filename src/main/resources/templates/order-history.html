@@ -271,7 +271,7 @@
 
                             <!-- Form hủy đơn: Chỉ hiện thị khi trạng thái là PENDING hoặc PROCESSING -->
                             <form th:if="${order.status == 'PENDING' or order.status == 'PENDING_PAYMENT'}"
-                                  th-action="@{/orders/{id}/cancel(id=${order.orderId})}"
+                                  th:action="@{/orders/{id}/cancel(id=${order.orderId})}"
                                   method="post"
                                   class="m-0">
                                 <button type="submit"
