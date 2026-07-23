@@ -68,6 +68,12 @@ public class AuthController {
                 SecurityContextHolder.setContext(sc);
                 session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
 
+                boolean isAdmin = user.getRoles().stream()
+                        .anyMatch(role -> "ADMIN".equalsIgnoreCase(role.getName()));
+                if (isAdmin) {
+                    return "redirect:/admin/dashboard";
+                }
+                
                 return "redirect:/home-page";
             } else {
                 model.addAttribute("error", "Invalid email or password.");

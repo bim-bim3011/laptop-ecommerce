@@ -53,10 +53,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<User> getPaginatedUsers(String keyword, String status, int pageNo, int pageSize, String sortField, String sortDir) {
+    public Page<User> getPaginatedUsers(String keyword, String status, String roleName, int pageNo, int pageSize, String sortField, String sortDir) {
         Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending()
                 : Sort.by(sortField).descending();
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-        return userRepository.searchAndFilterUsers(keyword, status, pageable);
+        return userRepository.searchAndFilterUsers(keyword, status, roleName, pageable);
     }
 }

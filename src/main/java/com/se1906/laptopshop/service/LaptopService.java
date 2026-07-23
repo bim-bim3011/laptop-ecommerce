@@ -19,4 +19,9 @@ public interface LaptopService {
     ConfigurationVersion createConfiguration(int laptopId, ConfigurationVersion configuration);
     ConfigurationVersion updateConfiguration(int id, ConfigurationVersion configuration);
     void deleteConfiguration(int id);
+    
+    org.springframework.data.domain.Page<ConfigurationVersion> getAdminPaginatedConfigs(String keyword, String cpu, String ram, String storage, int pageNo, int pageSize, String sortField, String sortDir);
+    List<String> getDistinctCpus();
+    List<String> getDistinctRams();
+    List<String> getDistinctStorages();
 }

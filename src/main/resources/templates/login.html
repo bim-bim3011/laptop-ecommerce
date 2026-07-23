@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LapZone - Login</title>
+    <title>LapZone - Đăng nhập</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -325,12 +325,12 @@
         <div class="login-card">
             <div class="card-header">
                 <div class="logo">LapZone</div>
-                <div class="subtitle">Sign in to your professional account</div>
+                <div class="subtitle">Đăng nhập vào tài khoản của bạn</div>
             </div>
 
             <div class="card-body">
                 <div th:if="${error}" class="error-message" th:text="${error}">
-                    Invalid email or password.
+                    Email hoặc mật khẩu không hợp lệ.
                 </div>
 
                 <form th:action="@{/auth/login}" method="post">
@@ -348,7 +348,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="password">Password</label>
+                        <label class="form-label" for="password">Mật khẩu</label>
                         <div class="input-wrapper">
                             <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -364,9 +364,9 @@
                     <div class="form-options">
                         <label class="remember-me">
                             <input type="checkbox" name="remember-me">
-                            Remember me
+                            Ghi nhớ đăng nhập
                         </label>
-                        <a href="#" class="forgot-password">Forgot password?</a>
+                        <a href="#" class="forgot-password">Quên mật khẩu?</a>
                     </div>
 
                     <button type="submit" class="btn btn-primary">Đăng nhập</button>
@@ -376,7 +376,7 @@
             </div>
 
             <div class="card-footer">
-                Don't have an account? <a href="/auth/register">Sign up</a>
+                Chưa có tài khoản? <a href="/auth/register">Đăng ký ngay</a>
             </div>
         </div>
     </main>
@@ -385,14 +385,13 @@
         <div class="site-footer-content">
             <div>
                 <div class="footer-logo">LapZone</div>
-                <div class="footer-copy">&copy; 2024 LapZone Systems. All rights reserved. Precision Engineering for
-                    Professionals.</div>
+                <div class="footer-copy">&copy; 2024 LapZone Systems. Bản quyền đã được bảo hộ.</div>
             </div>
             <div class="footer-links">
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
-                <a href="#">Shipping Info</a>
-                <a href="#">Contact Support</a>
+                <a href="#">Chính sách bảo mật</a>
+                <a href="#">Điều khoản dịch vụ</a>
+                <a href="#">Thông tin giao hàng</a>
+                <a href="#">Hỗ trợ khách hàng</a>
             </div>
         </div>
     </footer>

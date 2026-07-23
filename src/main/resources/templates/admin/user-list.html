@@ -18,6 +18,14 @@
                 <input type="text" id="keyword" name="keyword" th:value="${keyword}" placeholder="Tên, Email hoặc Số điện thoại..." class="w-full px-4 py-2 border border-outline-variant rounded-lg focus:outline-none focus:border-primary">
             </div>
             <div class="w-48">
+                <label for="roleName" class="block font-label-md text-label-md text-on-surface-variant mb-1">Vai trò</label>
+                <select id="roleName" name="roleName" class="w-full px-4 py-2 border border-outline-variant rounded-lg focus:outline-none focus:border-primary">
+                    <option value="" th:selected="${roleName == ''}">Tất cả</option>
+                    <option value="ADMIN" th:selected="${roleName == 'ADMIN'}">Admin</option>
+                    <option value="USER" th:selected="${roleName == 'USER'}">User</option>
+                </select>
+            </div>
+            <div class="w-48">
                 <label for="status" class="block font-label-md text-label-md text-on-surface-variant mb-1">Trạng thái</label>
                 <select id="status" name="status" class="w-full px-4 py-2 border border-outline-variant rounded-lg focus:outline-none focus:border-primary">
                     <option value="" th:selected="${status == ''}">Tất cả</option>
@@ -47,15 +55,16 @@
                     <thead class="bg-surface-container-high">
                         <tr>
                             <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">
-                                <a th:href="@{'/admin/users?pageNo=' + ${currentPage} + '&sortField=userId&sortDir=' + ${sortField == 'userId' ? reverseSortDir : 'asc'} + '&keyword=' + ${keyword} + '&status=' + ${status}}" class="flex items-center gap-1 hover:text-primary transition-colors">ID <span class="material-symbols-outlined text-[16px]" th:text="${sortField == 'userId' ? (sortDir == 'asc' ? 'arrow_upward' : 'arrow_downward') : 'swap_vert'}"></span></a>
+                                <a th:href="@{'/admin/users?pageNo=' + ${currentPage} + '&sortField=userId&sortDir=' + ${sortField == 'userId' ? reverseSortDir : 'asc'} + '&keyword=' + ${keyword} + '&status=' + ${status} + '&roleName=' + ${roleName}}" class="flex items-center gap-1 hover:text-primary transition-colors">ID <span class="material-symbols-outlined text-[16px]" th:text="${sortField == 'userId' ? (sortDir == 'asc' ? 'arrow_upward' : 'arrow_downward') : 'swap_vert'}"></span></a>
                             </th>
                             <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">
-                                <a th:href="@{'/admin/users?pageNo=' + ${currentPage} + '&sortField=fullName&sortDir=' + ${sortField == 'fullName' ? reverseSortDir : 'asc'} + '&keyword=' + ${keyword} + '&status=' + ${status}}" class="flex items-center gap-1 hover:text-primary transition-colors">Họ tên <span class="material-symbols-outlined text-[16px]" th:text="${sortField == 'fullName' ? (sortDir == 'asc' ? 'arrow_upward' : 'arrow_downward') : 'swap_vert'}"></span></a>
+                                <a th:href="@{'/admin/users?pageNo=' + ${currentPage} + '&sortField=fullName&sortDir=' + ${sortField == 'fullName' ? reverseSortDir : 'asc'} + '&keyword=' + ${keyword} + '&status=' + ${status} + '&roleName=' + ${roleName}}" class="flex items-center gap-1 hover:text-primary transition-colors">Họ tên <span class="material-symbols-outlined text-[16px]" th:text="${sortField == 'fullName' ? (sortDir == 'asc' ? 'arrow_upward' : 'arrow_downward') : 'swap_vert'}"></span></a>
                             </th>
                             <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">
-                                <a th:href="@{'/admin/users?pageNo=' + ${currentPage} + '&sortField=email&sortDir=' + ${sortField == 'email' ? reverseSortDir : 'asc'} + '&keyword=' + ${keyword} + '&status=' + ${status}}" class="flex items-center gap-1 hover:text-primary transition-colors">Email <span class="material-symbols-outlined text-[16px]" th:text="${sortField == 'email' ? (sortDir == 'asc' ? 'arrow_upward' : 'arrow_downward') : 'swap_vert'}"></span></a>
+                                <a th:href="@{'/admin/users?pageNo=' + ${currentPage} + '&sortField=email&sortDir=' + ${sortField == 'email' ? reverseSortDir : 'asc'} + '&keyword=' + ${keyword} + '&status=' + ${status} + '&roleName=' + ${roleName}}" class="flex items-center gap-1 hover:text-primary transition-colors">Email <span class="material-symbols-outlined text-[16px]" th:text="${sortField == 'email' ? (sortDir == 'asc' ? 'arrow_upward' : 'arrow_downward') : 'swap_vert'}"></span></a>
                             </th>
                             <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">SĐT</th>
+                            <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">Vai trò</th>
                             <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">Trạng thái</th>
                             <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">Thao tác</th>
                         </tr>
@@ -66,6 +75,9 @@
                             <td class="p-4" th:text="${u.fullName}"></td>
                             <td class="p-4 font-label-md text-label-md" th:text="${u.email}"></td>
                             <td class="p-4" th:text="${u.phoneNumber}"></td>
+                            <td class="p-4">
+                                <span th:each="r, iterStat : ${u.roles}" th:text="!${iterStat.last} ? ${r.name} + ', ' : ${r.name}"></span>
+                            </td>
                             <td class="p-4">
                                 <span th:if="${u.status == 'ACTIVE'}" class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full font-label-md">ACTIVE</span>
                                 <span th:unless="${u.status == 'ACTIVE'}" class="px-2 py-1 bg-red-100 text-red-700 text-xs rounded-full font-label-md" th:text="${u.status}">INACTIVE</span>
@@ -78,7 +90,7 @@
                                 </form>
                             </td>
                         </tr>
-                        <tr th:if="${#lists.isEmpty(users)}"><td colspan="6" class="p-8 text-center text-on-surface-variant">Chưa có User nào.</td></tr>
+                        <tr th:if="${#lists.isEmpty(users)}"><td colspan="7" class="p-8 text-center text-on-surface-variant">Chưa có User nào.</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -89,15 +101,15 @@
                     Hiển thị <span th:text="${(currentPage - 1) * 10 + 1}">1</span> đến <span th:text="${currentPage * 10 > totalItems ? totalItems : currentPage * 10}">10</span> trong <span th:text="${totalItems}">0</span> Users
                 </div>
                 <div class="flex items-center gap-1">
-                    <a th:if="${currentPage > 1}" th:href="@{'/admin/users?pageNo=' + ${currentPage - 1} + '&sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&keyword=' + ${keyword} + '&status=' + ${status}}" class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant hover:bg-surface-container-low"><span class="material-symbols-outlined text-[18px]">chevron_left</span></a>
+                    <a th:if="${currentPage > 1}" th:href="@{'/admin/users?pageNo=' + ${currentPage - 1} + '&sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&keyword=' + ${keyword} + '&status=' + ${status} + '&roleName=' + ${roleName}}" class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant hover:bg-surface-container-low"><span class="material-symbols-outlined text-[18px]">chevron_left</span></a>
                     <span th:unless="${currentPage > 1}" class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant opacity-50 cursor-not-allowed"><span class="material-symbols-outlined text-[18px]">chevron_left</span></span>
                     
                     <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-                        <a th:if="${currentPage != i}" th:href="@{'/admin/users?pageNo=' + ${i} + '&sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&keyword=' + ${keyword} + '&status=' + ${status}}" class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant hover:bg-surface-container-low" th:text="${i}"></a>
+                        <a th:if="${currentPage != i}" th:href="@{'/admin/users?pageNo=' + ${i} + '&sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&keyword=' + ${keyword} + '&status=' + ${status} + '&roleName=' + ${roleName}}" class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant hover:bg-surface-container-low" th:text="${i}"></a>
                         <span th:unless="${currentPage != i}" class="w-8 h-8 flex items-center justify-center rounded bg-primary text-on-primary font-medium" th:text="${i}"></span>
                     </span>
                     
-                    <a th:if="${currentPage < totalPages}" th:href="@{'/admin/users?pageNo=' + ${currentPage + 1} + '&sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&keyword=' + ${keyword} + '&status=' + ${status}}" class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant hover:bg-surface-container-low"><span class="material-symbols-outlined text-[18px]">chevron_right</span></a>
+                    <a th:if="${currentPage < totalPages}" th:href="@{'/admin/users?pageNo=' + ${currentPage + 1} + '&sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&keyword=' + ${keyword} + '&status=' + ${status} + '&roleName=' + ${roleName}}" class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant hover:bg-surface-container-low"><span class="material-symbols-outlined text-[18px]">chevron_right</span></a>
                     <span th:unless="${currentPage < totalPages}" class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant opacity-50 cursor-not-allowed"><span class="material-symbols-outlined text-[18px]">chevron_right</span></span>
                 </div>
             </div>

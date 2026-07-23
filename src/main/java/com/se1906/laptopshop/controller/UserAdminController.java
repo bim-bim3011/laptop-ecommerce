@@ -23,13 +23,14 @@ public class UserAdminController {
     public String listUsers(
             @RequestParam(required = false, defaultValue = "") String keyword,
             @RequestParam(required = false, defaultValue = "") String status,
+            @RequestParam(required = false, defaultValue = "") String roleName,
             @RequestParam(defaultValue = "1") int pageNo,
             @RequestParam(defaultValue = "10") int pageSize,
             @RequestParam(defaultValue = "userId") String sortField,
             @RequestParam(defaultValue = "asc") String sortDir,
             Model model) {
         
-        Page<User> page = userService.getPaginatedUsers(keyword, status, pageNo, pageSize, sortField, sortDir);
+        Page<User> page = userService.getPaginatedUsers(keyword, status, roleName, pageNo, pageSize, sortField, sortDir);
         
         model.addAttribute("users", page.getContent());
         model.addAttribute("currentPage", pageNo);
@@ -40,6 +41,7 @@ public class UserAdminController {
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
         model.addAttribute("keyword", keyword);
         model.addAttribute("status", status);
+        model.addAttribute("roleName", roleName);
         
         return "admin/user-list";
     }

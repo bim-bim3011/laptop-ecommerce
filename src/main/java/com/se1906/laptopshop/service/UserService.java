@@ -9,5 +9,5 @@ public interface UserService {
     User getUserById(int id);
     User updateUser(int id, User userDetails);
     void deleteUser(int id);
-    Page<User> getPaginatedUsers(String keyword, String status, int pageNo, int pageSize, String sortField, String sortDir);
+    Page<User> getPaginatedUsers(String keyword, String status, String roleName, int pageNo, int pageSize, String sortField, String sortDir);
 }
