@@ -46,12 +46,12 @@ public class AdminController {
         if (session.getAttribute("admin") == null) {
             return "redirect:/admin/login";
         }
-        
+
         model.addAttribute("totalRevenue", orderRepository.calculateTotalRevenue());
         model.addAttribute("activeUsers", userRepository.countActiveUsers());
         model.addAttribute("totalInventory", configurationVersionRepository.countTotalInventory());
         model.addAttribute("totalOrders", orderRepository.countTotalOrders());
-        
+
         return "admin-dashboard";
     }
 
@@ -62,9 +62,9 @@ public class AdminController {
 
     @PostMapping("/login")
     public String login(@Valid @ModelAttribute LoginRequest request,
-                        BindingResult bindingResult,
-                        HttpSession session,
-                        Model model) {
+            BindingResult bindingResult,
+            HttpSession session,
+            Model model) {
 
         if (bindingResult.hasErrors()) {
             return "admin-login";
@@ -75,7 +75,7 @@ public class AdminController {
             if (user != null) {
                 boolean isAdmin = user.getRoles().stream()
                         .anyMatch(role -> "ADMIN".equalsIgnoreCase(role.getName()));
-                
+
                 if (isAdmin) {
                     session.setAttribute("admin", user);
 
@@ -86,8 +86,7 @@ public class AdminController {
                     Authentication authentication = new UsernamePasswordAuthenticationToken(
                             user.getEmail(),
                             null,
-                            authorities
-                    );
+                            authorities);
 
                     SecurityContextHolder.getContext().setAuthentication(authentication);
 

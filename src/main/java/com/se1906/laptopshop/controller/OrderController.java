@@ -18,7 +18,9 @@ import com.se1906.laptopshop.service.PromotionService;
 
 import com.se1906.laptopshop.entity.Order;
 import com.se1906.laptopshop.entity.User;
-
+import com.se1906.laptopshop.entity.CartItem;
+import com.se1906.laptopshop.entity.GiftDetail;
+import com.se1906.laptopshop.service.OrderService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -27,7 +29,7 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
-    
+
     @Autowired
     private PromotionService promotionService;
 
@@ -50,10 +52,10 @@ public class OrderController {
     @PostMapping("/orders/checkout")
     public String checkoutPage(
             @RequestParam(value = "selectedItemIds", required = false) List<Integer> selectedItemIds,
-            HttpSession session, 
+            HttpSession session,
             Model model,
             RedirectAttributes redirectAttributes) {
-        
+
         // 1. Kiểm tra đăng nhập
         User user = (User) session.getAttribute("user");
         if (user == null) {
@@ -101,9 +103,9 @@ public class OrderController {
 
         // Lấy lại dữ liệu đơn hàng
         orderService.prepareCheckoutData(selectedItemIds, model);
-        
+
         double totalAmount = (Double) model.getAttribute("totalAmount");
-        
+
         if (couponCode != null && !couponCode.trim().isEmpty()) {
             Map<String, Object> couponResult = promotionService.validateCoupon(couponCode.trim(), totalAmount);
             boolean isValid = (Boolean) couponResult.get("valid");
@@ -135,17 +137,19 @@ public class OrderController {
         return "checkout";
     }
 
-
-
     // ==========================================
     // 3. XỬ LÝ ĐẶT HÀNG & CHUYỂN HƯỚNG
     // ==========================================
     @PostMapping("/orders/place-order")
     public String placeOrder(
             @RequestParam(value = "selectedItemIds", required = false) List<Integer> selectedItemIds,
-            @RequestParam("receiverName") String receiverName,
-            @RequestParam("receiverPhone") String receiverPhone,
-            @RequestParam("shippingAddress") String shippingAddress,
+            @RequestParam(value = "receiverName", required = false) String receiverName,
+            @RequestParam(value = "receiverPhone", required = false) String receiverPhone,
+            @RequestParam(value = "shippingAddress", required = false) String shippingAddress,
+            @RequestParam(value = "province", required = false) String province,
+            @RequestParam(value = "district", required = false) String district,
+            @RequestParam(value = "ward", required = false) String ward,
+            @RequestParam(value = "shippingMethod", defaultValue = "standard") String shippingMethod,
             @RequestParam(value = "paymentMethod", required = false, defaultValue = "cod") String paymentMethod,
             @RequestParam(value = "couponCode", required = false) String couponCode,
             HttpSession session,
@@ -161,9 +165,8 @@ public class OrderController {
             redirectAttributes.addFlashAttribute("errorMessage", "Không có sản phẩm nào được chọn!");
             return "redirect:/cart";
         }
-
-        // ĐÃ SỬA: Bổ sung biến người nhận vào đúng thứ tự tham số truyền đi
-        String result = orderService.placeOrder(selectedItemIds, paymentMethod, couponCode, user, request);
+        // 5. Thông báo và chuyển trang
+        String result = orderService.placeOrder(selectedItemIds, paymentMethod, couponCode, user, request, receiverName, receiverPhone, shippingAddress, province, district, ward, shippingMethod);
 
         if (result.startsWith("http") || result.contains("vnpayment.vn")) {
             return "redirect:" + result;
@@ -197,8 +200,9 @@ public class OrderController {
     // ==========================================
     // 5. HIỂN THỊ CHI TIẾT ĐƠN HÀNG
     // ==========================================
-    @GetMapping("/orders/{id}")
-    public String viewOrderDetail(@PathVariable("id") int id, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+    @GetMapping("/orderdetail/{id}")
+    public String viewOrderDetail(@PathVariable("id") int id, HttpSession session, Model model,
+            RedirectAttributes redirectAttributes) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/auth/login";
@@ -209,6 +213,7 @@ public class OrderController {
             redirectAttributes.addFlashAttribute("errorMessage", "Không tìm thấy đơn hàng.");
             return "redirect:/orders";
         }
+
         model.addAttribute("order", order);
         return "order-detail";
     }

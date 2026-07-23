@@ -34,10 +34,30 @@
                 <p class="text-gray-500 text-sm" th:text="${'Ngày đặt: ' + #temporals.format(order.orderDate, 'dd/MM/yyyy HH:mm')}">Ngày đặt: 24/06/2026</p>
             </div>
             <div>
+                <span th:if="${order.status == 'PENDING_PAYMENT'}" class="px-4 py-2 bg-orange-100 text-orange-800 rounded-full font-bold text-sm">Chờ thanh toán</span>
                 <span th:if="${order.status == 'PENDING'}" class="px-4 py-2 bg-yellow-100 text-yellow-800 rounded-full font-bold text-sm">Chờ xác nhận</span>
                 <span th:if="${order.status == 'PROCESSING'}" class="px-4 py-2 bg-blue-100 text-blue-800 rounded-full font-bold text-sm">Đang xử lý</span>
+                <span th:if="${order.status == 'SHIPPING'}" class="px-4 py-2 bg-purple-100 text-purple-800 rounded-full font-bold text-sm">Đang vận chuyển</span>
                 <span th:if="${order.status == 'DELIVERED'}" class="px-4 py-2 bg-green-100 text-green-800 rounded-full font-bold text-sm">Đã giao</span>
                 <span th:if="${order.status == 'CANCELLED'}" class="px-4 py-2 bg-red-100 text-red-800 rounded-full font-bold text-sm">Đã hủy</span>
+            </div>
+        </div>
+
+        <h2 class="text-lg font-bold text-gray-900 mb-4">Thông tin giao hàng</h2>
+        <div class="bg-slate-50 border border-gray-200 rounded-lg p-5 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <p class="text-sm text-gray-500 mb-1">Người nhận</p>
+                    <p class="font-medium text-gray-900" th:text="${(order.orderDetails != null and order.orderDetails.size() > 0 and order.orderDetails[0].receiverName != null) ? order.orderDetails[0].receiverName : (order.user != null ? order.user.fullName : 'N/A')}">Nguyễn Văn A</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500 mb-1">Số điện thoại</p>
+                    <p class="font-medium text-gray-900" th:text="${(order.orderDetails != null and order.orderDetails.size() > 0 and order.orderDetails[0].receiverPhone != null) ? order.orderDetails[0].receiverPhone : (order.user != null ? order.user.phoneNumber : 'N/A')}">0987654321</p>
+                </div>
+                <div class="md:col-span-2 mt-2">
+                    <p class="text-sm text-gray-500 mb-1">Địa chỉ nhận hàng</p>
+                    <p class="font-medium text-gray-900" th:text="${(order.orderDetails != null and order.orderDetails.size() > 0 and order.orderDetails[0].shippingAddress != null) ? order.orderDetails[0].shippingAddress : (order.user != null ? order.user.address : 'N/A')}">123 Đường ABC, Quận XYZ, TP.HCM</p>
+                </div>
             </div>
         </div>
 
@@ -55,12 +75,20 @@
             </div>
         </div>
 
-        <div class="border-t border-gray-200 pt-6">
-            <div class="flex justify-between items-center mb-4">
+        <div class="border-t border-gray-200 pt-6" th:with="subtotal=${#aggregates.sum(order.orderDetails.![price * quantity])}, discount=${order.discountAmount != null ? order.discountAmount : 0}, shippingFee=${order.totalAmount + discount - subtotal}">
+            <div class="flex justify-between items-center mb-2">
                 <span class="text-gray-600 font-medium">Tạm tính:</span>
-                <span class="text-gray-900 font-medium" th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 0, 'POINT') + ' ₫'}">85.990.000 ₫</span>
+                <span class="text-gray-900 font-medium" th:text="${#numbers.formatDecimal(subtotal, 0, 'COMMA', 0, 'POINT') + ' ₫'}">85.990.000 ₫</span>
             </div>
-            <div class="flex justify-between items-center text-xl font-bold">
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-gray-600 font-medium">Phí vận chuyển:</span>
+                <span class="text-gray-900 font-medium" th:text="${shippingFee > 0 ? #numbers.formatDecimal(shippingFee, 0, 'COMMA', 0, 'POINT') + ' ₫' : 'Miễn phí'}">150.000 ₫</span>
+            </div>
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-gray-600 font-medium">Giảm giá:</span>
+                <span class="text-red-600 font-medium" th:text="'- ' + ${#numbers.formatDecimal(discount, 0, 'COMMA', 0, 'POINT') + ' ₫'}">- 2.000.000 ₫</span>
+            </div>
+            <div class="flex justify-between items-center text-xl font-bold border-t border-gray-200 pt-4">
                 <span class="text-gray-900">Tổng cộng:</span>
                 <span class="text-red-600" th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 0, 'POINT') + ' ₫'}">85.990.000 ₫</span>
             </div>
