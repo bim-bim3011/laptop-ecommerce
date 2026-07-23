@@ -26,6 +26,11 @@ public class LaptopServiceImpl implements LaptopService {
     }
 
     @Override
+    public List<Laptop> filterLaptops(Integer categoryId, Integer brandId, List<String> cpus, List<String> rams, List<String> storages, java.math.BigDecimal minPrice, java.math.BigDecimal maxPrice, String keyword) {
+        return laptopRepository.findAll(com.se1906.laptopshop.repository.LaptopSpecification.filterLaptops(categoryId, brandId, cpus, rams, storages, minPrice, maxPrice, keyword));
+    }
+
+    @Override
     public Laptop getLaptopById(int id) {
         return laptopRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Laptop not found"));

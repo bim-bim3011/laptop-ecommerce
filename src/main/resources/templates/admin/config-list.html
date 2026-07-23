@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/admin-layout :: head('LapZone - Quản lý Laptop Configs')}"></head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+<aside th:replace="~{admin/admin-layout :: sidebar('laptop')}"></aside>
+<div class="flex-1 flex flex-col md:ml-[280px] w-full min-h-screen">
+    <header th:replace="~{admin/admin-layout :: header}"></header>
+    <main class="flex-1 p-md md:p-lg lg:p-xl">
+        <div class="mb-4"><a th:href="@{/admin/laptops}" class="text-secondary hover:text-blue-700 transition-colors font-label-md flex items-center gap-1 w-fit"><span class="material-symbols-outlined text-sm">arrow_back</span> Quay lại Laptops</a></div>
+        <div class="mb-lg">
+            <h2 class="font-headline-lg text-headline-lg text-primary tracking-tight">Quản lý Laptop Configs</h2>
+            <p class="font-body-md text-body-md text-on-surface-variant mt-xs">Quản lý các cấu hình (CPU, RAM, Storage...) cho từng Laptop.</p>
+        </div>
+        <div th:if="${successMessage}" class="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg flex items-center gap-2">
+            <span class="material-symbols-outlined">check_circle</span><span th:text="${successMessage}"></span>
+        </div>
+
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-gutter">
+            <!-- Form thêm mới -->
+            <div class="xl:col-span-1">
+                <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 ambient-shadow">
+                    <h3 class="font-headline-md text-headline-md text-on-surface mb-6 flex items-center gap-2"><span class="material-symbols-outlined text-secondary">add_circle</span> Thêm Config mới</h3>
+                    <form th:action="@{/admin/laptops/configs/create}" method="POST">
+                        <div class="space-y-3">
+                            <div><label class="block font-label-md text-label-md text-on-surface-variant mb-1">Laptop</label>
+                                <select name="laptopId" required class="w-full border border-outline-variant rounded-lg px-4 py-2 text-body-md focus:outline-none focus:ring-2 focus:ring-secondary bg-surface-container-lowest">
+                                    <option value="">Chọn Laptop</option>
+                                    <option th:each="l : ${laptops}" th:value="${l.laptopId}" th:text="${l.laptopName}"></option>
+                                </select></div>
+                            <div><label class="block font-label-md text-label-md text-on-surface-variant mb-1">CPU</label>
+                                <input type="text" name="cpu" required class="w-full border border-outline-variant rounded-lg px-4 py-2 text-body-md focus:outline-none focus:ring-2 focus:ring-secondary bg-surface-container-lowest" placeholder="Intel i7-13700H"></div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div><label class="block font-label-md text-label-md text-on-surface-variant mb-1">RAM</label>
+                                    <input type="text" name="ram" required class="w-full border border-outline-variant rounded-lg px-4 py-2 text-body-md focus:outline-none focus:ring-2 focus:ring-secondary bg-surface-container-lowest" placeholder="16GB"></div>
+                                <div><label class="block font-label-md text-label-md text-on-surface-variant mb-1">Storage</label>
+                                    <input type="text" name="storage" required class="w-full border border-outline-variant rounded-lg px-4 py-2 text-body-md focus:outline-none focus:ring-2 focus:ring-secondary bg-surface-container-lowest" placeholder="512GB SSD"></div>
+                            </div>
+                            <div><label class="block font-label-md text-label-md text-on-surface-variant mb-1">GPU</label>
+                                <input type="text" name="gpu" class="w-full border border-outline-variant rounded-lg px-4 py-2 text-body-md focus:outline-none focus:ring-2 focus:ring-secondary bg-surface-container-lowest" placeholder="RTX 4060"></div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div><label class="block font-label-md text-label-md text-on-surface-variant mb-1">Giá (VND)</label>
+                                    <input type="number" name="price" required class="w-full border border-outline-variant rounded-lg px-4 py-2 text-body-md focus:outline-none focus:ring-2 focus:ring-secondary bg-surface-container-lowest" placeholder="25000000"></div>
+                                <div><label class="block font-label-md text-label-md text-on-surface-variant mb-1">Số lượng</label>
+                                    <input type="number" name="stockQuantity" required class="w-full border border-outline-variant rounded-lg px-4 py-2 text-body-md focus:outline-none focus:ring-2 focus:ring-secondary bg-surface-container-lowest" placeholder="10"></div>
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full mt-4 bg-secondary text-on-secondary py-2.5 rounded-lg font-label-md hover:bg-blue-700 transition-colors flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined text-sm">add</span> Thêm Config
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Bảng danh sách -->
+            <div class="xl:col-span-2">
+                <div class="bg-surface-container-lowest border border-outline-variant rounded-xl ambient-shadow overflow-hidden">
+                    <div class="p-6 border-b border-outline-variant">
+                        <h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+                            <span class="material-symbols-outlined text-secondary">memory</span> Danh sách Configs
+                            <span class="ml-2 px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded-full font-label-md" th:text="${#lists.size(configs)}">0</span>
+                        </h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-surface-container-high">
+                                <tr>
+                                    <th class="text-left p-3 font-label-md text-label-md text-on-surface-variant">ID</th>
+                                    <th class="text-left p-3 font-label-md text-label-md text-on-surface-variant">Laptop</th>
+                                    <th class="text-left p-3 font-label-md text-label-md text-on-surface-variant">CPU</th>
+                                    <th class="text-left p-3 font-label-md text-label-md text-on-surface-variant">RAM</th>
+                                    <th class="text-left p-3 font-label-md text-label-md text-on-surface-variant">Storage</th>
+                                    <th class="text-left p-3 font-label-md text-label-md text-on-surface-variant">GPU</th>
+                                    <th class="text-left p-3 font-label-md text-label-md text-on-surface-variant">Giá</th>
+                                    <th class="text-left p-3 font-label-md text-label-md text-on-surface-variant">SL</th>
+                                    <th class="text-left p-3 font-label-md text-label-md text-on-surface-variant">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="cfg : ${configs}" class="border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+                                    <td class="p-3 font-label-md" th:text="${cfg.configurationId}"></td>
+                                    <td class="p-3" th:text="${cfg.laptop != null ? cfg.laptop.laptopName : 'N/A'}"></td>
+                                    <td class="p-3" th:text="${cfg.cpu}"></td>
+                                    <td class="p-3" th:text="${cfg.ram}"></td>
+                                    <td class="p-3" th:text="${cfg.storage}"></td>
+                                    <td class="p-3" th:text="${cfg.gpu ?: 'N/A'}"></td>
+                                    <td class="p-3 font-label-md" th:text="${#numbers.formatDecimal(cfg.price, 0, 'COMMA', 0, 'POINT') + ' ₫'}"></td>
+                                    <td class="p-3" th:text="${cfg.stockQuantity}"></td>
+                                    <td class="p-3">
+                                        <div class="flex items-center gap-1">
+                                            <form th:action="@{/admin/laptops/configs/delete/{id}(id=${cfg.configurationId})}" method="POST" class="inline" onsubmit="return confirm('Xóa Config này?');">
+                                                <button type="submit" class="text-red-600 border border-red-200 bg-transparent hover:bg-red-50 px-2 py-1 rounded-full transition-colors inline-flex items-center gap-1 text-xs">
+                                                    <span class="material-symbols-outlined text-[14px]">delete</span>Xóa
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(configs)}"><td colspan="9" class="p-8 text-center text-on-surface-variant">Chưa có Config nào.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

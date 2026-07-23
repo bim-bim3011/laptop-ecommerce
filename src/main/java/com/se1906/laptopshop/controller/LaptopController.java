@@ -25,6 +25,9 @@ public class LaptopController {
     // @Autowired
     // private com.se1906.laptopshop.repository.PromotionRepository promotionRepository;
 
+    /**
+     * Hiển thị chi tiết Laptop, nạp kèm các thông tin mở rộng (Sản phẩm tương tự, Quà tặng, Khuyến mãi).
+     */
     @GetMapping("/laptop/{id}")
     public String laptopDetailPage(@org.springframework.web.bind.annotation.PathVariable("id") int id, Model model, jakarta.servlet.http.HttpSession session) {
         com.se1906.laptopshop.entity.User user = (com.se1906.laptopshop.entity.User) session.getAttribute("user");

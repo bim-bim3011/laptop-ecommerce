@@ -33,6 +33,8 @@ public class AdminController {
 
     AuthService authService;
     com.se1906.laptopshop.repository.OrderRepository orderRepository;
+    com.se1906.laptopshop.repository.UserRepository userRepository;
+    com.se1906.laptopshop.repository.ConfigurationVersionRepository configurationVersionRepository;
 
     @GetMapping("/login")
     public String login() {
@@ -44,39 +46,25 @@ public class AdminController {
         if (session.getAttribute("admin") == null) {
             return "redirect:/admin/login";
         }
-        
-        java.math.BigDecimal totalRevenue = orderRepository.sumTotalRevenue();
-        if (totalRevenue == null) {
-            totalRevenue = java.math.BigDecimal.ZERO;
-        }
-        
-        long pendingOrders = orderRepository.countByStatus("PENDING");
-        long deliveringOrders = orderRepository.countByStatus("SHIPPING");
-        if (deliveringOrders == 0) deliveringOrders = orderRepository.countByStatus("PROCESSING");
-        long deliveredOrders = orderRepository.countByStatus("DELIVERED");
-        if (deliveredOrders == 0) deliveredOrders = orderRepository.countByStatus("COMPLETED");
-        
-        model.addAttribute("totalRevenue", totalRevenue);
-        model.addAttribute("pendingOrders", pendingOrders);
-        model.addAttribute("deliveringOrders", deliveringOrders);
-        model.addAttribute("deliveredOrders", deliveredOrders);
-        
+
+        model.addAttribute("totalRevenue", orderRepository.calculateTotalRevenue());
+        model.addAttribute("activeUsers", userRepository.countActiveUsers());
+        model.addAttribute("totalInventory", configurationVersionRepository.countTotalInventory());
+        model.addAttribute("totalOrders", orderRepository.countTotalOrders());
+
         return "admin-dashboard";
     }
 
     @GetMapping
-    public String adminPage(HttpSession session) {
-        if (session.getAttribute("admin") == null) {
-            return "redirect:/admin/login";
-        }
-        return "admin-dashboard";
+    public String adminPage(HttpSession session, Model model) {
+        return dashboard(session, model);
     }
 
     @PostMapping("/login")
     public String login(@Valid @ModelAttribute LoginRequest request,
-                        BindingResult bindingResult,
-                        HttpSession session,
-                        Model model) {
+            BindingResult bindingResult,
+            HttpSession session,
+            Model model) {
 
         if (bindingResult.hasErrors()) {
             return "admin-login";
@@ -87,7 +75,7 @@ public class AdminController {
             if (user != null) {
                 boolean isAdmin = user.getRoles().stream()
                         .anyMatch(role -> "ADMIN".equalsIgnoreCase(role.getName()));
-                
+
                 if (isAdmin) {
                     session.setAttribute("admin", user);
 
@@ -98,8 +86,7 @@ public class AdminController {
                     Authentication authentication = new UsernamePasswordAuthenticationToken(
                             user.getEmail(),
                             null,
-                            authorities
-                    );
+                            authorities);
 
                     SecurityContextHolder.getContext().setAuthentication(authentication);
 

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="footer">
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-gray-400 py-10 mt-auto">
+        <div class="max-w-[96%] w-full mx-auto px-4 flex flex-wrap justify-between items-center gap-6">
+            <div>
+                <div class="text-white font-extrabold text-xl mb-2 flex items-center gap-2">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                        <rect x="9" y="9" width="6" height="6"></rect>
+                        <line x1="9" y1="1" x2="9" y2="4"></line>
+                        <line x1="15" y1="1" x2="15" y2="4"></line>
+                        <line x1="9" y1="20" x2="9" y2="23"></line>
+                        <line x1="15" y1="20" x2="15" y2="23"></line>
+                        <line x1="20" y1="9" x2="23" y2="9"></line>
+                        <line x1="20" y1="14" x2="23" y2="14"></line>
+                        <line x1="1" y1="9" x2="4" y2="9"></line>
+                        <line x1="1" y1="14" x2="4" y2="14"></line>
+                    </svg>
+                    LapZone
+                </div>
+                <div class="text-[0.9rem]">&copy; 2024 LapZone Systems. All rights reserved. Precision Engineering for
+                    Professionals.</div>
+            </div>
+            <div class="flex gap-6 text-[0.9rem] font-medium">
+                <a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a>
+                <a href="#" class="text-gray-400 hover:text-white transition-colors">Terms of Service</a>
+                <a href="#" class="text-gray-400 hover:text-white transition-colors">Shipping Info</a>
+                <a href="#" class="text-gray-400 hover:text-white transition-colors">Contact Support</a>
+            </div>
+        </div>
+    </footer>
+</th:block>
+</body>
+</html>

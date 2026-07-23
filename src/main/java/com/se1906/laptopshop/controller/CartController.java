@@ -26,6 +26,10 @@ public class CartController {
 
 
 
+    /**
+     * Hiển thị trang giỏ hàng của người dùng đang đăng nhập.
+     * Tính toán tổng tiền tạm tính của các sản phẩm có trong giỏ.
+     */
     @GetMapping("/cart")
     public String viewCart(HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
@@ -47,6 +51,9 @@ public class CartController {
         return "cart";
     }
 
+    /**
+     * Thêm sản phẩm (với cấu hình tương ứng) vào giỏ hàng của người dùng.
+     */
     @PostMapping("/cart/add")
     public String addToCart(@ModelAttribute AddToCartRequest request,
             HttpSession session,
@@ -68,6 +75,9 @@ public class CartController {
         return "redirect:" + (referer != null ? referer : "/cart");
     }
 
+    /**
+     * Xóa một sản phẩm cụ thể khỏi giỏ hàng dựa trên ID của sản phẩm trong giỏ (itemId).
+     */
     @PostMapping("/cart/remove")
     public String removeCartItem(@RequestParam("itemId") int itemId) {
         try {
@@ -78,6 +88,10 @@ public class CartController {
         return "redirect:/cart";
     }
 
+    /**
+     * Cập nhật số lượng (tăng hoặc giảm) của một sản phẩm trong giỏ hàng.
+     * Kiểm tra số lượng tồn kho trước khi cập nhật.
+     */
     @PostMapping("/cart/update")
     public String updateCartItem(@ModelAttribute UpdateCartItemRequest request,
             RedirectAttributes redirectAttributes,
@@ -92,6 +106,9 @@ public class CartController {
         return "redirect:/cart";
     }
 
+    /**
+     * Xóa toàn bộ sản phẩm có trong giỏ hàng của người dùng hiện tại.
+     */
     @PostMapping("/cart/clear")
     public String clearCart(HttpSession session) {
         try {
