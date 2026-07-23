@@ -29,8 +29,29 @@ public class LaptopAdminController {
     CloudinaryService cloudinaryService;
 
     @GetMapping
-    public String listLaptops(Model model) {
-        model.addAttribute("laptops", laptopService.getAllLaptops());
+    public String listLaptops(
+            @RequestParam(required = false, defaultValue = "") String keyword,
+            @RequestParam(required = false) Integer brandId,
+            @RequestParam(required = false) Integer categoryId,
+            @RequestParam(defaultValue = "1") int pageNo,
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(defaultValue = "laptopId") String sortField,
+            @RequestParam(defaultValue = "asc") String sortDir,
+            Model model) {
+        
+        org.springframework.data.domain.Page<Laptop> page = laptopService.getAdminPaginatedLaptops(keyword, brandId, categoryId, pageNo, pageSize, sortField, sortDir);
+        
+        model.addAttribute("laptops", page.getContent());
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("brandId", brandId);
+        model.addAttribute("categoryId", categoryId);
+
         model.addAttribute("brands", brandService.getAllBrands());
         model.addAttribute("categories", categoryService.getAllCategories());
         return "admin/laptop-list";

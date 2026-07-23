@@ -106,19 +106,19 @@ public class AuthController {
         }
 
         if (!request.getPassword().equals(request.getConfirmPassword())) {
-            model.addAttribute("error", "Passwords do not match.");
+            model.addAttribute("error", "Mật khẩu xác nhận không khớp.");
             return "register";
         }
 
         try {
             authService.register(request);
-            redirect.addFlashAttribute("success", "Registration successful. Please login.");
+            redirect.addFlashAttribute("success", "Đăng ký thành công. Vui lòng đăng nhập.");
             return "redirect:/auth/login";
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
             return "register";
         } catch (Exception e) {
-            model.addAttribute("error", "An error occurred during registration. Please try again.");
+            model.addAttribute("error", "Đã xảy ra lỗi trong quá trình đăng ký. Vui lòng thử lại.");
             return "register";
         }
     }

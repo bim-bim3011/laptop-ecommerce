@@ -45,4 +45,9 @@ public class BrandServiceImpl implements BrandService {
         Brand existing = getBrandById(id);
         brandRepository.delete(existing);
     }
+
+    @Override
+    public List<Brand> searchBrands(String keyword) {
+        return brandRepository.searchBrands(keyword);
+    }
 }
