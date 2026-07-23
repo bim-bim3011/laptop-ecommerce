@@ -2,6 +2,7 @@ package com.se1906.laptopshop.controller;
 
 import com.se1906.laptopshop.entity.ConfigurationVersion;
 import com.se1906.laptopshop.entity.Laptop;
+import com.se1906.laptopshop.repository.GiftItemRepository;
 import com.se1906.laptopshop.service.BrandService;
 import com.se1906.laptopshop.service.CategoryService;
 import com.se1906.laptopshop.service.CloudinaryService;
@@ -27,6 +28,7 @@ public class LaptopAdminController {
     BrandService brandService;
     CategoryService categoryService;
     CloudinaryService cloudinaryService;
+    GiftItemRepository giftItemRepository;
 
     @GetMapping
     public String listLaptops(Model model) {
@@ -104,6 +106,7 @@ public class LaptopAdminController {
     public String listConfigs(Model model) {
         model.addAttribute("configs", laptopService.getAllConfigurations());
         model.addAttribute("laptops", laptopService.getAllLaptops());
+        model.addAttribute("allGifts", giftItemRepository.findAll());
         return "admin/config-list";
     }
 
@@ -115,6 +118,7 @@ public class LaptopAdminController {
                                @RequestParam(value = "gpu", required = false) String gpu,
                                @RequestParam("price") BigDecimal price,
                                @RequestParam("stockQuantity") int stockQuantity,
+                               @RequestParam(value = "selectedGifts", required = false) java.util.List<Integer> selectedGifts,
                                RedirectAttributes redirectAttributes) {
         ConfigurationVersion config = new ConfigurationVersion();
         config.setCpu(cpu);
@@ -123,7 +127,7 @@ public class LaptopAdminController {
         config.setGpu(gpu);
         config.setPrice(price);
         config.setStockQuantity(stockQuantity);
-        laptopService.createConfiguration(laptopId, config);
+        laptopService.createConfiguration(laptopId, config, selectedGifts);
         redirectAttributes.addFlashAttribute("successMessage", "Thêm Configuration thành công!");
         return "redirect:/admin/laptops/configs";
     }

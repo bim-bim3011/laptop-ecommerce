@@ -46,12 +46,43 @@ public class AdminController {
         if (session.getAttribute("admin") == null) {
             return "redirect:/admin/login";
         }
-        
-        model.addAttribute("totalRevenue", orderRepository.calculateTotalRevenue());
+        var allOrders = orderRepository.findAll();
+        double totalRevenue = allOrders.stream()
+                .filter(o -> "DELIVERED".equalsIgnoreCase(o.getStatus()))
+                .mapToDouble(o -> o.getTotalAmount() != null ? o.getTotalAmount().doubleValue() : 0.0)
+                .sum();
+        model.addAttribute("totalRevenue", totalRevenue);
         model.addAttribute("activeUsers", userRepository.countActiveUsers());
         model.addAttribute("totalInventory", configurationVersionRepository.countTotalInventory());
         model.addAttribute("totalOrders", orderRepository.countTotalOrders());
-        
+        // 1. Lấy tất cả đơn hàng từ database
+
+        // 2. Tổng order đang chờ xác nhận (PENDING)
+        long pendingCount = allOrders.stream()
+                .filter(o -> "PENDING".equalsIgnoreCase(o.getStatus()))
+                .count();
+
+        // 3. Tổng order đang vận chuyển (SHIPPING)
+        long shippingCount = allOrders.stream()
+                .filter(o -> "SHIPPING".equalsIgnoreCase(o.getStatus()))
+                .count();
+
+        // 4. Tổng order đã giao (DELIVERED)
+        long deliveredCount = allOrders.stream()
+                .filter(o -> "DELIVERED".equalsIgnoreCase(o.getStatus()))
+                .count();
+
+        // 5. Tổng tiền đã refund (Tính tổng amount của các đơn hàng đã bị hủy - CANCELLED)
+        double totalRefund = allOrders.stream()
+                .filter(o -> "CANCELLED".equalsIgnoreCase(o.getStatus()))
+                .mapToDouble(o -> o.getTotalAmount() != null ? o.getTotalAmount().doubleValue() : 0.0)
+                .sum();
+
+        // Đẩy 4 biến mới này sang giao diện HTML công thức Thymeleaf
+        model.addAttribute("pendingCount", pendingCount);
+        model.addAttribute("shippingCount", shippingCount);
+        model.addAttribute("deliveredCount", deliveredCount);
+        model.addAttribute("totalRefund", totalRefund);
         return "admin-dashboard";
     }
 
