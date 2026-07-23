@@ -46,6 +46,11 @@ public class SecurityConfig {
                 .requestMatchers(PUBLIC_ENDPOINTS).permitAll() // Cho phép truy cập không cần login
                 .requestMatchers("/admin/**").hasRole("ADMIN") // Chỉ ADMIN mới được vào /admin/**
                 .anyRequest().authenticated() // Các request khác phải login
+                )
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.sendRedirect("/auth/login");
+                        })
                 );
 
         return http.build();

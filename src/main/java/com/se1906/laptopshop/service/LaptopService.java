@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface LaptopService {
     List<Laptop> getAllLaptops();
+    List<Laptop> filterLaptops(Integer categoryId, Integer brandId, List<String> cpus, List<String> rams, List<String> storages, java.math.BigDecimal minPrice, java.math.BigDecimal maxPrice, String keyword);
     Laptop getLaptopById(int id);
     Laptop createLaptop(Laptop laptop);
     Laptop updateLaptop(int id, Laptop laptop);

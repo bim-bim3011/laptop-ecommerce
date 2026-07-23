@@ -55,6 +55,52 @@ public class PromotionServiceImpl implements PromotionService {
         Promotion existing = getPromotionById(id);
         promotionRepository.delete(existing);
     }
+    
+    @Override
+    public java.util.Map<String, Object> validateCoupon(String code, double orderTotal) {
+        java.util.Map<String, Object> result = new java.util.HashMap<>();
+        Promotion promotion = promotionRepository.findByCouponCode(code).orElse(null);
+        
+        if (promotion == null) {
+            result.put("valid", false);
+            result.put("message", "Mã giảm giá không tồn tại!");
+            return result;
+        }
+        
+        java.time.LocalDateTime now = java.time.LocalDateTime.now();
+        if (now.isBefore(promotion.getStartDate()) || now.isAfter(promotion.getEndDate())) {
+            result.put("valid", false);
+            result.put("message", "Mã giảm giá đã hết hạn hoặc chưa bắt đầu!");
+            return result;
+        }
+        
+        if (promotion.getMinOrderValue() != null && java.math.BigDecimal.valueOf(orderTotal).compareTo(promotion.getMinOrderValue()) < 0) {
+            result.put("valid", false);
+            result.put("message", "Đơn hàng chưa đạt giá trị tối thiểu để áp dụng mã này!");
+            return result;
+        }
+        
+        double discountAmount = 0;
+        if ("PERCENTAGE".equalsIgnoreCase(promotion.getDiscountType())) {
+            discountAmount = orderTotal * promotion.getDiscountValue().doubleValue() / 100;
+            if (promotion.getMaxDiscountAmount() != null && discountAmount > promotion.getMaxDiscountAmount().doubleValue()) {
+                discountAmount = promotion.getMaxDiscountAmount().doubleValue();
+            }
+        } else if ("FIXED_AMOUNT".equalsIgnoreCase(promotion.getDiscountType())) {
+            discountAmount = promotion.getDiscountValue().doubleValue();
+        }
+        
+        if (discountAmount > orderTotal) {
+            discountAmount = orderTotal;
+        }
+        
+        result.put("valid", true);
+        result.put("discountAmount", discountAmount);
+        result.put("message", "Áp dụng mã giảm giá thành công!");
+        result.put("promotionId", promotion.getPromotionId());
+        
+        return result;
+    }
 
     @Override
     public List<GiftDetail> getGiftDetailsByPromotionId(int promotionId) {
