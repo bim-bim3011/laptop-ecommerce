@@ -54,6 +54,7 @@ public class ConfigurationVersion {
 
     @ManyToOne
     @JoinColumn(name = "laptop_id")
+    @org.hibernate.annotations.NotFound(action = org.hibernate.annotations.NotFoundAction.IGNORE)
     private Laptop laptop;
 
     @JsonIgnore

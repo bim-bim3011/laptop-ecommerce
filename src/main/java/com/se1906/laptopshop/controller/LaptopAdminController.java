@@ -178,7 +178,7 @@ public class LaptopAdminController {
         config.setGpu(dto.getGpu());
         config.setPrice(dto.getPrice());
         config.setStockQuantity(dto.getStockQuantity());
-        laptopService.createConfiguration(dto.getLaptopId(), config);
+        laptopService.createConfiguration(dto.getLaptopId(), config, new java.util.ArrayList<>());
         redirectAttributes.addFlashAttribute("successMessage", "Thêm Configuration thành công!");
         return "redirect:/admin/laptops/configs";
     }
@@ -219,5 +219,12 @@ public class LaptopAdminController {
         laptopService.deleteConfiguration(configId);
         redirectAttributes.addFlashAttribute("successMessage", "Xóa Configuration thành công!");
         return "redirect:/admin/laptops/configs";
+    }
+    @ExceptionHandler(Exception.class)
+    @org.springframework.web.bind.annotation.ResponseBody
+    public String handleAllExceptions(Exception ex) {
+        java.io.StringWriter sw = new java.io.StringWriter();
+        ex.printStackTrace(new java.io.PrintWriter(sw));
+        return "<pre>" + sw.toString() + "</pre>";
     }
 }

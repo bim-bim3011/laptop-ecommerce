@@ -27,6 +27,7 @@ public class   CartServiceImpl implements CartService {
     @Autowired
     private ConfigurationVersionRepository cvRepository;
 
+
     @Override
     public Cart getCartByUser(User user) {
         Cart cart = cartRepository.findByUser(user);
@@ -38,7 +39,6 @@ public class   CartServiceImpl implements CartService {
             return cartRepository.save(newCart);
         }
     }
-
     @Override
     @Transactional
     public void addToCart(User user, int configurationId, int quantity) {
@@ -72,6 +72,10 @@ public class   CartServiceImpl implements CartService {
         }
     }
 
+    /**
+     * Xóa một sản phẩm cụ thể khỏi giỏ hàng dựa trên ID của CartItem.
+     * Hàm tìm kiếm sản phẩm trong giỏ, gỡ liên kết và xóa bản ghi khỏi cơ sở dữ liệu.
+     */
     @Override
     @Transactional
     public void removeCartItem(int itemId) {
@@ -86,6 +90,10 @@ public class   CartServiceImpl implements CartService {
         }
     }
 
+    /**
+     * Tăng hoặc giảm số lượng của một sản phẩm hiện có trong giỏ hàng.
+     * Hàm kiểm tra tồn kho khi tăng số lượng và sẽ tự động xóa sản phẩm nếu số lượng giảm xuống <= 0.
+     */
     @Override
     @Transactional
     public void updateCartItemQuantity(int itemId, String action) {
@@ -119,6 +127,10 @@ public class   CartServiceImpl implements CartService {
         cartItemRepository.save(cartItem);
     }
 
+    /**
+     * Làm trống toàn bộ giỏ hàng của người dùng.
+     * Hàm này được sử dụng khi người dùng muốn xóa nhanh tất cả sản phẩm hoặc sau khi thanh toán thành công.
+     */
     @Override
     @Transactional
     public void clearCart(User user) {

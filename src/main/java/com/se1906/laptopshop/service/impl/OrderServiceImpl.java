@@ -42,11 +42,19 @@ public class OrderServiceImpl implements OrderService {
 
     PaymentService paymentService;
 
+    /**
+     * Lấy danh sách toàn bộ các đơn hàng của một người dùng cụ thể.
+     * Dữ liệu được sắp xếp theo ngày đặt giảm dần để hiển thị lịch sử mua hàng một cách trực quan.
+     */
     @Override
     public List<Order> getOrderHistory(User user) {
         return orderRepository.findByUserOrderByOrderDateDesc(user);
     }
 
+    /**
+     * Tìm kiếm và trả về thông tin chi tiết của một đơn hàng dựa trên mã đơn.
+     * Hàm đảm bảo người dùng chỉ xem được thông tin đơn hàng do chính họ đặt.
+     */
     @Override
     public Order getOrderByIdAndUser(int orderId, User user) {
         Order order = orderRepository.findById(orderId).orElse(null);
@@ -56,6 +64,10 @@ public class OrderServiceImpl implements OrderService {
         return null;
     }
 
+    /**
+     * Trích xuất danh sách các đối tượng CartItem dựa trên danh sách ID sản phẩm được chọn.
+     * Hàm này được sử dụng để lấy thông tin các mặt hàng chuẩn bị cho quá trình thanh toán.
+     */
     @Override
     public List<CartItem> getSelectedCartItems(List<Integer> selectedItemIds) {
         if (selectedItemIds == null || selectedItemIds.isEmpty()) {
@@ -64,6 +76,10 @@ public class OrderServiceImpl implements OrderService {
         return cartItemRepository.findAllById(selectedItemIds);
     }
 
+    /**
+     * Lấy danh sách các phần quà khuyến mãi đi kèm với các cấu hình sản phẩm đang có trong giỏ hàng.
+     * Sử dụng Set để lọc trùng lặp, đảm bảo mỗi loại quà chỉ xuất hiện một lần trong danh sách.
+     */
     @Override
     public List<GiftDetail> getGiftDetailsFromCartItems(List<CartItem> selectedItems) {
         List<GiftDetail> giftDetails = new ArrayList<>();
@@ -91,6 +107,10 @@ public class OrderServiceImpl implements OrderService {
         }
         return giftDetails;
     }
+    /**
+     * Tổng hợp và chuẩn bị đầy đủ dữ liệu (sản phẩm, tổng tiền, quà tặng) cho trang Checkout.
+     * Hàm tính toán tổng tiền tạm tính và đưa tất cả vào Model để render ra giao diện.
+     */
     public void prepareCheckoutData(List<Integer> selectedItemIds, Model model) {
         List<CartItem> selectedItems = cartItemRepository.findAllById(selectedItemIds);
 
@@ -129,6 +149,10 @@ public class OrderServiceImpl implements OrderService {
         model.addAttribute("giftDetails", giftDetails);
     }
 
+    /**
+     * Xử lý logic nghiệp vụ chính để tạo một đơn hàng mới từ các sản phẩm được chọn.
+     * Hàm này thực hiện tính toán phí ship, mã giảm giá, lưu thông tin Order và OrderDetail, sau đó xóa sản phẩm khỏi giỏ.
+     */
     @Override
     @Transactional
     public String placeOrder(List<Integer> selectedItemIds, String paymentMethod, String couponCode, User user,
@@ -158,7 +182,13 @@ public class OrderServiceImpl implements OrderService {
 
         // Tính toán discount
         if (couponCode != null && !couponCode.trim().isEmpty()) {
-            Promotion promotion = promotionRepository.findByCouponCode(couponCode).orElse(null);
+            String trimmedCode = couponCode.trim();
+            Promotion promotion = promotionRepository.findByCouponCode(trimmedCode).orElse(null);
+            
+            if (promotion != null && promotion.getCouponCode() != null && !promotion.getCouponCode().equals(trimmedCode)) {
+                promotion = null;
+            }
+            
             if (promotion != null) {
                 java.time.LocalDateTime now = java.time.LocalDateTime.now();
                 if (!now.isBefore(promotion.getStartDate()) && !now.isAfter(promotion.getEndDate())) {
@@ -235,6 +265,10 @@ public class OrderServiceImpl implements OrderService {
         return "SUCCESS";
     }
 
+    /**
+     * Thực hiện hủy một đơn hàng nếu trạng thái hiện tại nằm trong danh sách cho phép hủy.
+     * Nếu đơn hàng đã được thanh toán qua VNPAY, hàm sẽ đánh dấu trạng thái chờ hoàn tiền.
+     */
     @Override
     @Transactional
     public boolean cancelOrder(int id, User user) {
@@ -262,6 +296,10 @@ public class OrderServiceImpl implements OrderService {
         return true;
     }
 
+    /**
+     * Lấy chi tiết của một đơn hàng bằng ID và đối chiếu với User để bảo mật thông tin.
+     * Trả về Null nếu không tìm thấy đơn hoặc người dùng không có quyền truy cập.
+     */
     @Override
     public Order getOrderDetail(int id, User user) {
         Order order = orderRepository.findById(id).orElse(null);
@@ -271,6 +309,10 @@ public class OrderServiceImpl implements OrderService {
         return order;
     }
 
+    /**
+     * Cập nhật trạng thái của đơn hàng từ "Chờ xử lý" sang "Đang vận chuyển".
+     * Chức năng này thường được sử dụng bởi Admin để quản lý trạng thái giao hàng.
+     */
     @Override
     @Transactional
     public boolean shipOrder(int id) {
@@ -283,6 +325,10 @@ public class OrderServiceImpl implements OrderService {
         return true;
     }
 
+    /**
+     * Đánh dấu đơn hàng là "Đã giao hàng" và hoàn tất quy trình giao dịch.
+     * Đồng thời cập nhật trạng thái thanh toán thành "Thành công" đối với phương thức COD.
+     */
     @Override
     @Transactional
     public boolean completeOrder(int id) {
@@ -298,6 +344,10 @@ public class OrderServiceImpl implements OrderService {
         return true;
     }
 
+    /**
+     * Truy xuất toàn bộ danh sách đơn hàng có trong hệ thống.
+     * Hàm này phục vụ cho chức năng thống kê và quản lý của người quản trị (Admin).
+     */
     @Override
     public List<Order> getAllOrders() {
         return orderRepository.findAll();

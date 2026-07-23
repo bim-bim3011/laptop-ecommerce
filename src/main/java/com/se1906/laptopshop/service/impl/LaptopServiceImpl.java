@@ -111,12 +111,21 @@ public class LaptopServiceImpl implements LaptopService {
     }
 
     @Override
+    @org.springframework.transaction.annotation.Transactional(readOnly = true)
     public org.springframework.data.domain.Page<ConfigurationVersion> getAdminPaginatedConfigs(String keyword, String cpu, String ram, String storage, int pageNo, int pageSize, String sortField, String sortDir) {
         org.springframework.data.domain.Sort sort = sortDir.equalsIgnoreCase(org.springframework.data.domain.Sort.Direction.ASC.name()) ? 
                 org.springframework.data.domain.Sort.by(sortField).ascending() : 
                 org.springframework.data.domain.Sort.by(sortField).descending();
         org.springframework.data.domain.Pageable pageable = org.springframework.data.domain.PageRequest.of(pageNo - 1, pageSize, sort);
-        return configurationVersionRepository.searchAndFilterConfigs(keyword, cpu, ram, storage, pageable);
+        org.springframework.data.domain.Page<ConfigurationVersion> page = configurationVersionRepository.searchAndFilterConfigs(keyword, cpu, ram, storage, pageable);
+        // Khởi tạo LAZY collections để tránh LazyInitializationException ở view
+        for (ConfigurationVersion cv : page.getContent()) {
+            cv.getGiftDetails().size();
+            if (cv.getLaptop() != null) {
+                cv.getLaptop().getLaptopName();
+            }
+        }
+        return page;
     }
 
     @Override
