@@ -4,6 +4,7 @@ import com.se1906.laptopshop.entity.Laptop;
 import com.se1906.laptopshop.entity.ConfigurationVersion;
 import com.se1906.laptopshop.repository.LaptopRepository;
 import com.se1906.laptopshop.repository.ConfigurationVersionRepository;
+import com.se1906.laptopshop.service.GiftDetailService;
 import com.se1906.laptopshop.service.LaptopService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ public class LaptopServiceImpl implements LaptopService {
 
     LaptopRepository laptopRepository;
     ConfigurationVersionRepository configurationVersionRepository;
+    GiftDetailService giftDetailService;
 
     @Override
     public List<Laptop> getAllLaptops() {
@@ -70,10 +72,12 @@ public class LaptopServiceImpl implements LaptopService {
     }
 
     @Override
-    public ConfigurationVersion createConfiguration(int laptopId, ConfigurationVersion configuration) {
+    public ConfigurationVersion createConfiguration(int laptopId, ConfigurationVersion configuration , List<Integer> selectedGifts) {
         Laptop laptop = getLaptopById(laptopId);
         configuration.setLaptop(laptop);
-        return configurationVersionRepository.save(configuration);
+        ConfigurationVersion savedConfig = configurationVersionRepository.save(configuration);
+        giftDetailService.saveGiftsForConfig(laptop, savedConfig, selectedGifts);
+        return savedConfig;
     }
 
     @Override

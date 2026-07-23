@@ -41,4 +41,7 @@ public class GiftDetail {
     @ManyToOne
     @JoinColumn(name = "gift_item_id")
     private GiftItem giftItem;
+    @ManyToOne
+    @JoinColumn(name = "laptop_id", nullable = false) // Nối chính xác sang khóa chính laptop_id của bảng laptops
+    private Laptop laptop;
 }
