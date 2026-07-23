@@ -1,7 +1,5 @@
 package com.se1906.laptopshop.controller;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +13,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.se1906.laptopshop.entity.Order;
 import com.se1906.laptopshop.entity.User;
-import com.se1906.laptopshop.repository.OrderRepository;
-
 import com.se1906.laptopshop.entity.CartItem;
-import com.se1906.laptopshop.entity.OrderDetail;
-import com.se1906.laptopshop.repository.CartItemRepository;
-import com.se1906.laptopshop.repository.OrderDetailRepository;
-
+import com.se1906.laptopshop.entity.GiftDetail;
+import com.se1906.laptopshop.service.OrderService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -29,16 +23,7 @@ import jakarta.servlet.http.HttpSession;
 public class OrderController {
 
     @Autowired
-    private OrderRepository orderRepository;
-
-    @Autowired
-    private OrderDetailRepository orderDetailRepository;
-
-    @Autowired
-    private CartItemRepository cartItemRepository;
-
-    // Các trạng thái được coi là "chưa giao cho đơn vị vận chuyển" -> vẫn có thể hủy
-    private static final List<String> CANCELLABLE_STATUSES = Arrays.asList("PENDING", "PROCESSING");
+    private OrderService orderService;
 
     // ==========================================
     // 1. HIỂN THỊ LỊCH SỬ ĐƠN HÀNG
@@ -49,7 +34,7 @@ public class OrderController {
         if (user == null) {
             return "redirect:/login";
         }
-        List<Order> orders = orderRepository.findByUserOrderByOrderDateDesc(user);
+        List<Order> orders = orderService.getOrdersByUser(user);
         model.addAttribute("orders", orders);
         return "order-history";
     }
@@ -75,36 +60,9 @@ public class OrderController {
             return "redirect:/cart";
         }
 
-        List<CartItem> selectedItems = cartItemRepository.findAllById(selectedItemIds);
-        
-        List<com.se1906.laptopshop.entity.GiftDetail> giftDetails = new java.util.ArrayList<>();
-        java.util.Set<Integer> addedGiftItemIds = new java.util.HashSet<>();
-
-        double totalAmount = 0;
-        for (CartItem item : selectedItems) {
-            totalAmount += item.getConfigurationVersion().getPrice().doubleValue() * item.getQuantity();
-            
-            // Add gifts from ALL configurations of the selected laptop
-            if (item.getConfigurationVersion() != null && item.getConfigurationVersion().getLaptop() != null) {
-                com.se1906.laptopshop.entity.Laptop laptop = item.getConfigurationVersion().getLaptop();
-                if (laptop.getConfigurationVersions() != null) {
-                    for (com.se1906.laptopshop.entity.ConfigurationVersion cv : laptop.getConfigurationVersions()) {
-                        if (cv.getGiftDetails() != null) {
-                            for (com.se1906.laptopshop.entity.GiftDetail gd : cv.getGiftDetails()) {
-                                if (gd.getGiftItem() != null) {
-                                    gd.getGiftItem().getItemName();
-                                    Integer itemId = gd.getGiftItem().getGiftItemId();
-                                    if (!addedGiftItemIds.contains(itemId)) {
-                                        giftDetails.add(gd);
-                                        addedGiftItemIds.add(itemId);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        List<CartItem> selectedItems = orderService.getSelectedCartItems(selectedItemIds);
+        List<GiftDetail> giftDetails = orderService.getGiftDetailsFromCartItems(selectedItems);
+        double totalAmount = orderService.calculateTotalAmount(selectedItems);
 
         model.addAttribute("selectedItems", selectedItems);
         model.addAttribute("totalAmount", totalAmount);
@@ -127,6 +85,7 @@ public class OrderController {
             @RequestParam("province") String province,
             @RequestParam("district") String district,
             @RequestParam("ward") String ward,
+            @RequestParam(value = "shippingMethod", defaultValue = "standard") String shippingMethod,
             HttpSession session,
             RedirectAttributes redirectAttributes) {
 
@@ -141,47 +100,12 @@ public class OrderController {
             return "redirect:/cart";
         }
 
-        // 1. Lấy danh sách sản phẩm trong giỏ hàng
-        List<CartItem> selectedItems = cartItemRepository.findAllById(selectedItemIds);
-
-        // 2. Tạo đơn hàng tổng
-        Order newOrder = new Order();
-        newOrder.setUser(user);
-        newOrder.setStatus("PENDING");
-        newOrder.setOrderDate(LocalDateTime.now());
-
-        // (Tùy chọn) Lưu thông tin người nhận nếu Entity Order có các thuộc tính này
-        String fullAddress = shippingAddress + ", " + ward + ", " + district + ", " + province;
-
-
-        // Tính tổng tiền
-        double totalAmount = 0;
-        for (CartItem item : selectedItems) {
-            totalAmount += item.getConfigurationVersion().getPrice().doubleValue() * item.getQuantity();
+        Order savedOrder = orderService.placeOrder(user, selectedItemIds, receiverName, receiverPhone, shippingAddress, province, district, ward, shippingMethod);
+        
+        if (savedOrder == null) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Có lỗi xảy ra khi đặt hàng.");
+            return "redirect:/cart";
         }
-        newOrder.setTotalAmount(java.math.BigDecimal.valueOf(totalAmount));
-
-        // Lưu đơn hàng tổng để lấy ID
-        Order savedOrder = orderRepository.save(newOrder);
-
-        // 3. Tạo chi tiết đơn hàng (OrderDetail)
-        for (CartItem item : selectedItems) {
-            OrderDetail detail = new OrderDetail();
-            detail.setOrder(savedOrder);
-            detail.setConfigurationVersion(item.getConfigurationVersion());
-            detail.setQuantity(item.getQuantity());
-            detail.setPrice(item.getConfigurationVersion().getPrice());
-            
-            // Lưu thông tin địa chỉ vào OrderDetail theo yêu cầu
-            detail.setReceiverName(receiverName);
-            detail.setReceiverPhone(receiverPhone);
-            detail.setShippingAddress(fullAddress);
-
-            orderDetailRepository.save(detail);
-        }
-
-        // 4. Xóa sản phẩm đã thanh toán khỏi giỏ hàng
-        cartItemRepository.deleteAll(selectedItems);
 
         // 5. Thông báo và chuyển trang
         redirectAttributes.addFlashAttribute("successMessage", "Đơn hàng của bạn đã được đặt thành công!");
@@ -198,21 +122,14 @@ public class OrderController {
             return "redirect:/login";
         }
 
-        Order order = orderRepository.findById(id).orElse(null);
-        if (order == null || order.getUser() == null || !order.getUser().getUserId().equals(user.getUserId())) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Không tìm thấy đơn hàng.");
+        boolean success = orderService.cancelOrder(id, user);
+
+        if (!success) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Không thể hủy đơn hàng hoặc đơn hàng không tồn tại.");
             return "redirect:/orders";
         }
 
-        if (!CANCELLABLE_STATUSES.contains(order.getStatus())) {
-            redirectAttributes.addFlashAttribute("errorMessage",
-                    "Đơn hàng đã được giao cho đơn vị vận chuyển hoặc đã hoàn tất, không thể hủy.");
-            return "redirect:/orders";
-        }
-
-        order.setStatus("CANCELLED");
-        orderRepository.save(order);
-        redirectAttributes.addFlashAttribute("successMessage", "Đơn hàng #" + order.getOrderId() + " đã được hủy thành công.");
+        redirectAttributes.addFlashAttribute("successMessage", "Đơn hàng #" + id + " đã được hủy thành công.");
 
         return "redirect:/orders";
     }
@@ -226,11 +143,14 @@ public class OrderController {
         if (user == null) {
             return "redirect:/auth/login";
         }
-        Order order = orderRepository.findById(id).orElse(null);
-        if (order == null || order.getUser() == null || !order.getUser().getUserId().equals(user.getUserId())) {
+        
+        Order order = orderService.getOrderByIdAndUser(id, user);
+        
+        if (order == null) {
             redirectAttributes.addFlashAttribute("errorMessage", "Không tìm thấy đơn hàng.");
             return "redirect:/orders";
         }
+        
         model.addAttribute("order", order);
         return "order-detail";
     }

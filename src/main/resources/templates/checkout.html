@@ -399,11 +399,11 @@
                 <div class="space-y-3 pt-4 border-t border-surface-container-highest text-body-md font-body-md">
                     <div class="flex justify-between text-on-surface-variant">
                         <span>Tạm tính</span>
-                        <span th:text="${#numbers.formatDecimal(totalAmount, 0, 'COMMA', 0, 'POINT') + ' ₫'}">85.990.000 ₫</span>
+                        <span id="subtotalDisplay" th:text="${#numbers.formatDecimal(totalAmount, 0, 'COMMA', 0, 'POINT') + ' ₫'}"></span>
                     </div>
                     <div class="flex justify-between text-on-surface-variant">
                         <span>Phí vận chuyển</span>
-                        <span>Miễn phí</span>
+                        <span id="shippingFeeDisplay">Miễn phí</span>
                     </div>
                     <div class="flex justify-between text-error">
                         <span>Giảm giá</span>
@@ -411,7 +411,7 @@
                     </div>
                     <div class="flex justify-between items-center pt-3 border-t border-surface-container-highest mt-3">
                         <span class="text-headline-md font-headline-md">Tổng cộng</span>
-                        <span class="text-headline-md font-headline-md text-primary" th:text="${#numbers.formatDecimal(totalAmount, 0, 'COMMA', 0, 'POINT') + ' ₫'}">85.990.000 ₫</span>
+                        <span id="totalDisplay" class="text-headline-md font-headline-md text-primary" th:text="${#numbers.formatDecimal(totalAmount, 0, 'COMMA', 0, 'POINT') + ' ₫'}"></span>
                     </div>
                 </div>
                 <!-- Primary CTA -->
@@ -558,6 +558,42 @@
                 wardSelect.disabled = false;
             }
         });
+
+        // Shipping method change listener
+        const shippingMethodInputs = document.querySelectorAll('input[name="shippingMethod"]');
+        const shippingFeeDisplay = document.getElementById('shippingFeeDisplay');
+        const totalDisplay = document.getElementById('totalDisplay');
+        const baseTotal = /*[[${totalAmount}]]*/ 0; // Thymeleaf will inject this value or default to 0 in JS fallback (we'll fetch from DOM to be safe)
+        
+        // Safer way to get base total from DOM
+        let subtotalStr = document.getElementById('subtotalDisplay').innerText;
+        let parsedSubtotal = parseFloat(subtotalStr.replace(/[^0-9]/g, ''));
+        if (isNaN(parsedSubtotal)) parsedSubtotal = 0;
+
+        function updateShippingAndTotal() {
+            let selectedMethod = 'standard';
+            shippingMethodInputs.forEach(input => {
+                if (input.checked) selectedMethod = input.value;
+            });
+
+            let shippingFee = 0;
+            if (selectedMethod === 'express') {
+                shippingFee = 150000;
+                shippingFeeDisplay.innerText = '150.000 ₫';
+            } else {
+                shippingFeeDisplay.innerText = 'Miễn phí';
+            }
+
+            let newTotal = parsedSubtotal + shippingFee;
+            totalDisplay.innerText = new Intl.NumberFormat('vi-VN').format(newTotal) + ' ₫';
+        }
+
+        shippingMethodInputs.forEach(input => {
+            input.addEventListener('change', updateShippingAndTotal);
+        });
+        
+        // Initialize on load
+        updateShippingAndTotal();
     });
 </script>
 
