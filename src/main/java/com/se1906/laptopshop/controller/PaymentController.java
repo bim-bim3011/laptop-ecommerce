@@ -47,10 +47,29 @@ public class PaymentController {
                 if (orderOptional.isPresent()) {
                     Order order = orderOptional.get();
                     if ("00".equals(transactionStatus)) {
+                        String vnpAmountStr = request.getParameter("vnp_Amount");
+                        if (vnpAmountStr != null && !vnpAmountStr.isEmpty()) {
+                            try {
+                                long paidAmountVND = Long.parseLong(vnpAmountStr) / 100;
+                                long originalTotal = order.getTotalAmount().longValue();
+                                
+                                if (paidAmountVND != originalTotal) {
+                                    long diff = originalTotal - paidAmountVND;
+                                    order.setTotalAmount(java.math.BigDecimal.valueOf(paidAmountVND));
+                                    
+                                    java.math.BigDecimal currentDiscount = order.getDiscountAmount();
+                                    if (currentDiscount == null) currentDiscount = java.math.BigDecimal.ZERO;
+                                    order.setDiscountAmount(currentDiscount.add(java.math.BigDecimal.valueOf(diff)));
+                                }
+                            } catch (Exception ex) {
+                                // Ignore parsing error
+                            }
+                        }
+                        
                         order.setPaymentStatus("PAID");
-                        order.setStatus("PROCESSING");
+                        order.setStatus("PENDING");
                         orderRepository.save(order);
-                        redirectAttributes.addFlashAttribute("successMessage", "Thanh toán thành công! Đơn hàng của bạn đang được xử lý.");
+                        redirectAttributes.addFlashAttribute("successMessage", "Thanh toán thành công! Đơn hàng của bạn đang chờ xác nhận.");
                     } else {
                         order.setPaymentStatus("FAILED");
                         order.setStatus("CANCELLED");
