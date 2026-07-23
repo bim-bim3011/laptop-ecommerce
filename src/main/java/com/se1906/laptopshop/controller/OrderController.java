@@ -10,7 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Map;
+import com.se1906.laptopshop.service.PromotionService;
 
 import com.se1906.laptopshop.entity.Order;
 import com.se1906.laptopshop.entity.User;
@@ -23,6 +27,9 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+    
+    @Autowired
+    private PromotionService promotionService;
 
     // ==========================================
     // 1. HIỂN THỊ LỊCH SỬ ĐƠN HÀNG
@@ -62,6 +69,72 @@ public class OrderController {
         return "checkout";
     }
 
+    // ==========================================
+    // 2.5 ÁP DỤNG MÃ GIẢM GIÁ (THYMELEAF)
+    // ==========================================
+    @PostMapping("/orders/checkout-coupon")
+    public String checkoutCoupon(
+            @RequestParam(value = "selectedItemIds", required = false) List<Integer> selectedItemIds,
+            @RequestParam(value = "receiverName", required = false) String receiverName,
+            @RequestParam(value = "receiverPhone", required = false) String receiverPhone,
+            @RequestParam(value = "email", required = false) String email,
+            @RequestParam(value = "province", required = false) String province,
+            @RequestParam(value = "district", required = false) String district,
+            @RequestParam(value = "ward", required = false) String ward,
+            @RequestParam(value = "shippingAddress", required = false) String shippingAddress,
+            @RequestParam(value = "shippingMethod", required = false) String shippingMethod,
+            @RequestParam(value = "paymentMethod", required = false) String paymentMethod,
+            @RequestParam(value = "inputCouponCode", required = false) String couponCode,
+            HttpSession session,
+            Model model,
+            RedirectAttributes redirectAttributes) {
+
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/auth/login";
+        }
+
+        if (selectedItemIds == null || selectedItemIds.isEmpty()) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Không có sản phẩm nào được chọn!");
+            return "redirect:/cart";
+        }
+
+        // Lấy lại dữ liệu đơn hàng
+        orderService.prepareCheckoutData(selectedItemIds, model);
+        
+        double totalAmount = (Double) model.getAttribute("totalAmount");
+        
+        if (couponCode != null && !couponCode.trim().isEmpty()) {
+            Map<String, Object> couponResult = promotionService.validateCoupon(couponCode.trim(), totalAmount);
+            boolean isValid = (Boolean) couponResult.get("valid");
+            model.addAttribute("couponMessage", couponResult.get("message"));
+            model.addAttribute("isValidCoupon", isValid);
+            if (isValid) {
+                double discountAmount = (Double) couponResult.get("discountAmount");
+                model.addAttribute("discountAmount", discountAmount);
+                model.addAttribute("newTotal", totalAmount - discountAmount);
+                model.addAttribute("appliedCouponCode", couponCode.trim());
+            } else {
+                model.addAttribute("discountAmount", 0.0);
+                model.addAttribute("newTotal", totalAmount);
+            }
+        }
+
+        // Giữ lại dữ liệu đã nhập
+        model.addAttribute("receiverName", receiverName);
+        model.addAttribute("receiverPhone", receiverPhone);
+        model.addAttribute("email", email);
+        model.addAttribute("selectedProvince", province);
+        model.addAttribute("selectedDistrict", district);
+        model.addAttribute("selectedWard", ward);
+        model.addAttribute("shippingAddress", shippingAddress);
+        model.addAttribute("shippingMethod", shippingMethod);
+        model.addAttribute("paymentMethod", paymentMethod);
+        model.addAttribute("inputCouponCode", couponCode);
+
+        return "checkout";
+    }
+
 
 
     // ==========================================
@@ -74,6 +147,7 @@ public class OrderController {
             @RequestParam("receiverPhone") String receiverPhone,
             @RequestParam("shippingAddress") String shippingAddress,
             @RequestParam(value = "paymentMethod", required = false, defaultValue = "cod") String paymentMethod,
+            @RequestParam(value = "couponCode", required = false) String couponCode,
             HttpSession session,
             jakarta.servlet.http.HttpServletRequest request,
             RedirectAttributes redirectAttributes) {
@@ -88,9 +162,8 @@ public class OrderController {
             return "redirect:/cart";
         }
 
-        // ĐÃ SỬA: Bổ sung 3 biến người nhận vào đúng thứ tự tham số truyền đi
-        // Giữ đúng 4 tham số gốc để khớp với Interface OrderService
-        String result = orderService.placeOrder(selectedItemIds, paymentMethod, user, request);
+        // ĐÃ SỬA: Bổ sung biến người nhận vào đúng thứ tự tham số truyền đi
+        String result = orderService.placeOrder(selectedItemIds, paymentMethod, couponCode, user, request);
 
         if (result.startsWith("http") || result.contains("vnpayment.vn")) {
             return "redirect:" + result;

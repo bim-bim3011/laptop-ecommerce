@@ -10,4 +10,13 @@ public interface ConfigurationVersionRepository extends JpaRepository<Configurat
 
     @org.springframework.data.jpa.repository.Query("SELECT COALESCE(SUM(c.stockQuantity), 0) FROM ConfigurationVersion c")
     long countTotalInventory();
+
+    @org.springframework.data.jpa.repository.Query("SELECT DISTINCT c.cpu FROM ConfigurationVersion c WHERE c.cpu IS NOT NULL ORDER BY c.cpu ASC")
+    java.util.List<String> findDistinctCpus();
+
+    @org.springframework.data.jpa.repository.Query("SELECT DISTINCT c.ram FROM ConfigurationVersion c WHERE c.ram IS NOT NULL ORDER BY c.ram ASC")
+    java.util.List<String> findDistinctRams();
+
+    @org.springframework.data.jpa.repository.Query("SELECT DISTINCT c.storage FROM ConfigurationVersion c WHERE c.storage IS NOT NULL ORDER BY c.storage ASC")
+    java.util.List<String> findDistinctStorages();
 }

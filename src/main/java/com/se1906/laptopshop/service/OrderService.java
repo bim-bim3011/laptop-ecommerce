@@ -11,7 +11,7 @@ public interface OrderService {
     // Luồng Khách hàng (Giữ nguyên toàn bộ logic cũ)
     List<Order> getOrderHistory(User user);
     void prepareCheckoutData(List<Integer> selectedItemIds, Model model);
-    String placeOrder(List<Integer> selectedItemIds, String paymentMethod, User user, HttpServletRequest request);
+    String placeOrder(List<Integer> selectedItemIds, String paymentMethod, String couponCode, User user, HttpServletRequest request);
     boolean cancelOrder(int id, User user);
     Order getOrderDetail(int id, User user);
 

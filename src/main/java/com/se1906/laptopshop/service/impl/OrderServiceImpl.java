@@ -21,6 +21,9 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 
+import com.se1906.laptopshop.entity.Promotion;
+import com.se1906.laptopshop.repository.PromotionRepository;
+
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
@@ -35,6 +38,7 @@ public class OrderServiceImpl implements OrderService {
 
 
      CartItemRepository cartItemRepository;
+     PromotionRepository promotionRepository;
      static final List<String> CANCELLABLE_STATUSES = Arrays.asList("PENDING", "PENDING_PAYMENT");
 
 
@@ -85,7 +89,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public String placeOrder(List<Integer> selectedItemIds, String paymentMethod, User user, HttpServletRequest request) {
+    public String placeOrder(List<Integer> selectedItemIds, String paymentMethod, String couponCode, User user, HttpServletRequest request) {
         List<CartItem> selectedItems = cartItemRepository.findAllById(selectedItemIds);
 
         // Tạo đơn hàng tổng
@@ -108,6 +112,34 @@ public class OrderServiceImpl implements OrderService {
         for (CartItem item : selectedItems) {
             totalAmount += item.getConfigurationVersion().getPrice().doubleValue() * item.getQuantity();
         }
+        
+        // Tính toán discount
+        if (couponCode != null && !couponCode.trim().isEmpty()) {
+            Promotion promotion = promotionRepository.findByCouponCode(couponCode).orElse(null);
+            if (promotion != null) {
+                java.time.LocalDateTime now = java.time.LocalDateTime.now();
+                if (!now.isBefore(promotion.getStartDate()) && !now.isAfter(promotion.getEndDate())) {
+                    if (promotion.getMinOrderValue() == null || java.math.BigDecimal.valueOf(totalAmount).compareTo(promotion.getMinOrderValue()) >= 0) {
+                        double discountAmount = 0;
+                        if ("PERCENTAGE".equalsIgnoreCase(promotion.getDiscountType())) {
+                            discountAmount = totalAmount * promotion.getDiscountValue().doubleValue() / 100;
+                            if (promotion.getMaxDiscountAmount() != null && discountAmount > promotion.getMaxDiscountAmount().doubleValue()) {
+                                discountAmount = promotion.getMaxDiscountAmount().doubleValue();
+                            }
+                        } else if ("FIXED_AMOUNT".equalsIgnoreCase(promotion.getDiscountType())) {
+                            discountAmount = promotion.getDiscountValue().doubleValue();
+                        }
+                        
+                        if (discountAmount > totalAmount) discountAmount = totalAmount;
+                        
+                        totalAmount -= discountAmount;
+                        newOrder.setDiscountAmount(java.math.BigDecimal.valueOf(discountAmount));
+                        newOrder.setPromotion(promotion);
+                    }
+                }
+            }
+        }
+        
         newOrder.setTotalAmount(java.math.BigDecimal.valueOf(totalAmount));
 
         // Lưu đơn hàng tổng để lấy ID
