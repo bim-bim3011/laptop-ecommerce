@@ -5,13 +5,13 @@ import com.se1906.laptopshop.service.UserService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/admin/api/users")
+@Controller
+@RequestMapping("/admin/users")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
 public class UserAdminController {
@@ -19,23 +19,15 @@ public class UserAdminController {
     UserService userService;
 
     @GetMapping
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public String listUsers(Model model) {
+        model.addAttribute("users", userService.getAllUsers());
+        return "admin/user-list";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable int id) {
-        return ResponseEntity.ok(userService.getUserById(id));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable int id, @RequestBody User user) {
-        return ResponseEntity.ok(userService.updateUser(id, user));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable int id) {
+    @PostMapping("/delete/{id}")
+    public String deleteUser(@PathVariable int id, RedirectAttributes redirectAttributes) {
         userService.deleteUser(id);
-        return ResponseEntity.noContent().build();
+        redirectAttributes.addFlashAttribute("successMessage", "Xóa User thành công!");
+        return "redirect:/admin/users";
     }
 }

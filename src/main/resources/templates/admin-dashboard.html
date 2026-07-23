@@ -1,1197 +1,130 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>LapZone - Admin Dashboard Overview</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Hanken+Grotesk:wght@600;700&amp;display=swap"
-        rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet">
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "on-error": "#ffffff",
-                        "on-secondary": "#ffffff",
-                        "surface-tint": "#585e6e",
-                        "inverse-on-surface": "#eff1f3",
-                        "on-primary-fixed": "#151c29",
-                        "surface": "#f7f9fb",
-                        "tertiary": "#735c00",
-                        "surface-dim": "#d8dadc",
-                        "inverse-primary": "#c0c6d8",
-                        "on-primary-container": "#7d8494",
-                        "on-surface-variant": "#45474c",
-                        "error": "#ba1a1a",
-                        "primary": "#000000",
-                        "primary-container": "#151c29",
-                        "secondary-fixed-dim": "#adc6ff",
-                        "on-surface": "#191c1e",
-                        "tertiary-container": "#cea700",
-                        "primary-fixed": "#dce2f5",
-                        "on-secondary-fixed": "#001a42",
-                        "on-primary-fixed-variant": "#404756",
-                        "background": "#f7f9fb",
-                        "secondary-fixed": "#d8e2ff",
-                        "surface-container-lowest": "#ffffff",
-                        "on-tertiary": "#ffffff",
-                        "error-container": "#ffdad6",
-                        "tertiary-fixed-dim": "#eec200",
-                        "surface-container-low": "#f2f4f6",
-                        "inverse-surface": "#2d3133",
-                        "tertiary-fixed": "#ffe083",
-                        "on-tertiary-fixed": "#231b00",
-                        "on-primary": "#ffffff",
-                        "outline-variant": "#c6c6cc",
-                        "on-secondary-fixed-variant": "#004395",
-                        "on-secondary-container": "#fefcff",
-                        "surface-bright": "#f7f9fb",
-                        "on-tertiary-container": "#4e3e00",
-                        "primary-fixed-dim": "#c0c6d8",
-                        "surface-variant": "#e0e3e5",
-                        "secondary-container": "#2170e4",
-                        "on-error-container": "#93000a",
-                        "on-background": "#191c1e",
-                        "outline": "#76777c",
-                        "surface-container-high": "#e6e8ea",
-                        "surface-container": "#eceef0",
-                        "on-tertiary-fixed-variant": "#574500",
-                        "secondary": "#0058be",
-                        "surface-container-highest": "#e0e3e5"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.125rem",
-                        "lg": "0.25rem",
-                        "xl": "0.5rem",
-                        "full": "0.75rem"
-                    },
-                    "spacing": {
-                        "gutter": "24px",
-                        "md": "24px",
-                        "xs": "8px",
-                        "base": "4px",
-                        "xl": "48px",
-                        "container-max": "1440px",
-                        "sm": "16px",
-                        "lg": "32px",
-                        "sidebar-width": "280px"
-                    },
-                    "fontFamily": {
-                        "body-md": ["Inter"],
-                        "label-md": ["JetBrains Mono"],
-                        "headline-lg": ["Hanken Grotesk"],
-                        "body-lg": ["Inter"],
-                        "headline-md": ["Hanken Grotesk"],
-                        "headline-lg-mobile": ["Hanken Grotesk"],
-                        "display-lg": ["Hanken Grotesk"]
-                    },
-                    "fontSize": {
-                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
-                        "label-md": ["14px", { "lineHeight": "1.2", "fontWeight": "500" }],
-                        "headline-lg": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
-                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
-                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
-                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "600" }],
-                        "display-lg": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }]
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-
-        /* Ambient depth for cards */
-        .ambient-shadow {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease-in-out;
-        }
-
-        .ambient-shadow:hover {
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            transform: translateY(-2px);
-        }
-
-        /* Data-driven aesthetics */
-        .kpi-card {
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .kpi-card:hover {
-            transform: translateY(-4px) scale(1.01);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
-        }
-
-        .kpi-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, transparent 50%, rgba(33, 112, 228, 0.05) 50%);
-            border-bottom-left-radius: 100px;
-            pointer-events: none;
-            transition: width 0.3s ease, height 0.3s ease;
-        }
-
-        .kpi-card:hover::after {
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(135deg, transparent 50%, rgba(33, 112, 228, 0.1) 50%);
-        }
-
-        /* Sidebar link hover effect */
-        .nav-link {
-            transition: all 0.2s ease-in-out;
-        }
-
-        .nav-link:hover {
-            transform: translateX(4px);
-        }
-
-        /* Custom animations that can't be easily done with just tailwind classes */
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translate3d(0, -20px, 0);
-            }
-
-            to {
-                opacity: 1;
-                transform: translate3d(0, 0, 0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translate3d(0, 20px, 0);
-            }
-
-            to {
-                opacity: 1;
-                transform: translate3d(0, 0, 0);
-            }
-        }
-
-        .animate-fade-in-down {
-            animation: fadeInDown 0.6s ease-out;
-        }
-
-        .animate-fade-in-up {
-            animation: fadeInUp 0.6s ease-out;
-        }
-
-        .animate-bounce-slow {
-            animation: bounce 3s infinite;
-        }
-
-        .animate-pulse-slow {
-            animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-    </style>
-    <script src="/js/admin-app.js" defer></script>
-</head>
-
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/admin-layout :: head('LapZone - Admin Dashboard')}"></head>
 <body class="bg-background text-on-background font-body-md min-h-screen flex">
-    <!-- SideNavBar -->
-    <aside
-        class="hidden md:flex flex-col bg-surface-container-lowest border-r border-outline-variant fixed left-0 top-0 h-full w-[280px] z-20 shadow-[1px_0_10px_rgba(0,0,0,0.02)]">
-        <div class="p-md border-b border-outline-variant">
-            <h1
-                class="font-headline-md text-headline-md font-bold text-primary transition-colors duration-300 hover:text-secondary cursor-pointer">
-                LapZone</h1>
-            <p class="font-label-md text-label-md text-on-surface-variant mt-xs">Admin Dashboard</p>
-        </div>
-        <nav class="flex-1 py-md px-sm overflow-y-auto flex flex-col gap-2">
-            <a class="nav-link flex items-center gap-3 px-4 py-3 bg-secondary-container text-on-secondary-container rounded-lg font-body-md text-body-md shadow-sm"
-                href="#" data-target="section-overview">
-                <span class="material-symbols-outlined">dashboard</span>
-                Overview
-            </a>
-            <a class="nav-link flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded-lg font-body-md text-body-md"
-                href="#" data-target="section-brand">
-                <span class="material-symbols-outlined">branding_watermark</span>
-                Brand
-            </a>
-            <a class="nav-link flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded-lg font-body-md text-body-md"
-                href="#" data-target="section-category">
-                <span class="material-symbols-outlined">category</span>
-                Category
-            </a>
-            <a class="nav-link flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded-lg font-body-md text-body-md"
-                href="#" data-target="section-laptop">
-                <span class="material-symbols-outlined">laptop_mac</span>
-                Laptops
-            </a>
-            <a class="nav-link flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded-lg font-body-md text-body-md"
-                href="#" data-target="section-laptop-config">
-                <span class="material-symbols-outlined">memory</span>
-                Laptop Configs
-            </a>
-            <a class="nav-link flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded-lg font-body-md text-body-md"
-                href="#" data-target="section-user">
-                <span class="material-symbols-outlined">group</span>
-                User Management
-            </a>
-            <a class="nav-link flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded-lg font-body-md text-body-md"
-                href="#" data-target="section-promotion">
-                <span class="material-symbols-outlined">redeem</span>
-                Promotion &amp; Gift
-            </a>
-            <a class="nav-link flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded-lg font-body-md text-body-md"
-                href="#" data-target="section-gift-item">
-                <span class="material-symbols-outlined">featured_play_list</span>
-                Gift Items
-            </a>
-            <a class="nav-link flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded-lg font-body-md text-body-md"
-                href="#">
-                <span class="material-symbols-outlined">history</span>
-                Order History
-            </a>
-        </nav>
-        <div
-            class="p-md border-t border-outline-variant flex items-center gap-3 hover:bg-surface-container-low transition-colors cursor-pointer group">
-            <div
-                class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container font-bold font-label-md group-hover:scale-110 transition-transform duration-300">
-                AU
-            </div>
+
+<aside th:replace="~{admin/admin-layout :: sidebar('overview')}"></aside>
+
+<div class="flex-1 flex flex-col md:ml-[280px] w-full min-h-screen">
+    <header th:replace="~{admin/admin-layout :: header}"></header>
+
+    <main class="flex-1 p-md md:p-lg lg:p-xl">
+        <div class="mb-lg flex justify-between items-end">
             <div>
-                <p
-                    class="font-label-md text-label-md font-bold text-on-surface group-hover:text-secondary transition-colors">
-                    Admin User</p>
-                <p class="text-xs text-on-surface-variant">admin@lapzone.com</p>
+                <h2 class="font-headline-lg text-headline-lg text-primary tracking-tight">Overview</h2>
+                <p class="font-body-md text-body-md text-on-surface-variant mt-xs">Tổng quan hệ thống quản lý LapZone.</p>
             </div>
         </div>
-    </aside>
-    <!-- Main Content Wrapper -->
-    <div class="flex-1 flex flex-col md:ml-[280px] w-full min-h-screen">
-        <!-- TopNavBar -->
-        <header
-            class="bg-surface/80 backdrop-blur-md border-b border-outline-variant h-16 sticky top-0 z-10 flex justify-between items-center px-lg transition-all duration-300 hover:bg-surface">
-            <div class="flex items-center flex-1">
 
-                <div class="flex items-center gap-4">
-                    <button
-                        class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-all duration-300 hover:scale-110 hover:shadow-sm relative group">
-                        <span class="material-symbols-outlined group-hover:animate-ping-short">notifications</span>
-                        <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full animate-pulse"></span>
-                    </button>
-                    <button
-                        class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-all duration-300 hover:scale-110 hover:rotate-90 hover:shadow-sm">
-                        <span class="material-symbols-outlined">settings</span>
-                    </button>
-                    <div
-                        class="w-8 h-8 rounded-full bg-surface-variant overflow-hidden border border-outline-variant hover:ring-2 hover:ring-secondary transition-all duration-300 cursor-pointer hover:scale-110 shadow-sm">
-                        <img alt="Admin User" class="w-full h-full object-cover"
-                            data-alt="A professional headshot of a corporate administrator in a modern office setting. Sharp focus, clean lighting, representing the Admin User for LapZone. The overall tone is authoritative and reliable."
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmaYDGxxq4MrgxjtbY42AMAJNw5wp4GWdbBb2e-coWxddqBA00fZ8W0WQZemrkMNQvT_Z_TaJDnmlkZ3nDw0BrdojzdU0KE8tyskguYif24i7HEN97zdr8w2dxG2ymy-cGFoG6LRj4-DTRa90SJwUOYZqJzwHAL3En0UzXjTgHZHJkLM5Hv0-75vuNN2L7B095SNUNcJKYVpu1PofAUqP2ufrgXu23XY-LZz7_H114uFdjYDtv-yzSD7anCqP3WLdIHyy2ymEhHc0">
-                    </div>
+        <!-- KPI Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mb-xl">
+            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md ambient-shadow">
+                <div class="flex justify-between items-start mb-4">
+                    <p class="font-label-md text-label-md text-on-surface-variant">Total Revenue</p>
+                    <div class="w-8 h-8 rounded bg-blue-100 flex items-center justify-center text-blue-600"><span class="material-symbols-outlined">payments</span></div>
                 </div>
-        </header>
-        <!-- Dashboard Canvas -->
-        <main class="flex-1 p-md md:p-lg lg:p-xl overflow-x-hidden animate-fade-in-up">
-
-            <div id="section-overview" class="admin-section">
-                <div class="mb-lg flex justify-between items-end">
-                    <div>
-                        <h2 class="font-headline-lg text-headline-lg text-primary tracking-tight">Overview</h2>
-                        <p class="font-body-md text-body-md text-on-surface-variant mt-xs">System metrics and recent
-                            activity for LapZone infrastructure.</p>
-                    </div>
-                    <div class="hidden sm:flex gap-3">
-                        <button
-                            class="px-4 py-2 border border-secondary text-secondary rounded font-label-md text-label-md hover:bg-secondary hover:text-on-secondary transition-all duration-300 shadow-sm hover:shadow-md active:scale-95 flex items-center gap-2 group">
-                            <span
-                                class="material-symbols-outlined text-sm group-hover:-translate-y-1 transition-transform duration-300">download</span>
-                            Export Report
-                        </button>
-                        <button
-                            class="px-4 py-2 bg-primary-container text-on-primary-container rounded font-label-md text-label-md hover:bg-primary hover:text-on-primary transition-all duration-300 shadow-sm hover:shadow-md active:scale-95 flex items-center gap-2 group">
-                            <span
-                                class="material-symbols-outlined text-sm group-hover:rotate-90 transition-transform duration-300">add</span>
-                            New Entry
-                        </button>
-                    </div>
-                </div>
-                <!-- Bento Grid for KPIs -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mb-xl">
-                    <!-- KPI Card 1: Total Sales/Revenue -->
-                    <div
-                        class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md ambient-shadow kpi-card">
-                        <div class="flex justify-between items-start mb-4">
-                            <p class="font-label-md text-label-md text-on-surface-variant">Total Revenue</p>
-                            <div
-                                class="w-8 h-8 rounded bg-secondary-fixed flex items-center justify-center text-secondary transition-transform duration-500 hover:rotate-12 hover:scale-110">
-                                <span class="material-symbols-outlined">payments</span>
-                            </div>
-                        </div>
-                        <div class="flex items-baseline gap-2">
-                            <h3
-                                class="font-display-lg text-display-lg text-on-surface transition-colors hover:text-secondary">
-                                $1.2M</h3>
-                        </div>
-                        <div class="mt-4 flex items-center gap-1 text-sm">
-                            <span
-                                class="material-symbols-outlined text-[#166534] text-sm animate-bounce-slow">trending_up</span>
-                            <span class="text-[#166534] font-medium">+14.5%</span>
-                            <span class="text-on-surface-variant">vs last month</span>
-                        </div>
-                    </div>
-                    <!-- KPI Card 2: Active Users -->
-                    <div
-                        class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md ambient-shadow kpi-card">
-                        <div class="flex justify-between items-start mb-4">
-                            <p class="font-label-md text-label-md text-on-surface-variant">Active Users</p>
-                            <div
-                                class="w-8 h-8 rounded bg-primary-fixed flex items-center justify-center text-primary transition-transform duration-500 hover:rotate-12 hover:scale-110">
-                                <span class="material-symbols-outlined">group</span>
-                            </div>
-                        </div>
-                        <div class="flex items-baseline gap-2">
-                            <h3
-                                class="font-display-lg text-display-lg text-on-surface transition-colors hover:text-primary-container">
-                                45.2K</h3>
-                        </div>
-                        <div class="mt-4 flex items-center gap-1 text-sm">
-                            <span
-                                class="material-symbols-outlined text-[#166534] text-sm animate-bounce-slow">trending_up</span>
-                            <span class="text-[#166534] font-medium">+5.2%</span>
-                            <span class="text-on-surface-variant">vs last month</span>
-                        </div>
-                    </div>
-                    <!-- KPI Card 3: Product Inventory -->
-                    <div
-                        class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md ambient-shadow kpi-card">
-                        <div class="flex justify-between items-start mb-4">
-                            <p class="font-label-md text-label-md text-on-surface-variant">Inventory Status</p>
-                            <div
-                                class="w-8 h-8 rounded bg-tertiary-fixed flex items-center justify-center text-tertiary transition-transform duration-500 hover:-rotate-12 hover:scale-110">
-                                <span class="material-symbols-outlined">inventory_2</span>
-                            </div>
-                        </div>
-                        <div class="flex items-baseline gap-2">
-                            <h3
-                                class="font-display-lg text-display-lg text-on-surface transition-colors hover:text-tertiary">
-                                8,432</h3>
-                        </div>
-                        <div class="mt-4 flex items-center gap-1 text-sm">
-                            <span class="material-symbols-outlined text-error text-sm">trending_down</span>
-                            <span class="text-error font-medium">-2.1%</span>
-                            <span class="text-on-surface-variant">requires restock</span>
-                        </div>
-                    </div>
-                    <!-- KPI Card 4: System Health -->
-                    <div
-                        class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md ambient-shadow kpi-card relative overflow-hidden group">
-                        <div
-                            class="absolute inset-0 bg-secondary-container opacity-5 group-hover:opacity-10 transition-opacity duration-500">
-                        </div>
-                        <div class="relative z-10">
-                            <div class="flex justify-between items-start mb-4">
-                                <p class="font-label-md text-label-md text-on-surface-variant">System Health</p>
-                                <div
-                                    class="w-8 h-8 rounded bg-secondary-fixed flex items-center justify-center text-secondary transition-transform duration-500 group-hover:scale-110">
-                                    <span class="material-symbols-outlined">dns</span>
-                                </div>
-                            </div>
-                            <div class="flex items-baseline gap-2">
-                                <h3
-                                    class="font-display-lg text-display-lg text-on-surface transition-colors hover:text-secondary-container">
-                                    99.9%</h3>
-                            </div>
-                            <div class="mt-4 flex items-center gap-2 text-sm">
-                                <span class="w-2 h-2 rounded-full bg-[#166534] animate-ping"></span>
-                                <span class="text-on-surface font-medium ml-1">All systems operational</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Main Content Area: Charts & Tables -->
-                <div class="flex flex-col gap-gutter">
-                    <!-- Activity Table (Spans 2 columns on XL) -->
-                    <div
-                        class="w-full bg-surface-container-lowest border border-outline-variant rounded-xl ambient-shadow flex flex-col hover:shadow-lg transition-shadow duration-300">
-                        <div
-                            class="p-md border-b border-outline-variant flex justify-between items-center bg-surface-container-lowest rounded-t-xl">
-                            <h3 class="font-headline-md text-headline-md text-primary">Recent Activity</h3>
-                            <button
-                                class="text-secondary font-label-md text-label-md hover:text-secondary-container transition-colors flex items-center gap-1 group">
-                                View All <span
-                                    class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform duration-300">arrow_forward</span>
-                            </button>
-                        </div>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left border-collapse">
-                                <thead>
-                                    <tr
-                                        class="bg-surface-container-low text-primary-container font-label-md text-label-md border-b border-outline-variant">
-                                        <th class="p-4 font-medium whitespace-nowrap">Event ID</th>
-                                        <th class="p-4 font-medium">Description</th>
-                                        <th class="p-4 font-medium whitespace-nowrap">Category</th>
-                                        <th class="p-4 font-medium whitespace-nowrap">Status</th>
-                                        <th class="p-4 font-medium text-right whitespace-nowrap">Time</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="font-body-md text-body-md text-on-surface">
-                                    <tr
-                                        class="border-b border-outline-variant hover:bg-surface-container hover:shadow-inner transition-all duration-200 group cursor-pointer">
-                                        <td
-                                            class="p-4 font-label-md text-on-surface-variant group-hover:text-primary transition-colors">
-                                            #TC-8892</td>
-                                        <td class="p-4">New user registration: <strong>john.doe@enterprise.com</strong>
-                                        </td>
-                                        <td
-                                            class="p-4 text-on-surface-variant group-hover:text-on-surface transition-colors">
-                                            User Mgt</td>
-                                        <td class="p-4">
-                                            <span
-                                                class="inline-flex items-center px-2.5 py-1 rounded-full bg-[#166534]/10 text-[#166534] text-xs font-label-md border-transparent shadow-sm">Success</span>
-                                        </td>
-                                        <td
-                                            class="p-4 text-right text-on-surface-variant group-hover:text-on-surface transition-colors whitespace-nowrap">
-                                            2 mins ago</td>
-                                    </tr>
-                                    <tr
-                                        class="border-b border-outline-variant hover:bg-surface-container hover:shadow-inner transition-all duration-200 group cursor-pointer">
-                                        <td
-                                            class="p-4 font-label-md text-on-surface-variant group-hover:text-primary transition-colors">
-                                            #TC-8891</td>
-                                        <td class="p-4">Inventory update: <strong>ThinkPad X1 Carbon</strong> batch
-                                            added</td>
-                                        <td
-                                            class="p-4 text-on-surface-variant group-hover:text-on-surface transition-colors">
-                                            Inventory</td>
-                                        <td class="p-4">
-                                            <span
-                                                class="inline-flex items-center px-2.5 py-1 rounded-full bg-[#166534]/10 text-[#166534] text-xs font-label-md border-transparent shadow-sm">Completed</span>
-                                        </td>
-                                        <td
-                                            class="p-4 text-right text-on-surface-variant group-hover:text-on-surface transition-colors whitespace-nowrap">
-                                            15 mins ago</td>
-                                    </tr>
-                                    <tr
-                                        class="border-b border-outline-variant hover:bg-surface-container hover:shadow-inner transition-all duration-200 group cursor-pointer">
-                                        <td
-                                            class="p-4 font-label-md text-on-surface-variant group-hover:text-primary transition-colors">
-                                            #TC-8890</td>
-                                        <td class="p-4">Configuration sync failed for <strong>Region US-East</strong>
-                                        </td>
-                                        <td
-                                            class="p-4 text-on-surface-variant group-hover:text-on-surface transition-colors">
-                                            System</td>
-                                        <td class="p-4">
-                                            <span
-                                                class="inline-flex items-center px-2.5 py-1 rounded-full bg-red-500/10 text-red-700 text-xs font-label-md border-transparent shadow-sm">Failed</span>
-                                        </td>
-                                        <td
-                                            class="p-4 text-right text-on-surface-variant group-hover:text-on-surface transition-colors whitespace-nowrap">
-                                            1 hour ago</td>
-                                    </tr>
-                                    <tr
-                                        class="border-b border-outline-variant hover:bg-surface-container hover:shadow-inner transition-all duration-200 group cursor-pointer">
-                                        <td
-                                            class="p-4 font-label-md text-on-surface-variant group-hover:text-primary transition-colors">
-                                            #TC-8889</td>
-                                        <td class="p-4">Brand asset updated: <strong>Primary Logo SVG</strong></td>
-                                        <td
-                                            class="p-4 text-on-surface-variant group-hover:text-on-surface transition-colors">
-                                            Brand</td>
-                                        <td class="p-4">
-                                            <span
-                                                class="inline-flex items-center px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-700 text-xs font-label-md border-transparent shadow-sm">Pending
-                                                Review</span>
-                                        </td>
-                                        <td
-                                            class="p-4 text-right text-on-surface-variant group-hover:text-on-surface transition-colors whitespace-nowrap">
-                                            3 hours ago</td>
-                                    </tr>
-                                    <tr
-                                        class="hover:bg-surface-container hover:shadow-inner transition-all duration-200 group cursor-pointer rounded-b-xl">
-                                        <td
-                                            class="p-4 font-label-md text-on-surface-variant group-hover:text-primary transition-colors">
-                                            #TC-8888</td>
-                                        <td class="p-4">Category created: <strong>Ultra-Mobile Workstations</strong>
-                                        </td>
-                                        <td
-                                            class="p-4 text-on-surface-variant group-hover:text-on-surface transition-colors">
-                                            Category</td>
-                                        <td class="p-4">
-                                            <span
-                                                class="inline-flex items-center px-2.5 py-1 rounded-full bg-[#166534]/10 text-[#166534] text-xs font-label-md border-transparent shadow-sm">Success</span>
-                                        </td>
-                                        <td
-                                            class="p-4 text-right text-on-surface-variant group-hover:text-on-surface transition-colors whitespace-nowrap">
-                                            5 hours ago</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <!-- Secondary Column Area -->
-                    <div class="flex flex-col gap-gutter">
-                        <!-- Quick Actions Card -->
-                        <div
-                            class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md ambient-shadow hover:shadow-lg transition-shadow duration-300">
-                            <h3 class="font-headline-md text-headline-md text-primary mb-4">Quick Actions</h3>
-                            <div class="grid grid-cols-2 gap-3">
-                                <button
-                                    class="flex flex-col items-center justify-center p-4 border border-outline-variant rounded-xl hover:bg-secondary-fixed hover:border-secondary transition-all duration-300 group shadow-sm hover:shadow-md active:scale-95">
-                                    <div
-                                        class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant group-hover:bg-surface-container-lowest group-hover:text-secondary mb-3 transition-colors duration-300 shadow-inner group-hover:shadow-sm">
-                                        <span
-                                            class="material-symbols-outlined group-hover:scale-110 transition-transform">add_box</span>
-                                    </div>
-                                    <span
-                                        class="font-label-md text-label-md text-on-surface group-hover:text-secondary-fixed-variant transition-colors">Add
-                                        Product</span>
-                                </button>
-                                <button
-                                    class="flex flex-col items-center justify-center p-4 border border-outline-variant rounded-xl hover:bg-secondary-fixed hover:border-secondary transition-all duration-300 group shadow-sm hover:shadow-md active:scale-95">
-                                    <div
-                                        class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant group-hover:bg-surface-container-lowest group-hover:text-secondary mb-3 transition-colors duration-300 shadow-inner group-hover:shadow-sm">
-                                        <span
-                                            class="material-symbols-outlined group-hover:scale-110 transition-transform">person_add</span>
-                                    </div>
-                                    <span
-                                        class="font-label-md text-label-md text-on-surface group-hover:text-secondary-fixed-variant transition-colors">New
-                                        User</span>
-                                </button>
-                                <button
-                                    class="flex flex-col items-center justify-center p-4 border border-outline-variant rounded-xl hover:bg-secondary-fixed hover:border-secondary transition-all duration-300 group shadow-sm hover:shadow-md active:scale-95">
-                                    <div
-                                        class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant group-hover:bg-surface-container-lowest group-hover:text-secondary mb-3 transition-colors duration-300 shadow-inner group-hover:shadow-sm">
-                                        <span
-                                            class="material-symbols-outlined group-hover:rotate-180 transition-transform duration-500">tune</span>
-                                    </div>
-                                    <span
-                                        class="font-label-md text-label-md text-on-surface group-hover:text-secondary-fixed-variant transition-colors">Config</span>
-                                </button>
-                                <button
-                                    class="flex flex-col items-center justify-center p-4 border border-outline-variant rounded-xl hover:bg-secondary-fixed hover:border-secondary transition-all duration-300 group shadow-sm hover:shadow-md active:scale-95">
-                                    <div
-                                        class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant group-hover:bg-surface-container-lowest group-hover:text-secondary mb-3 transition-colors duration-300 shadow-inner group-hover:shadow-sm">
-                                        <span
-                                            class="material-symbols-outlined group-hover:-translate-y-1 transition-transform duration-300">description</span>
-                                    </div>
-                                    <span
-                                        class="font-label-md text-label-md text-on-surface group-hover:text-secondary-fixed-variant transition-colors">Reports</span>
-                                </button>
-                            </div>
-                        </div>
-                        <!-- System Status Alert -->
-                        <div
-                            class="bg-tertiary-fixed-dim border border-tertiary rounded-xl p-md flex items-start gap-3 shadow-sm hover:shadow-md transition-shadow duration-300 animate-pulse-slow">
-                            <span
-                                class="material-symbols-outlined text-tertiary mt-1 animate-bounce-slow">warning</span>
-                            <div>
-                                <h4 class="font-label-md text-label-md font-bold text-on-tertiary-container">Scheduled
-                                    Maintenance</h4>
-                                <p
-                                    class="font-body-md text-body-md text-on-tertiary-container mt-1 text-sm leading-relaxed">
-                                    The Laptop Configuration module will be offline for updates tonight from 02:00 to
-                                    04:00 UTC.</p>
-                            </div>
-                        </div>
-                    </div>
+                <h3 class="text-3xl font-bold text-on-surface" th:text="${totalRevenue != null ? #numbers.formatDecimal(totalRevenue, 0, 'COMMA', 0, 'POINT') + ' ₫' : '0 ₫'}">$1.2M</h3>
+                <div class="mt-4 flex items-center gap-1 text-sm">
+                    <span class="material-symbols-outlined text-green-700 text-sm">trending_up</span>
+                    <span class="text-green-700 font-medium">Auto-updated</span>
+                    <span class="text-on-surface-variant">from completed orders</span>
                 </div>
             </div>
-            <!-- End of Overview Section -->
-
-            <!-- Laptop Section -->
-            <div id="section-laptop" class="admin-section hidden animate-fade-in-up">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="font-headline-lg text-headline-lg text-primary">Laptops</h2>
-                    <button onclick="document.getElementById('modal-add-laptop').classList.remove('hidden')"
-                        class="px-4 py-2 bg-blue-500 text-white rounded-2xl font-label-md hover:bg-blue-600 transition-colors shadow-sm flex items-center gap-2"><span
-                            class="material-symbols-outlined text-sm">add</span> New Laptop</button>
+            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md ambient-shadow">
+                <div class="flex justify-between items-start mb-4">
+                    <p class="font-label-md text-label-md text-on-surface-variant">Active Users</p>
+                    <div class="w-8 h-8 rounded bg-purple-100 flex items-center justify-center text-purple-600"><span class="material-symbols-outlined">group</span></div>
                 </div>
-
-                <div class="bg-surface-container-lowest rounded-xl ambient-shadow overflow-x-auto">
-                    <table class="w-full text-left">
-                        <thead>
-                            <tr class="bg-surface-container-low border-b">
-                                <th class="p-4">ID</th>
-                                <th class="p-4">Image</th>
-                                <th class="p-4">Name</th>
-                                <th class="p-4">Description</th>
-                                <th class="p-4">Brand</th>
-                                <th class="p-4">Category</th>
-                                <th class="p-4">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-laptop"></tbody>
-                    </table>
+                <h3 class="text-3xl font-bold text-on-surface" th:text="${activeUsers}">45.2K</h3>
+                <div class="mt-4 flex items-center gap-1 text-sm">
+                    <span class="material-symbols-outlined text-green-700 text-sm">account_circle</span>
+                    <span class="text-green-700 font-medium">Real-time</span>
+                    <span class="text-on-surface-variant">active users</span>
                 </div>
             </div>
-
-            <!-- Laptop Configuration Section -->
-            <div id="section-laptop-config" class="admin-section hidden animate-fade-in-up">
-                <h2 class="font-headline-lg text-headline-lg text-primary mb-4" id="config-title">Laptop Configurations
-                </h2>
-
-                <div class="bg-surface-container-lowest rounded-xl ambient-shadow overflow-x-auto">
-                    <table class="w-full text-left">
-                        <thead>
-                            <tr class="bg-surface-container-low border-b">
-                                <th class="p-4">ID</th>
-                                <th class="p-4">Laptop</th>
-                                <th class="p-4">CPU</th>
-                                <th class="p-4">RAM / Storage / GPU</th>
-                                <th class="p-4">Price</th>
-                                <th class="p-4">Stock</th>
-                                <th class="p-4">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-config"></tbody>
-                    </table>
+            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md ambient-shadow">
+                <div class="flex justify-between items-start mb-4">
+                    <p class="font-label-md text-label-md text-on-surface-variant">Inventory</p>
+                    <div class="w-8 h-8 rounded bg-yellow-100 flex items-center justify-center text-yellow-700"><span class="material-symbols-outlined">inventory_2</span></div>
+                </div>
+                <h3 class="text-3xl font-bold text-on-surface" th:text="${totalInventory}">8,432</h3>
+                <div class="mt-4 flex items-center gap-1 text-sm">
+                    <span class="material-symbols-outlined text-yellow-700 text-sm">inventory</span>
+                    <span class="text-yellow-700 font-medium">Total items</span>
+                    <span class="text-on-surface-variant">in stock</span>
                 </div>
             </div>
-
-            <!-- Promotion Section -->
-            <div id="section-promotion" class="admin-section hidden animate-fade-in-up">
-                <h2 class="font-headline-lg text-headline-lg text-primary mb-4">Promotions</h2>
-
-                <div class="bg-surface-container-lowest rounded-xl ambient-shadow overflow-x-auto">
-                    <table class="w-full text-left">
-                        <thead>
-                            <tr class="bg-surface-container-low border-b">
-                                <th class="p-4">ID</th>
-                                <th class="p-4">Code</th>
-                                <th class="p-4">Title</th>
-                                <th class="p-4">Value</th>
-                                <th class="p-4">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-promotion"></tbody>
-                    </table>
+            <a th:href="@{/admin/orders}" class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md ambient-shadow block hover:border-primary hover:shadow-md transition-all group duration-200 cursor-pointer">
+                <div class="flex justify-between items-start mb-4">
+                    <p class="font-label-md text-label-md text-on-surface-variant group-hover:text-primary transition-colors">Total Orders</p>
+                    <div class="w-8 h-8 rounded bg-green-100 flex items-center justify-center text-green-600 group-hover:bg-green-600 group-hover:text-white transition-colors"><span class="material-symbols-outlined">shopping_cart</span></div>
                 </div>
-            </div>
-
-            <!-- Brand Section -->
-            <div id="section-brand" class="admin-section hidden animate-fade-in-up">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="font-headline-lg text-headline-lg text-primary">Brands</h2>
-                    <button onclick="document.getElementById('modal-add-brand').classList.remove('hidden')"
-                        class="px-4 py-2 bg-blue-500 text-white rounded-2xl font-label-md hover:bg-blue-600 transition-colors shadow-sm flex items-center gap-2"><span
-                            class="material-symbols-outlined text-sm">add</span> New Brand</button>
+                <h3 class="text-3xl font-bold text-on-surface" th:text="${totalOrders}">0</h3>
+                <div class="mt-4 flex items-center gap-2 text-sm">
+                    <span class="material-symbols-outlined text-green-600 text-sm">receipt_long</span>
+                    <span class="text-on-surface font-medium ml-1">Total placed orders</span>
                 </div>
-
-                <div class="bg-surface-container-lowest rounded-xl ambient-shadow overflow-x-auto">
-                    <table class="w-full text-left">
-                        <thead>
-                            <tr class="bg-surface-container-low border-b">
-                                <th class="p-4">ID</th>
-                                <th class="p-4">Name</th>
-                                <th class="p-4">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-brand"></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Category Section -->
-            <div id="section-category" class="admin-section hidden animate-fade-in-up">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="font-headline-lg text-headline-lg text-primary">Categories</h2>
-                    <button onclick="document.getElementById('modal-add-category').classList.remove('hidden')"
-                        class="px-4 py-2 bg-blue-500 text-white rounded-2xl font-label-md hover:bg-blue-600 transition-colors shadow-sm flex items-center gap-2"><span
-                            class="material-symbols-outlined text-sm">add</span> New Category</button>
-                </div>
-
-                <div class="bg-surface-container-lowest rounded-xl ambient-shadow overflow-x-auto">
-                    <table class="w-full text-left">
-                        <thead>
-                            <tr class="bg-surface-container-low border-b">
-                                <th class="p-4">ID</th>
-                                <th class="p-4">Name</th>
-                                <th class="p-4">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-category"></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- User Section -->
-            <div id="section-user" class="admin-section hidden animate-fade-in-up">
-                <h2 class="font-headline-lg text-headline-lg text-primary mb-4">User Management</h2>
-                <div class="bg-surface-container-lowest rounded-xl ambient-shadow overflow-x-auto">
-                    <table class="w-full text-left">
-                        <thead>
-                            <tr class="bg-surface-container-low border-b">
-                                <th class="p-4">ID</th>
-                                <th class="p-4">Email</th>
-                                <th class="p-4">Name</th>
-                                <th class="p-4">Status</th>
-                                <th class="p-4">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-user"></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Gift Item Section -->
-            <div id="section-gift-item" class="admin-section hidden animate-fade-in-up">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="font-headline-lg text-headline-lg text-primary">Gift Items</h2>
-                    <button onclick="document.getElementById('modal-add-gift-item').classList.remove('hidden')"
-                        class="px-4 py-2 bg-blue-500 text-white rounded-2xl font-label-md hover:bg-blue-600 transition-colors shadow-sm flex items-center gap-2"><span
-                            class="material-symbols-outlined text-sm">add</span> New Gift Item</button>
-                </div>
-
-                <div class="bg-surface-container-lowest rounded-xl ambient-shadow overflow-x-auto">
-                    <table class="w-full text-left">
-                        <thead>
-                            <tr class="bg-surface-container-low border-b">
-                                <th class="p-4">ID</th>
-                                <th class="p-4">Name</th>
-                                <th class="p-4">Price</th>
-                                <th class="p-4">Description</th>
-                                <th class="p-4">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-gift-item"></tbody>
-                    </table>
-                </div>
-            </div>
-
-        </main>
-    </div>
-
-    <!-- Modals -->
-    <!-- Brand Edit Modal -->
-    <div id="modal-edit-brand"
-        class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-        <div class="bg-surface p-6 rounded-xl w-96 shadow-lg">
-            <h3 class="text-xl font-bold mb-4">Edit Brand</h3>
-            <form onsubmit="submitEditBrand(event)">
-                <input type="hidden" id="editBrandId">
-                <label class="block mb-2">Brand Name</label>
-                <input type="text" id="editBrandName" class="border w-full p-2 rounded mb-4" required>
-                <div class="flex justify-end gap-2">
-                    <button type="button" onclick="closeModal('modal-edit-brand')"
-                        class="px-4 py-2 text-secondary">Cancel</button>
-                    <button type="submit" class="bg-primary text-on-primary px-4 py-2 rounded">Save</button>
-                </div>
-            </form>
+            </a>
         </div>
-    </div>
 
-    <!-- Category Edit Modal -->
-    <div id="modal-edit-category"
-        class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-        <div class="bg-surface p-6 rounded-xl w-96 shadow-lg">
-            <h3 class="text-xl font-bold mb-4">Edit Category</h3>
-            <form onsubmit="submitEditCategory(event)">
-                <input type="hidden" id="editCategoryId">
-                <label class="block mb-2">Category Name</label>
-                <input type="text" id="editCategoryName" class="border w-full p-2 rounded mb-4" required>
-                <div class="flex justify-end gap-2">
-                    <button type="button" onclick="closeModal('modal-edit-category')"
-                        class="px-4 py-2 text-secondary">Cancel</button>
-                    <button type="submit" class="bg-primary text-on-primary px-4 py-2 rounded">Save</button>
+        <!-- Quick Links -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+            <a th:href="@{/admin/brands}" class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 ambient-shadow flex items-center gap-4 group hover:border-secondary transition-all">
+                <div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                    <span class="material-symbols-outlined">branding_watermark</span>
                 </div>
-            </form>
+                <div>
+                    <h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-secondary transition-colors">Brands</h3>
+                    <p class="text-sm text-on-surface-variant">Quản lý thương hiệu</p>
+                </div>
+            </a>
+            <a th:href="@{/admin/categories}" class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 ambient-shadow flex items-center gap-4 group hover:border-secondary transition-all">
+                <div class="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                    <span class="material-symbols-outlined">category</span>
+                </div>
+                <div>
+                    <h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-secondary transition-colors">Categories</h3>
+                    <p class="text-sm text-on-surface-variant">Quản lý danh mục</p>
+                </div>
+            </a>
+            <a th:href="@{/admin/laptops}" class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 ambient-shadow flex items-center gap-4 group hover:border-secondary transition-all">
+                <div class="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center text-green-600 group-hover:bg-green-600 group-hover:text-white transition-colors">
+                    <span class="material-symbols-outlined">laptop_mac</span>
+                </div>
+                <div>
+                    <h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-secondary transition-colors">Laptops</h3>
+                    <p class="text-sm text-on-surface-variant">Quản lý sản phẩm</p>
+                </div>
+            </a>
+            <a th:href="@{/admin/users}" class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 ambient-shadow flex items-center gap-4 group hover:border-secondary transition-all">
+                <div class="w-12 h-12 rounded-lg bg-orange-100 flex items-center justify-center text-orange-600 group-hover:bg-orange-600 group-hover:text-white transition-colors">
+                    <span class="material-symbols-outlined">group</span>
+                </div>
+                <div>
+                    <h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-secondary transition-colors">Users</h3>
+                    <p class="text-sm text-on-surface-variant">Quản lý người dùng</p>
+                </div>
+            </a>
+            <a th:href="@{/admin/promotions}" class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 ambient-shadow flex items-center gap-4 group hover:border-secondary transition-all">
+                <div class="w-12 h-12 rounded-lg bg-red-100 flex items-center justify-center text-red-600 group-hover:bg-red-600 group-hover:text-white transition-colors">
+                    <span class="material-symbols-outlined">redeem</span>
+                </div>
+                <div>
+                    <h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-secondary transition-colors">Promotions</h3>
+                    <p class="text-sm text-on-surface-variant">Quản lý khuyến mãi</p>
+                </div>
+            </a>
+            <a th:href="@{/admin/gift-items}" class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 ambient-shadow flex items-center gap-4 group hover:border-secondary transition-all">
+                <div class="w-12 h-12 rounded-lg bg-teal-100 flex items-center justify-center text-teal-600 group-hover:bg-teal-600 group-hover:text-white transition-colors">
+                    <span class="material-symbols-outlined">featured_play_list</span>
+                </div>
+                <div>
+                    <h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-secondary transition-colors">Gift Items</h3>
+                    <p class="text-sm text-on-surface-variant">Quản lý quà tặng</p>
+                </div>
+            </a>
         </div>
-    </div>
-
-    <!-- Config Edit Modal -->
-    <div id="modal-edit-config"
-        class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-        <div class="bg-surface p-6 rounded-xl w-full max-w-2xl shadow-lg">
-            <h3 class="text-xl font-bold mb-4">Edit Configuration</h3>
-            <form onsubmit="submitEditConfig(event)">
-                <input type="hidden" id="editConfigId">
-                <div class="grid grid-cols-2 gap-4 mb-4">
-                    <div>
-                        <label class="block mb-1 text-sm">CPU</label>
-                        <input type="text" id="editConfCpu" class="border w-full p-2 rounded" required>
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm">RAM</label>
-                        <input type="text" id="editConfRam" class="border w-full p-2 rounded" required>
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm">Storage</label>
-                        <input type="text" id="editConfStorage" class="border w-full p-2 rounded" required>
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm">GPU</label>
-                        <input type="text" id="editConfGpu" class="border w-full p-2 rounded">
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm">Price</label>
-                        <input type="number" id="editConfPrice" class="border w-full p-2 rounded" required>
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm">Stock Quantity</label>
-                        <input type="number" id="editConfStock" class="border w-full p-2 rounded" required>
-                    </div>
-                </div>
-                <div class="flex justify-end gap-2 mt-4">
-                    <button type="button" onclick="closeModal('modal-edit-config')"
-                        class="px-4 py-2 text-secondary">Cancel</button>
-                    <button type="submit" class="bg-primary text-on-primary px-4 py-2 rounded">Save Changes</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Laptop Edit Modal -->
-    <div id="modal-edit-laptop"
-        class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-        <div class="bg-surface p-6 rounded-xl w-[500px] shadow-lg">
-            <h3 class="text-xl font-bold mb-4">Edit Laptop</h3>
-            <form onsubmit="submitEditLaptop(event)">
-                <input type="hidden" id="editLaptopId">
-                <div class="grid grid-cols-1 gap-4 mb-4">
-                    <div>
-                        <label class="block mb-1 text-sm">Laptop Name</label>
-                        <input type="text" id="editLaptopName" class="border w-full p-2 rounded" required>
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm">Description</label>
-                        <input type="text" id="editLaptopDesc" class="border w-full p-2 rounded">
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm">Brand</label>
-                        <select id="editLaptopBrand" class="border w-full p-2 rounded" required></select>
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm">Category</label>
-                        <select id="editLaptopCategory" class="border w-full p-2 rounded" required></select>
-                    </div>
-                </div>
-                <div class="flex justify-end gap-2 mt-4">
-                    <button type="button" onclick="closeModal('modal-edit-laptop')"
-                        class="px-4 py-2 text-secondary">Cancel</button>
-                    <button type="submit" class="bg-primary text-on-primary px-4 py-2 rounded">Save Changes</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Gift Item Edit Modal -->
-    <div id="modal-edit-gift-item"
-        class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-        <div class="bg-surface p-6 rounded-xl w-[500px] shadow-lg">
-            <h3 class="text-xl font-bold mb-4">Edit Gift Item</h3>
-            <form onsubmit="submitEditGiftItem(event)">
-                <input type="hidden" id="editGiftItemId">
-                <div class="grid grid-cols-2 gap-4 mb-4">
-                    <div class="col-span-2">
-                        <label class="block mb-1 text-sm">Item Name</label>
-                        <input type="text" id="editGiftItemName" class="border w-full p-2 rounded" required>
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm">Price</label>
-                        <input type="number" step="0.01" id="editGiftItemPrice" class="border w-full p-2 rounded"
-                            required>
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm">Image URL</label>
-                        <input type="text" id="editGiftItemImageUrl" class="border w-full p-2 rounded">
-                    </div>
-                    <div class="col-span-2">
-                        <label class="block mb-1 text-sm">Description</label>
-                        <input type="text" id="editGiftItemDesc" class="border w-full p-2 rounded">
-                    </div>
-                </div>
-                <div class="flex justify-end gap-2 mt-4">
-                    <button type="button" onclick="closeModal('modal-edit-gift-item')"
-                        class="px-4 py-2 text-secondary">Cancel</button>
-                    <button type="submit" class="bg-primary text-on-primary px-4 py-2 rounded">Save Changes</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Manage Config Gifts Modal -->
-    <div id="modal-manage-config-gifts"
-        class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-        <div class="bg-surface p-6 rounded-xl w-[600px] shadow-lg max-h-[90vh] flex flex-col">
-            <h3 class="text-xl font-bold mb-4">Manage Gifts for Configuration <span id="manageConfigGiftsIdText"
-                    class="text-secondary"></span></h3>
-            <input type="hidden" id="manageConfigGiftsId">
-
-            <!-- Add Gift Form -->
-            <div class="bg-surface-container-low p-4 rounded-lg mb-4 border border-outline-variant">
-                <h4 class="font-bold mb-2 text-sm text-on-surface-variant">Add a Gift</h4>
-                <form onsubmit="assignGiftToConfig(event)" class="flex gap-2">
-                    <select id="selectGiftItem" class="border p-2 rounded flex-1" required>
-                        <option value="">Select Gift Item</option>
-                    </select>
-                    <input type="number" id="giftQuantity" placeholder="Qty" min="1" class="border p-2 rounded w-24"
-                        required>
-                    <button type="submit" class="bg-primary text-on-primary px-4 py-2 rounded">Add</button>
-                </form>
-            </div>
-
-            <!-- Assigned Gifts Table -->
-            <div class="flex-1 overflow-y-auto border border-outline-variant rounded-lg">
-                <table class="w-full text-left">
-                    <thead class="sticky top-0 bg-surface-container-high border-b border-outline-variant">
-                        <tr>
-                            <th class="p-3 text-sm">Gift Name</th>
-                            <th class="p-3 text-sm">Quantity</th>
-                            <th class="p-3 text-sm">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbody-config-gifts">
-                        <!-- Gifts populated here -->
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="flex justify-end gap-2 mt-4">
-                <button type="button" onclick="closeModal('modal-manage-config-gifts')"
-                    class="px-4 py-2 bg-secondary-fixed text-on-secondary-fixed rounded">Close</button>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Add New Brand Modal -->
-    <div id="modal-add-brand" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-        <div class="bg-surface p-6 rounded-3xl w-[500px] shadow-2xl animate-fade-in-up">
-            <h3 class="text-xl font-bold mb-6 text-primary">New Brand</h3>
-            <form onsubmit="createBrand(event); closeModal('modal-add-brand');">
-                <input type="text" id="brandName" placeholder="Brand Name"
-                    class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full"
-                    required>
-                <div class="col-span-full flex justify-end gap-3 mt-8 w-full">
-                    <button type="button" onclick="closeModal('modal-add-brand')"
-                        class="px-6 py-2.5 text-on-surface-variant bg-surface-container hover:bg-surface-container-high rounded-2xl transition-colors font-medium">Cancel</button>
-                    <button type="submit"
-                        class="px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-2xl shadow-sm hover:shadow-md transition-all font-medium">Save</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Add New Category Modal -->
-    <div id="modal-add-category"
-        class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-        <div class="bg-surface p-6 rounded-3xl w-[500px] shadow-2xl animate-fade-in-up">
-            <h3 class="text-xl font-bold mb-6 text-primary">New Category</h3>
-            <form onsubmit="createCategory(event); closeModal('modal-add-category');">
-                <input type="text" id="categoryName" placeholder="Category Name"
-                    class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full"
-                    required>
-                <div class="col-span-full flex justify-end gap-3 mt-8 w-full">
-                    <button type="button" onclick="closeModal('modal-add-category')"
-                        class="px-6 py-2.5 text-on-surface-variant bg-surface-container hover:bg-surface-container-high rounded-2xl transition-colors font-medium">Cancel</button>
-                    <button type="submit"
-                        class="px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-2xl shadow-sm hover:shadow-md transition-all font-medium">Save</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Add New Laptop Modal -->
-    <div id="modal-add-laptop"
-        class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-        <div class="bg-surface p-6 rounded-3xl w-[500px] shadow-2xl animate-fade-in-up">
-            <h3 class="text-xl font-bold mb-6 text-primary">New Laptop</h3>
-            <form onsubmit="createLaptop(event); closeModal('modal-add-laptop');">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block mb-1 text-sm font-medium">Laptop Name</label>
-                        <input type="text" id="laptopName"
-                            class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest"
-                            required>
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm font-medium">Brand</label>
-                        <select id="laptopBrand"
-                            class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest"
-                            required></select>
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm font-medium">Category</label>
-                        <select id="laptopCategory"
-                            class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest"
-                            required></select>
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm font-medium">Image</label>
-                        <input type="file" id="laptopImage" accept="image/*"
-                            class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest">
-                    </div>
-                    <div class="md:col-span-2">
-                        <label class="block mb-1 text-sm font-medium">Description</label>
-                        <input type="text" id="laptopDesc"
-                            class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest md:col-span-2">
-                    </div>
-                </div>
-                <div class="col-span-full flex justify-end gap-3 mt-8 w-full">
-                    <button type="button" onclick="closeModal('modal-add-laptop')"
-                        class="px-6 py-2.5 text-on-surface-variant bg-surface-container hover:bg-surface-container-high rounded-2xl transition-colors font-medium">Cancel</button>
-                    <button type="submit"
-                        class="px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-2xl shadow-sm hover:shadow-md transition-all font-medium">Save</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Add New Config Modal -->
-    <div id="modal-add-laptop-config"
-        class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-        <div class="bg-surface p-6 rounded-3xl w-[500px] shadow-2xl animate-fade-in-up">
-            <h3 class="text-xl font-bold mb-6 text-primary">New Config</h3>
-            <form onsubmit="createConfig(event); closeModal('modal-add-laptop-config');">
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="col-span-2">
-                        <label class="block mb-1 text-sm font-medium">Laptop</label>
-                        <select id="confLaptop"
-                            class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest"
-                            required></select>
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm font-medium">CPU</label>
-                        <input type="text" id="confCpu"
-                            class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest"
-                            required>
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm font-medium">RAM</label>
-                        <input type="text" id="confRam"
-                            class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest"
-                            required>
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm font-medium">Storage</label>
-                        <input type="text" id="confStorage"
-                            class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest"
-                            required>
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm font-medium">GPU</label>
-                        <input type="text" id="confGpu"
-                            class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest">
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm font-medium">Price</label>
-                        <input type="number" step="0.01" id="confPrice"
-                            class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest"
-                            required>
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm font-medium">Stock</label>
-                        <input type="number" id="confStock"
-                            class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest"
-                            required>
-                    </div>
-                </div>
-                <div class="col-span-full flex justify-end gap-3 mt-8 w-full">
-                    <button type="button" onclick="closeModal('modal-add-laptop-config')"
-                        class="px-6 py-2.5 text-on-surface-variant bg-surface-container hover:bg-surface-container-high rounded-2xl transition-colors font-medium">Cancel</button>
-                    <button type="submit"
-                        class="px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-2xl shadow-sm hover:shadow-md transition-all font-medium">Save</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Add New Promotion Modal -->
-    <div id="modal-add-promotion"
-        class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-        <div class="bg-surface p-6 rounded-3xl w-[500px] shadow-2xl animate-fade-in-up">
-            <h3 class="text-xl font-bold mb-6 text-primary">New Promotion</h3>
-            <form onsubmit="createPromotion(event); closeModal('modal-add-promotion');">
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block mb-1 text-sm font-medium">Coupon Code</label>
-                        <input type="text" id="promoCode"
-                            class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest"
-                            required>
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm font-medium">Title</label>
-                        <input type="text" id="promoTitle"
-                            class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest"
-                            required>
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm font-medium">Discount Type</label>
-                        <select id="promoDiscount"
-                            class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest"
-                            required>
-                            <option value="PERCENTAGE">PERCENTAGE</option>
-                            <option value="FIXED_AMOUNT">FIXED AMOUNT</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm font-medium">Value</label>
-                        <input type="number" step="0.01" id="promoValue"
-                            class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest"
-                            required>
-                    </div>
-                </div>
-                <div class="col-span-full flex justify-end gap-3 mt-8 w-full">
-                    <button type="button" onclick="closeModal('modal-add-promotion')"
-                        class="px-6 py-2.5 text-on-surface-variant bg-surface-container hover:bg-surface-container-high rounded-2xl transition-colors font-medium">Cancel</button>
-                    <button type="submit"
-                        class="px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-2xl shadow-sm hover:shadow-md transition-all font-medium">Save</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Add New Gift Item Modal -->
-    <div id="modal-add-gift-item"
-        class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-        <div class="bg-surface p-6 rounded-3xl w-[500px] shadow-2xl animate-fade-in-up">
-            <h3 class="text-xl font-bold mb-6 text-primary">New Gift Item</h3>
-            <form onsubmit="createGiftItem(event); closeModal('modal-add-gift-item');">
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="col-span-2">
-                        <label class="block mb-1 text-sm font-medium">Item Name</label>
-                        <input type="text" id="giftItemName"
-                            class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest"
-                            required>
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm font-medium">Price</label>
-                        <input type="number" step="0.01" id="giftItemPrice"
-                            class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest"
-                            required>
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm font-medium">Image URL</label>
-                        <input type="text" id="giftItemImageUrl"
-                            class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest">
-                    </div>
-                    <div class="col-span-2">
-                        <label class="block mb-1 text-sm font-medium">Description</label>
-                        <input type="text" id="giftItemDesc"
-                            class="border border-outline-variant p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none w-full bg-surface-container-lowest">
-                    </div>
-                </div>
-                <div class="col-span-full flex justify-end gap-3 mt-8 w-full">
-                    <button type="button" onclick="closeModal('modal-add-gift-item')"
-                        class="px-6 py-2.5 text-on-surface-variant bg-surface-container hover:bg-surface-container-high rounded-2xl transition-colors font-medium">Cancel</button>
-                    <button type="submit"
-                        class="px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-2xl shadow-sm hover:shadow-md transition-all font-medium">Save</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    </main>
+</div>
 </body>
-
 </html>

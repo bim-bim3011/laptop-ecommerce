@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/admin-layout :: head('LapZone - Quản lý đơn hàng')}"></head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+
+<!-- Giữ nguyên Thanh Sidebar điều hướng bên trái -->
+<aside th:replace="~{admin/admin-layout :: sidebar('orders')}"></aside>
+
+<div class="flex-1 flex flex-col md:ml-[280px] w-full min-h-screen">
+    <!-- Giữ nguyên Thanh Header phía trên -->
+    <header th:replace="~{admin/admin-layout :: header}"></header>
+
+    <main class="flex-1 p-md md:p-lg lg:p-xl">
+        <!-- Tiêu đề trang -->
+        <div class="mb-lg flex justify-between items-end">
+            <div>
+                <h2 class="font-headline-lg text-headline-lg text-primary tracking-tight">Quản lý đơn hàng</h2>
+                <p class="font-body-md text-body-md text-on-surface-variant mt-xs">Hệ thống xử lý, duyệt vận chuyển và hoàn thành đơn hàng Khách đặt.</p>
+            </div>
+        </div>
+
+        <!-- Thông báo Alert nếu Duyệt/Hoàn thành thành công hoặc thất bại -->
+        <div th:if="${successMessage}" class="mb-4 p-4 bg-green-100 text-green-800 border border-green-200 rounded-xl font-medium text-sm">
+            <span th:text="${successMessage}"></span>
+        </div>
+        <div th:if="${errorMessage}" class="mb-4 p-4 bg-red-100 text-red-800 border border-red-200 rounded-xl font-medium text-sm">
+            <span th:text="${errorMessage}"></span>
+        </div>
+
+        <!-- Bảng danh sách Orders dữ liệu -->
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl ambient-shadow overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                    <tr class="border-b border-outline-variant bg-surface-container-low text-on-surface-variant font-label-md text-sm">
+                        <th class="p-4 w-[100px]">Mã đơn</th>
+                        <th class="p-4">Khách hàng</th>
+                        <th class="p-4">Ngày đặt</th>
+                        <th class="p-4">Hình thức</th>
+                        <th class="p-4">Tổng tiền</th>
+                        <th class="p-4">Trạng thái</th>
+                        <th class="p-4 text-center w-[180px]">Hành động</th>
+                    </tr>
+                    </thead>
+                    <tbody class="divide-y divide-outline-variant text-sm">
+                    <!-- Nếu chưa có đơn hàng nào -->
+                    <tr th:if="${#lists.isEmpty(orders)}">
+                        <td colspan="7" class="p-8 text-center text-on-surface-variant font-medium">
+                            Hiện tại hệ thống chưa có đơn đặt hàng nào.
+                        </td>
+                    </tr>
+
+                    <!-- Vòng lặp lấy danh sách đơn hàng thực tế qua Thymeleaf -->
+                    <tr th:unless="${#lists.isEmpty(orders)}" th:each="order : ${orders}" class="hover:bg-surface-container-low/50 transition-colors text-on-surface">
+                        <td class="p-4 font-bold text-primary" th:text="'#' + ${order.orderId}">#1</td>
+                        <td class="p-4">
+                            <div class="font-semibold" th:text="${order.user != null ? order.user.fullName : 'Khách vãng lai'}">Nguyễn Văn A</div>
+                            <div class="text-xs text-on-surface-variant" th:text="${order.user != null ? order.user.email : ''}">email@gmail.com</div>
+                        </td>
+                        <td class="p-4 text-on-surface-variant" th:text="${#temporals.format(order.orderDate, 'dd/MM/yyyy HH:mm')}">22/07/2026 14:00</td>
+                        <td class="p-4 font-medium" th:text="${order.paymentMethod}">COD</td>
+                        <td class="p-4 font-bold text-primary" th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 0, 'POINT') + ' ₫'}">3,000 ₫</td>
+                        <td class="p-4">
+                            <!-- Trạng thái: Chờ thanh toán -->
+                            <span th:if="${order.status == 'PENDING_PAYMENT'}" class="px-2.5 py-1 bg-orange-100 text-orange-800 rounded-full font-bold text-xs inline-flex items-center gap-1">
+                                    Chờ thanh toán
+                                </span>
+                            <!-- Trạng thái: Chờ xác nhận -->
+                            <span th:if="${order.status == 'PENDING'}" class="px-2.5 py-1 bg-yellow-100 text-yellow-800 rounded-full font-bold text-xs inline-flex items-center gap-1">
+                                    Chờ xác nhận
+                                </span>
+                            <!-- Trạng thái: Đang vận chuyển -->
+                            <span th:if="${order.status == 'SHIPPING'}" class="px-2.5 py-1 bg-purple-100 text-purple-800 rounded-full font-bold text-xs inline-flex items-center gap-1">
+                                    Đang vận chuyển
+                                </span>
+                            <!-- Trạng thái: Đã giao -->
+                            <span th:if="${order.status == 'DELIVERED'}" class="px-2.5 py-1 bg-green-100 text-green-800 rounded-full font-bold text-xs inline-flex items-center gap-1">
+                                    Đã giao
+                                </span>
+                            <!-- Trạng thái: Đã hủy -->
+                            <span th:if="${order.status == 'CANCELLED'}" class="px-2.5 py-1 bg-red-100 text-red-800 rounded-full font-bold text-xs inline-flex items-center gap-1">
+                                    Đã hủy
+                                </span>
+                        </td>
+                        <td class="p-4 text-center">
+                            <!-- NÚT 1: Duyệt giao hàng khi đang PENDING -->
+                            <form th:if="${order.status == 'PENDING'}" th:action="@{/admin/orders/{id}/ship(id=${order.orderId})}" method="post" class="m-0 inline-block">
+                                <button type="submit" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs rounded-lg shadow-sm transition-colors">
+                                    Duyệt giao hàng
+                                </button>
+                            </form>
+
+                            <!-- NÚT 2: Hoàn thành đơn khi đang SHIPPING -->
+                            <form th:if="${order.status == 'SHIPPING'}" th:action="@{/admin/orders/{id}/complete(id=${order.orderId})}" method="post" class="m-0 inline-block">
+                                <button type="submit" class="px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white font-medium text-xs rounded-lg shadow-sm transition-colors">
+                                    Hoàn thành đơn
+                                </button>
+                            </form>
+
+                            <!-- Hiển thị dòng chữ thông báo nếu đơn đã đóng gói xong xuôi -->
+                            <span th:if="${order.status == 'DELIVERED'}" class="text-xs text-green-700 font-medium">Hoàn tất kiểm kê</span>
+                            <span th:if="${order.status == 'CANCELLED'}" class="text-xs text-red-700 font-medium">Đơn bị huỷ</span>
+                            <span th:if="${order.status == 'PENDING_PAYMENT'}" class="text-xs text-orange-700 font-medium">Đợi người dùng pay</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>

@@ -39,6 +39,12 @@ public class Order {
     @Column(name = "status")
     private String status;
 
+    @Column(name = "payment_method", length = 50)
+    private String paymentMethod;
+
+    @Column(name = "payment_status", length = 50)
+    private String paymentStatus;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -112,5 +118,21 @@ public class Order {
 
     public void setPromotion(Promotion promotion) {
         this.promotion = promotion;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 }

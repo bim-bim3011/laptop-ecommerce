@@ -63,7 +63,12 @@ public class User {
     private List<Feedback> feedbacks = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany( orphanRemoval = true)
+    @ManyToMany
+    @JoinTable(
+        name = "users_roles",
+        joinColumns = @JoinColumn(name = "user_user_id"),
+        inverseJoinColumns = @JoinColumn(name = "roles_id")
+    )
     Set<Role> roles = new HashSet<>();
 
 }
