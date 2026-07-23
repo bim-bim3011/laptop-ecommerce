@@ -36,7 +36,7 @@
                     </svg>
                 </div>
                 <form action="/cart/add" method="post" class="w-full">
-                    <input type="hidden" name="configurationId" th:if="${not #lists.isEmpty(laptop.configurationVersions)}" th:value="${laptop.configurationVersions[0].configurationId}" />
+                    <input type="hidden" name="configurationId" id="input-config-id" th:if="${not #lists.isEmpty(laptop.configurationVersions)}" th:value="${laptop.configurationVersions[0].configurationId}" />
                     <input type="hidden" name="quantity" value="1" />
                     <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 0a2 2 0 100 4 2 2 0 000-4z"></path></svg>
@@ -52,34 +52,67 @@
 
                 <div class="flex items-end gap-4 mb-6 pb-6 border-b border-gray-200">
                     <div class="text-4xl font-extrabold text-red-500 leading-none">
-                        <span th:if="${not #lists.isEmpty(laptop.configurationVersions)}"
+                        <span id="main-price" th:if="${not #lists.isEmpty(laptop.configurationVersions)}"
                               th:text="${#numbers.formatDecimal(laptop.configurationVersions[0].price, 0, 'COMMA', 0, 'POINT')} + '₫'">38.990.000₫</span>
                         <span th:unless="${not #lists.isEmpty(laptop.configurationVersions)}">Liên hệ</span>
                     </div>
                     <div th:if="${not #lists.isEmpty(laptop.configurationVersions)}">
-                        <div class="text-lg text-gray-500 line-through mb-1" th:text="${#numbers.formatDecimal(laptop.configurationVersions[0].price * 1.05, 0, 'COMMA', 0, 'POINT')} + '₫'">40.990.000₫</div>
+                        <div id="crossed-price" class="text-lg text-gray-500 line-through mb-1" th:text="${#numbers.formatDecimal(laptop.configurationVersions[0].price * 1.05, 0, 'COMMA', 0, 'POINT')} + '₫'">40.990.000₫</div>
                     </div>
                     <div class="bg-red-50 text-red-500 border border-red-300 px-2 py-0.5 rounded text-sm font-bold mb-1" th:if="${not #lists.isEmpty(laptop.configurationVersions)}">-5%</div>
                 </div>
 
+                <!-- Lựa chọn cấu hình -->
+                <div class="mb-6" th:if="${not #lists.isEmpty(laptop.configurationVersions)}">
+                    <h3 class="text-sm font-bold text-gray-900 mb-3 uppercase">Lựa chọn cấu hình:</h3>
+                    <div class="flex flex-col gap-3">
+                        <button type="button" th:each="config, iterStat : ${laptop.configurationVersions}"
+                                th:classappend="${iterStat.index == 0} ? 'border-blue-600 ring-1 ring-blue-600 bg-blue-50' : 'border-gray-300 hover:border-blue-400 bg-white'"
+                                class="config-btn border rounded-lg px-4 py-3 text-left transition-all relative overflow-hidden"
+                                th:onclick="'selectConfig(' + ${config.configurationId} + ', this)'"
+                                th:data-price="${config.price}"
+                                th:data-cpu="${config.cpu}"
+                                th:data-ram="${config.ram}"
+                                th:data-storage="${config.storage}"
+                                th:data-gpu="${config.gpu}"
+                                th:data-stock="${config.stockQuantity}">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <div class="font-semibold text-sm text-gray-900" th:text="${config.cpu} + ' - ' + ${config.ram}"></div>
+                                    <div class="text-xs text-gray-500 mt-1" th:text="${config.storage} + ' | ' + ${config.gpu}"></div>
+                                </div>
+                                <div class="text-sm font-bold text-red-500 text-right" th:text="${#numbers.formatDecimal(config.price, 0, 'COMMA', 0, 'POINT')} + '₫'"></div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
                 <!-- Quà tặng kèm theo -->
-                <div class="mb-6 border border-green-300 rounded-lg overflow-hidden" th:if="${not #lists.isEmpty(giftDetails)}">
+                <div class="mb-6 border border-green-300 rounded-lg overflow-hidden" th:if="${not #lists.isEmpty(laptop.configurationVersions)}">
                     <div class="bg-green-100 text-green-700 px-4 py-2 font-bold uppercase text-sm border-b border-green-300 flex items-center gap-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path></svg>
                         Quà tặng kèm theo
                     </div>
-                    <div class="p-4 bg-white">
-                        <ul class="space-y-2">
-                            <li th:each="giftDetail : ${giftDetails}" class="flex items-start gap-3 text-sm text-gray-700">
-                                <div class="mt-0.5 text-green-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                </div>
-                                <div>
-                                    <span th:text="${giftDetail.giftItem?.itemName}" class="font-semibold text-gray-900">Chuột không dây</span>
-                                    <span th:if="${giftDetail.quantity > 1}" th:text="' (x' + ${giftDetail.quantity} + ')'" class="text-gray-500 font-medium"> (x1)</span>
-                                </div>
-                            </li>
-                        </ul>
+                    <div class="p-4 bg-white min-h-[60px]">
+                        <div th:each="config, iterStat : ${laptop.configurationVersions}"
+                             th:id="'gift-config-' + ${config.configurationId}"
+                             class="gift-list"
+                             th:classappend="${iterStat.index == 0} ? 'block' : 'hidden'">
+                            <ul class="space-y-2" th:if="${not #lists.isEmpty(config.giftDetails)}">
+                                <li th:each="giftDetail : ${config.giftDetails}" class="flex items-start gap-3 text-sm text-gray-700">
+                                    <div class="mt-0.5 text-green-500">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    </div>
+                                    <div>
+                                        <span th:text="${giftDetail.giftItem?.itemName}" class="font-semibold text-gray-900">Chuột không dây</span>
+                                        <span th:if="${giftDetail.quantity > 1}" th:text="' (x' + ${giftDetail.quantity} + ')'" class="text-gray-500 font-medium"> (x1)</span>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div th:if="${#lists.isEmpty(config.giftDetails)}" class="text-sm text-gray-500 italic">
+                                Không có quà tặng kèm theo cho cấu hình này.
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -89,19 +122,19 @@
                     <table class="w-full border-collapse">
                         <tr class="border-b border-gray-200 last:border-0">
                             <td class="w-[35%] font-semibold bg-slate-50 px-4 py-3 border-r border-gray-200 text-sm">CPU</td>
-                            <td class="px-4 py-3 text-sm" th:text="${laptop.configurationVersions[0].cpu}">AMD Ryzen 7</td>
+                            <td id="spec-cpu" class="px-4 py-3 text-sm" th:text="${laptop.configurationVersions[0].cpu}">AMD Ryzen 7</td>
                         </tr>
                         <tr class="border-b border-gray-200 last:border-0">
                             <td class="w-[35%] font-semibold bg-slate-50 px-4 py-3 border-r border-gray-200 text-sm">Card đồ họa</td>
-                            <td class="px-4 py-3 text-sm" th:text="${laptop.configurationVersions[0].gpu}">NVIDIA GeForce RTX 5050</td>
+                            <td id="spec-gpu" class="px-4 py-3 text-sm" th:text="${laptop.configurationVersions[0].gpu}">NVIDIA GeForce RTX 5050</td>
                         </tr>
                         <tr class="border-b border-gray-200 last:border-0">
                             <td class="w-[35%] font-semibold bg-slate-50 px-4 py-3 border-r border-gray-200 text-sm">RAM</td>
-                            <td class="px-4 py-3 text-sm" th:text="${laptop.configurationVersions[0].ram}">16GB DDR5</td>
+                            <td id="spec-ram" class="px-4 py-3 text-sm" th:text="${laptop.configurationVersions[0].ram}">16GB DDR5</td>
                         </tr>
                         <tr class="border-b border-gray-200 last:border-0">
                             <td class="w-[35%] font-semibold bg-slate-50 px-4 py-3 border-r border-gray-200 text-sm">SSD</td>
-                            <td class="px-4 py-3 text-sm" th:text="${laptop.configurationVersions[0].storage}">512GB PCIe</td>
+                            <td id="spec-storage" class="px-4 py-3 text-sm" th:text="${laptop.configurationVersions[0].storage}">512GB PCIe</td>
                         </tr>
                         <tr class="border-b border-gray-200 last:border-0">
                             <td class="w-[35%] font-semibold bg-slate-50 px-4 py-3 border-r border-gray-200 text-sm">Kích thước màn hình</td>
@@ -190,23 +223,23 @@
                                 <table class="w-full border-collapse" th:if="${not #lists.isEmpty(laptop.configurationVersions)}">
                                     <tr class="border-b border-gray-200">
                                         <td class="w-[40%] font-semibold bg-slate-50 px-4 py-3 border-r border-gray-200 text-sm">CPU</td>
-                                        <td class="px-4 py-3 text-sm" th:text="${laptop.configurationVersions[0].cpu}"></td>
+                                        <td id="modal-cpu" class="px-4 py-3 text-sm" th:text="${laptop.configurationVersions[0].cpu}"></td>
                                     </tr>
                                     <tr class="border-b border-gray-200">
                                         <td class="w-[40%] font-semibold bg-slate-50 px-4 py-3 border-r border-gray-200 text-sm">RAM</td>
-                                        <td class="px-4 py-3 text-sm" th:text="${laptop.configurationVersions[0].ram}"></td>
+                                        <td id="modal-ram" class="px-4 py-3 text-sm" th:text="${laptop.configurationVersions[0].ram}"></td>
                                     </tr>
                                     <tr class="border-b border-gray-200">
                                         <td class="w-[40%] font-semibold bg-slate-50 px-4 py-3 border-r border-gray-200 text-sm">Ổ cứng</td>
-                                        <td class="px-4 py-3 text-sm" th:text="${laptop.configurationVersions[0].storage}"></td>
+                                        <td id="modal-storage" class="px-4 py-3 text-sm" th:text="${laptop.configurationVersions[0].storage}"></td>
                                     </tr>
                                     <tr class="border-b border-gray-200">
                                         <td class="w-[40%] font-semibold bg-slate-50 px-4 py-3 border-r border-gray-200 text-sm">Card đồ họa (VGA)</td>
-                                        <td class="px-4 py-3 text-sm" th:text="${laptop.configurationVersions[0].gpu}"></td>
+                                        <td id="modal-gpu" class="px-4 py-3 text-sm" th:text="${laptop.configurationVersions[0].gpu}"></td>
                                     </tr>
                                     <tr class="border-b border-gray-200">
                                         <td class="w-[40%] font-semibold bg-slate-50 px-4 py-3 border-r border-gray-200 text-sm">Tình trạng kho</td>
-                                        <td class="px-4 py-3 text-sm" th:text="${laptop.configurationVersions[0].stockQuantity} + ' sản phẩm'"></td>
+                                        <td id="modal-stock" class="px-4 py-3 text-sm" th:text="${laptop.configurationVersions[0].stockQuantity} + ' sản phẩm'"></td>
                                     </tr>
                                 </table>
                             </div>
@@ -228,6 +261,68 @@
         }
         function closeSpecsModal() {
             document.getElementById('specsModal').classList.add('hidden');
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('vi-VN').format(amount) + '₫';
+        }
+
+        function selectConfig(configId, btnElement) {
+            // Update hidden input
+            const inputConfigId = document.getElementById('input-config-id');
+            if (inputConfigId) {
+                inputConfigId.value = configId;
+            }
+
+            // Update styling of buttons
+            const buttons = document.querySelectorAll('.config-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('border-blue-600', 'ring-1', 'ring-blue-600', 'bg-blue-50');
+                btn.classList.add('border-gray-300', 'bg-white');
+            });
+            btnElement.classList.remove('border-gray-300', 'bg-white');
+            btnElement.classList.add('border-blue-600', 'ring-1', 'ring-blue-600', 'bg-blue-50');
+
+            // Extract data from selected button
+            const price = parseFloat(btnElement.getAttribute('data-price'));
+            const cpu = btnElement.getAttribute('data-cpu');
+            const ram = btnElement.getAttribute('data-ram');
+            const storage = btnElement.getAttribute('data-storage');
+            const gpu = btnElement.getAttribute('data-gpu');
+            const stock = btnElement.getAttribute('data-stock');
+
+            // Update Prices
+            if (document.getElementById('main-price')) {
+                document.getElementById('main-price').innerText = formatCurrency(price);
+            }
+            if (document.getElementById('crossed-price')) {
+                document.getElementById('crossed-price').innerText = formatCurrency(price * 1.05);
+            }
+
+            // Update Specs Table
+            if (document.getElementById('spec-cpu')) document.getElementById('spec-cpu').innerText = cpu;
+            if (document.getElementById('spec-ram')) document.getElementById('spec-ram').innerText = ram;
+            if (document.getElementById('spec-storage')) document.getElementById('spec-storage').innerText = storage;
+            if (document.getElementById('spec-gpu')) document.getElementById('spec-gpu').innerText = gpu;
+
+            // Update Modal Specs Table
+            if (document.getElementById('modal-cpu')) document.getElementById('modal-cpu').innerText = cpu;
+            if (document.getElementById('modal-ram')) document.getElementById('modal-ram').innerText = ram;
+            if (document.getElementById('modal-storage')) document.getElementById('modal-storage').innerText = storage;
+            if (document.getElementById('modal-gpu')) document.getElementById('modal-gpu').innerText = gpu;
+            if (document.getElementById('modal-stock')) document.getElementById('modal-stock').innerText = stock + ' sản phẩm';
+
+            // Show relevant gifts, hide others
+            const giftLists = document.querySelectorAll('.gift-list');
+            giftLists.forEach(list => {
+                list.classList.remove('block');
+                list.classList.add('hidden');
+            });
+            const selectedGiftList = document.getElementById('gift-config-' + configId);
+            if (selectedGiftList) {
+                selectedGiftList.classList.remove('hidden');
+                selectedGiftList.classList.add('block');
+            }
         }
     </script>
 </body>

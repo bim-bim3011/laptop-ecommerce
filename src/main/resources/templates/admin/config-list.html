@@ -151,6 +151,7 @@
                                         </a>
                                     </th>
                                     <th class="text-left p-3 font-label-md text-label-md text-on-surface-variant">GPU</th>
+                                    <th class="text-left p-3 font-label-md text-label-md text-on-surface-variant">Quà tặng</th>
                                     <th class="text-left p-3 font-label-md text-label-md text-on-surface-variant">
                                         <a th:href="@{/admin/laptops/configs(pageNo=${currentPage}, keyword=${keyword}, cpu=${cpu}, ram=${ram}, storage=${storage}, sortField='price', sortDir=${sortField == 'price' ? reverseSortDir : 'asc'})}" class="flex items-center gap-1 hover:text-primary transition-colors">
                                             Giá <span class="material-symbols-outlined text-[14px]" th:text="${sortField == 'price' ? (sortDir == 'asc' ? 'arrow_upward' : 'arrow_downward') : 'swap_vert'}"></span>

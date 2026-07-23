@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import java.util.List;
+import com.se1906.laptopshop.entity.Order;
 
 @Controller
 @RequestMapping("/admin")
@@ -25,6 +27,7 @@ public class AdminController {
         model.addAttribute("totalInventory", configurationVersionRepository.countTotalInventory());
         model.addAttribute("totalOrders", orderRepository.countTotalOrders());
         // 1. Lấy tất cả đơn hàng từ database
+        List<Order> allOrders = orderRepository.findAll();
 
         // 2. Tổng order đang chờ xác nhận (PENDING)
         long pendingCount = allOrders.stream()
