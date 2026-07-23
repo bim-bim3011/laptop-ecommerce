@@ -50,6 +50,10 @@ public class User {
     @Column(name = "status", nullable = false, length = 15)
     private String status;
 
+    @Column(name = "is_deleted")
+    @Builder.Default
+    private Boolean isDeleted = false;
+
     @JsonIgnore
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Cart cart;

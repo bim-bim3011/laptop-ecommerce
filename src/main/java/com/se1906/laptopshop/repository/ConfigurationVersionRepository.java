@@ -19,4 +19,16 @@ public interface ConfigurationVersionRepository extends JpaRepository<Configurat
 
     @org.springframework.data.jpa.repository.Query("SELECT DISTINCT c.storage FROM ConfigurationVersion c WHERE c.storage IS NOT NULL ORDER BY c.storage ASC")
     java.util.List<String> findDistinctStorages();
+
+    @org.springframework.data.jpa.repository.Query("SELECT c FROM ConfigurationVersion c WHERE " +
+           "(:keyword IS NULL OR :keyword = '' OR LOWER(c.laptop.laptopName) LIKE LOWER(CONCAT('%', :keyword, '%'))) " +
+           "AND (:cpu IS NULL OR :cpu = '' OR c.cpu = :cpu) " +
+           "AND (:ram IS NULL OR :ram = '' OR c.ram = :ram) " +
+           "AND (:storage IS NULL OR :storage = '' OR c.storage = :storage)")
+    org.springframework.data.domain.Page<ConfigurationVersion> searchAndFilterConfigs(
+            @org.springframework.data.repository.query.Param("keyword") String keyword, 
+            @org.springframework.data.repository.query.Param("cpu") String cpu, 
+            @org.springframework.data.repository.query.Param("ram") String ram, 
+            @org.springframework.data.repository.query.Param("storage") String storage, 
+            org.springframework.data.domain.Pageable pageable);
 }

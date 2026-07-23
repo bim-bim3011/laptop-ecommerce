@@ -2,6 +2,7 @@ package com.se1906.laptopshop.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -13,25 +14,28 @@ import lombok.experimental.FieldDefaults;
 @Setter
 public class RegisterRequest {
 
-     @NotBlank(message = "Full name is required")
+     @NotBlank(message = "Họ tên không được để trống")
+     @Size(min = 2, max = 50, message = "Họ tên phải từ 2 đến 50 ký tự")
      String fullName;
 
-     @NotBlank(message = "Email is required")
-     @Email(message = "Invalid email format")
+     @NotBlank(message = "Email không được để trống")
+     @Email(message = "Email không đúng định dạng")
      String email;
 
-     @NotBlank(message = "Phone number is required")
-     @Size(min = 10, max = 10, message = "Phone number must be exactly 10 digits")
+     @NotBlank(message = "Số điện thoại không được để trống")
+     @Pattern(regexp = "^(0|\\+84)[3|5|7|8|9][0-9]{8}$", message = "Số điện thoại không hợp lệ")
      String phoneNumber;
 
-     @NotBlank(message = "Address is required")
+     @NotBlank(message = "Địa chỉ không được để trống")
+     @Size(min = 5, max = 200, message = "Địa chỉ phải từ 5 đến 200 ký tự")
      String address;
 
-     @NotBlank(message = "Password is required")
-     @Size(min = 8, message = "Password must be at least 8 characters")
+     @NotBlank(message = "Mật khẩu không được để trống")
+     @Size(min = 8, message = "Mật khẩu phải chứa ít nhất 8 ký tự")
+     @Pattern(regexp = "^[A-Z](?=.*[^a-zA-Z0-9\\s]).{7,}$", message = "Mật khẩu phải từ 8 ký tự, chữ cái đầu viết hoa và bao gồm ít nhất 1 ký tự đặc biệt")
      String password;
 
-     @NotBlank(message = "Confirm password is required")
+     @NotBlank(message = "Xác nhận mật khẩu không được để trống")
      String confirmPassword;
 
 }
