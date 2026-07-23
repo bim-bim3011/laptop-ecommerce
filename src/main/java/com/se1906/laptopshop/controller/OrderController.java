@@ -36,6 +36,10 @@ public class OrderController {
     // ==========================================
     // 1. HIỂN THỊ LỊCH SỬ ĐƠN HÀNG
     // ==========================================
+    /**
+     * Lấy danh sách các đơn hàng đã đặt của người dùng đang đăng nhập.
+     * Hàm này kiểm tra phiên đăng nhập và trả về giao diện lịch sử đơn hàng.
+     */
     @GetMapping("/orders")
     public String viewOrderHistory(HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
@@ -49,6 +53,10 @@ public class OrderController {
     // ==========================================
     // 2. HIỂN THỊ TRANG THANH TOÁN
     // ==========================================
+    /**
+     * Chuẩn bị dữ liệu từ các sản phẩm được chọn trong giỏ hàng để chuyển sang trang thanh toán.
+     * Hàm này xác thực người dùng và danh sách sản phẩm, sau đó tính toán thông tin cần thiết.
+     */
     @PostMapping("/orders/checkout")
     public String checkoutPage(
             @RequestParam(value = "selectedItemIds", required = false) List<Integer> selectedItemIds,
@@ -74,6 +82,10 @@ public class OrderController {
     // ==========================================
     // 2.5 ÁP DỤNG MÃ GIẢM GIÁ (THYMELEAF)
     // ==========================================
+    /**
+     * Xử lý việc áp dụng mã giảm giá ngay trên trang thanh toán mà không làm mất dữ liệu người dùng đã nhập.
+     * Hàm này kiểm tra tính hợp lệ của mã giảm giá, tính toán lại tổng tiền và cập nhật lại giao diện.
+     */
     @PostMapping("/orders/checkout-coupon")
     public String checkoutCoupon(
             @RequestParam(value = "selectedItemIds", required = false) List<Integer> selectedItemIds,
@@ -140,6 +152,10 @@ public class OrderController {
     // ==========================================
     // 3. XỬ LÝ ĐẶT HÀNG & CHUYỂN HƯỚNG
     // ==========================================
+    /**
+     * Xử lý yêu cầu đặt hàng chính thức từ người dùng với các thông tin giao hàng và thanh toán.
+     * Hàm này gọi service để tạo đơn hàng, lưu vào CSDL và chuyển hướng đến trang thanh toán VNPay nếu cần.
+     */
     @PostMapping("/orders/place-order")
     public String placeOrder(
             @RequestParam(value = "selectedItemIds", required = false) List<Integer> selectedItemIds,
@@ -179,6 +195,10 @@ public class OrderController {
     // ==========================================
     // 4. HỦY ĐƠN HÀNG
     // ==========================================
+    /**
+     * Xử lý yêu cầu hủy một đơn hàng cụ thể dựa trên ID đơn hàng của người dùng.
+     * Hàm kiểm tra trạng thái đơn hàng (chưa giao/chưa hoàn tất) trước khi thực hiện hủy để đảm bảo tính hợp lệ.
+     */
     @PostMapping("/orders/{id}/cancel")
     public String cancelOrder(@PathVariable("id") int id, HttpSession session, RedirectAttributes redirectAttributes) {
         User user = (User) session.getAttribute("user");
@@ -200,6 +220,10 @@ public class OrderController {
     // ==========================================
     // 5. HIỂN THỊ CHI TIẾT ĐƠN HÀNG
     // ==========================================
+    /**
+     * Lấy và hiển thị thông tin chi tiết của một đơn hàng cụ thể.
+     * Hàm này truy xuất dữ liệu đơn hàng kèm các sản phẩm bên trong và trả về trang chi tiết đơn hàng.
+     */
     @GetMapping("/orderdetail/{id}")
     public String viewOrderDetail(@PathVariable("id") int id, HttpSession session, Model model,
             RedirectAttributes redirectAttributes) {
