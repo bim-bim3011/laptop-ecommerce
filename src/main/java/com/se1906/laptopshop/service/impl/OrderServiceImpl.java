@@ -115,7 +115,13 @@ public class OrderServiceImpl implements OrderService {
         
         // Tính toán discount
         if (couponCode != null && !couponCode.trim().isEmpty()) {
-            Promotion promotion = promotionRepository.findByCouponCode(couponCode).orElse(null);
+            String trimmedCode = couponCode.trim();
+            Promotion promotion = promotionRepository.findByCouponCode(trimmedCode).orElse(null);
+            
+            if (promotion != null && promotion.getCouponCode() != null && !promotion.getCouponCode().equals(trimmedCode)) {
+                promotion = null;
+            }
+            
             if (promotion != null) {
                 java.time.LocalDateTime now = java.time.LocalDateTime.now();
                 if (!now.isBefore(promotion.getStartDate()) && !now.isAfter(promotion.getEndDate())) {
