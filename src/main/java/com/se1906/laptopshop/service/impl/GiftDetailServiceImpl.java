@@ -3,6 +3,7 @@ package com.se1906.laptopshop.service.impl;
 import com.se1906.laptopshop.entity.ConfigurationVersion;
 import com.se1906.laptopshop.entity.GiftDetail;
 import com.se1906.laptopshop.entity.GiftItem;
+import com.se1906.laptopshop.entity.Laptop;
 import com.se1906.laptopshop.repository.ConfigurationVersionRepository;
 import com.se1906.laptopshop.repository.GiftDetailRepository;
 import com.se1906.laptopshop.repository.GiftItemRepository;
@@ -49,6 +50,26 @@ public class GiftDetailServiceImpl implements GiftDetailService {
             giftDetailRepository.deleteById(giftDetailId);
         } else {
             throw new RuntimeException("Gift Detail not found");
+        }
+    }
+
+    @Override
+    public void saveGiftsForConfig(Laptop laptop, ConfigurationVersion config, List<Integer> selectedGiftIds) {
+        if (selectedGiftIds == null || selectedGiftIds.isEmpty()) {
+            return;
+        }
+
+        for (Integer giftItemId : selectedGiftIds) {
+            GiftItem giftItem = giftItemRepository.findById(giftItemId).orElse(null);
+            if (giftItem != null) {
+                GiftDetail giftDetail = new GiftDetail();
+                giftDetail.setLaptop(laptop); // Gán thông tin Laptop
+                giftDetail.setConfigurationVersion(config); // Gán thông tin Config cụ thể
+                giftDetail.setGiftItem(giftItem); // Món quà tương ứng
+                giftDetail.setQuantity(1); // Mặc định số lượng tặng kèm khi mua là 1
+
+                giftDetailRepository.save(giftDetail);
+            }
         }
     }
 }

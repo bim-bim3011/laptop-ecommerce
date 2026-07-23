@@ -58,23 +58,23 @@
 <aside th:fragment="sidebar(activeMenu)" class="hidden md:flex flex-col bg-surface-container-lowest border-r border-outline-variant fixed left-0 top-0 h-full w-[280px] z-20 shadow-[1px_0_10px_rgba(0,0,0,0.02)]">
     <div class="p-md border-b border-outline-variant">
         <h1 class="font-headline-md text-headline-md font-bold text-primary">LapZone</h1>
-        <p class="font-label-md text-label-md text-on-surface-variant mt-xs">Admin Dashboard</p>
+        <p class="font-label-md text-label-md text-on-surface-variant mt-xs">Bảng điều khiển</p>
     </div>
     <nav class="flex-1 py-md px-sm overflow-y-auto flex flex-col gap-2">
         <a th:href="@{/admin/dashboard}"
            th:classappend="${activeMenu == 'overview'} ? 'bg-blue-500 text-white' : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'"
            class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg font-body-md text-body-md">
-            <span class="material-symbols-outlined">dashboard</span> Overview
+            <span class="material-symbols-outlined">dashboard</span> Tổng quan
         </a>
         <a th:href="@{/admin/brands}"
            th:classappend="${activeMenu == 'brand'} ? 'bg-blue-500 text-white' : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'"
            class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg font-body-md text-body-md">
-            <span class="material-symbols-outlined">branding_watermark</span> Brand
+            <span class="material-symbols-outlined">branding_watermark</span> Thương hiệu
         </a>
         <a th:href="@{/admin/categories}"
            th:classappend="${activeMenu == 'category'} ? 'bg-blue-500 text-white' : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'"
            class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg font-body-md text-body-md">
-            <span class="material-symbols-outlined">category</span> Category
+            <span class="material-symbols-outlined">category</span> Danh mục
         </a>
         <a th:href="@{/admin/laptops}"
            th:classappend="${activeMenu == 'laptop'} ? 'bg-blue-500 text-white' : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'"
@@ -84,29 +84,29 @@
         <a th:href="@{/admin/orders}"
            th:classappend="${activeMenu == 'orders'} ? 'bg-blue-500 text-white' : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'"
            class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg font-body-md text-body-md">
-            <span class="material-symbols-outlined">receipt_long</span> Orders
+            <span class="material-symbols-outlined">receipt_long</span> Đơn hàng
         </a>
 
         <a th:href="@{/admin/users}"
            th:classappend="${activeMenu == 'user'} ? 'bg-blue-500 text-white' : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'"
            class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg font-body-md text-body-md">
-            <span class="material-symbols-outlined">group</span> User Management
+            <span class="material-symbols-outlined">group</span> Quản lý người dùng
         </a>
         <a th:href="@{/admin/promotions}"
            th:classappend="${activeMenu == 'promotion'} ? 'bg-blue-500 text-white' : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'"
            class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg font-body-md text-body-md">
-            <span class="material-symbols-outlined">redeem</span> Promotions
+            <span class="material-symbols-outlined">redeem</span> Khuyến mãi
         </a>
         <a th:href="@{/admin/gift-items}"
            th:classappend="${activeMenu == 'gift-item'} ? 'bg-blue-500 text-white' : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'"
            class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg font-body-md text-body-md">
-            <span class="material-symbols-outlined">featured_play_list</span> Gift Items
+            <span class="material-symbols-outlined">featured_play_list</span> Quà tặng
         </a>
     </nav>
     <div class="p-md border-t border-outline-variant flex items-center gap-3">
         <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold font-label-md">AU</div>
         <div>
-            <p class="font-label-md text-label-md font-bold text-on-surface">Admin User</p>
+            <p class="font-label-md text-label-md font-bold text-on-surface">Quản trị viên</p>
             <p class="text-xs text-on-surface-variant">admin@lapzone.com</p>
         </div>
         <a th:href="@{/admin/logout}" class="ml-auto text-on-surface-variant hover:text-error transition-colors" title="Đăng xuất">
