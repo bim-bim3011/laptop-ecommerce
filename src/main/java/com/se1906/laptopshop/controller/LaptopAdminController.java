@@ -2,6 +2,7 @@ package com.se1906.laptopshop.controller;
 
 import com.se1906.laptopshop.entity.ConfigurationVersion;
 import com.se1906.laptopshop.entity.Laptop;
+import com.se1906.laptopshop.repository.GiftItemRepository;
 import com.se1906.laptopshop.service.BrandService;
 import com.se1906.laptopshop.service.CategoryService;
 import com.se1906.laptopshop.service.CloudinaryService;
@@ -27,6 +28,7 @@ public class LaptopAdminController {
     BrandService brandService;
     CategoryService categoryService;
     CloudinaryService cloudinaryService;
+    GiftItemRepository giftItemRepository;
 
     @GetMapping
     public String listLaptops(
@@ -152,6 +154,7 @@ public class LaptopAdminController {
         model.addAttribute("distinctStorages", laptopService.getDistinctStorages());
 
         model.addAttribute("laptops", laptopService.getAllLaptops());
+        model.addAttribute("allGifts", giftItemRepository.findAll());
         return "admin/config-list";
     }
 

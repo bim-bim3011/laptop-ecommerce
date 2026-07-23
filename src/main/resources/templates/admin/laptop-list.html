@@ -109,11 +109,12 @@
                                             class="text-blue-600 border border-blue-200 bg-transparent hover:bg-blue-50 px-3 py-1 rounded-full transition-colors inline-flex items-center gap-1">
                                         <span class="material-symbols-outlined text-[16px]">edit</span><span class="text-sm font-medium">Edit</span>
                                     </button>
-                                    <form th:action="@{/admin/laptops/delete/{id}(id=${l.laptopId})}" method="POST" class="inline" onsubmit="return confirm('Xóa Laptop này?');">
-                                        <button type="submit" class="text-red-600 border border-red-200 bg-transparent hover:bg-red-50 px-3 py-1 rounded-full transition-colors inline-flex items-center gap-1">
-                                            <span class="material-symbols-outlined text-[16px]">delete</span><span class="text-sm font-medium">Delete</span>
-                                        </button>
-                                    </form>
+                                    <button type="button"
+                                            th:data-url="@{/admin/laptops/delete/{id}(id=${l.laptopId})}"
+                                            onclick="openDeleteModal(this)"
+                                            class="text-red-600 border border-red-200 bg-transparent hover:bg-red-50 px-3 py-1 rounded-full transition-colors inline-flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-[16px]">delete</span><span class="text-sm font-medium">Delete</span>
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -180,20 +181,6 @@
     </div>
 </div>
 
-<!-- Hidden data for JS edit -->
-<script th:inline="javascript">
-    var laptopsData = /*[[${laptops}]]*/ [];
-    function openEditLaptop(id) {
-        var laptop = laptopsData.find(l => l.laptopId === id);
-        if (!laptop) return;
-        document.getElementById('editLaptopName').value = laptop.laptopName || '';
-        document.getElementById('editDescription').value = laptop.description || '';
-        document.getElementById('editBrandId').value = laptop.brand ? laptop.brand.brandId : '';
-        document.getElementById('editCategoryId').value = laptop.category ? laptop.category.categoryId : '';
-        document.getElementById('editLaptopForm').action = '/admin/laptops/update/' + id;
-        document.getElementById('modal-edit-laptop').classList.remove('hidden');
-    }
-</script>
 
 <!-- Modal Edit Laptop -->
 <div id="modal-edit-laptop" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
@@ -225,5 +212,55 @@
         </form>
     </div>
 </div>
+<div id="deleteModal" class="fixed inset-0 z-50 flex items-center justify-center hidden p-4">
+    <!-- Nền mờ phía sau -->
+    <div class="fixed inset-0 bg-black/50 backdrop-blur-sm" onclick="closeDeleteModal()"></div>
+    <!-- Hộp nội dung Pop-up -->
+    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 w-full max-w-md shadow-xl relative z-10">
+        <div class="flex items-center gap-3 text-red-600 mb-4">
+            <span class="material-symbols-outlined text-3xl">warning</span>
+            <h4 class="font-headline-md text-headline-md text-on-surface">Xác nhận xóa Laptop</h4>
+        </div>
+        <p class="text-body-md text-on-surface-variant mb-6">Bạn có chắc chắn muốn xóa sản phẩm laptop này? Tất cả dữ liệu liên quan sẽ bị loại bỏ và không thể khôi phục.</p>
+
+        <!-- Form gửi request POST thực thi xóa lên Controller -->
+        <form id="deleteForm" method="POST" class="flex items-center justify-end gap-3">
+            <button type="button" onclick="closeDeleteModal()" class="px-4 py-2 text-body-md font-label-md rounded-lg border border-outline-variant hover:bg-surface-container-low transition-colors">
+                Hủy bỏ
+            </button>
+            <button type="submit" class="px-4 py-2 text-body-md font-label-md bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center gap-1">
+                <span class="material-symbols-outlined text-sm">delete</span> Đồng ý xóa
+            </button>
+        </form>
+    </div>
+</div>
+
+
+<!-- Hidden data for JS edit -->
+<script th:inline="javascript">
+    var laptopsData = /*[[${laptops}]]*/ [];
+    function openEditLaptop(id) {
+        var laptop = laptopsData.find(l => l.laptopId === id);
+        if (!laptop) return;
+        document.getElementById('editLaptopName').value = laptop.laptopName || '';
+        document.getElementById('editDescription').value = laptop.description || '';
+        document.getElementById('editBrandId').value = laptop.brand ? laptop.brand.brandId : '';
+        document.getElementById('editCategoryId').value = laptop.category ? laptop.category.categoryId : '';
+        document.getElementById('editLaptopForm').action = '/admin/laptops/update/' + id;
+        document.getElementById('modal-edit-laptop').classList.remove('hidden');
+    }
+    function openDeleteModal(button) {
+        const deleteUrl = button.getAttribute('data-url');
+        const modal = document.getElementById('deleteModal');
+        const form = document.getElementById('deleteForm');
+
+        form.action = deleteUrl; // Cập nhật URL xóa tương ứng của Laptop đó vào form
+        modal.classList.remove('hidden'); // Hiển thị pop-up
+    }
+
+    function closeDeleteModal() {
+        document.getElementById('deleteModal').classList.add('hidden'); // Ẩn pop-up
+    }
+</script>
 </body>
 </html>

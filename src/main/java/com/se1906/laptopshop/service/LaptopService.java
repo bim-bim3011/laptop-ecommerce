@@ -16,7 +16,7 @@ public interface LaptopService {
 
     List<ConfigurationVersion> getAllConfigurations();
     List<ConfigurationVersion> getConfigurationsByLaptopId(int laptopId);
-    ConfigurationVersion createConfiguration(int laptopId, ConfigurationVersion configuration);
+    ConfigurationVersion createConfiguration(int laptopId, ConfigurationVersion configuration , List<Integer> selectedGifts);
     ConfigurationVersion updateConfiguration(int id, ConfigurationVersion configuration);
     void deleteConfiguration(int id);
     
