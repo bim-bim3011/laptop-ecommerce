@@ -336,6 +336,23 @@ public class OrderServiceImpl implements OrderService {
         if (order == null || !"SHIPPING".equalsIgnoreCase(order.getStatus())) {
             return false;
         }
+        if (order.getOrderDetails() != null) {
+            for (OrderDetail detail : order.getOrderDetails()) {
+                ConfigurationVersion config = detail.getConfigurationVersion();
+                if (config != null) {
+                    // Vì getStockQuantity() và getQuantity() trả về kiểu int nguyên thủy,
+                    // không cần check != null bọc ngoài nữa.
+                    int currentStock = config.getStockQuantity();
+                    int orderQuantity = detail.getQuantity();
+
+                    // Tính số lượng tồn kho mới sau khi trừ
+                    int newStock = currentStock - orderQuantity;
+                    if (newStock < 0) newStock = 0; // Đảm bảo kho không bị âm
+
+                    config.setStockQuantity(newStock);
+                }
+            }
+        }
         order.setStatus("DELIVERED"); // Đã giao hàng
         if ("COD".equalsIgnoreCase(order.getPaymentMethod())) {
             order.setPaymentStatus("SUCCESS");

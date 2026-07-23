@@ -1,5 +1,8 @@
 package com.se1906.laptopshop.controller;
 
+import com.se1906.laptopshop.repository.ConfigurationVersionRepository;
+import com.se1906.laptopshop.repository.OrderRepository;
+import com.se1906.laptopshop.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -16,9 +19,9 @@ import com.se1906.laptopshop.entity.Order;
 @RequiredArgsConstructor
 public class AdminController {
 
-    com.se1906.laptopshop.repository.OrderRepository orderRepository;
-    com.se1906.laptopshop.repository.UserRepository userRepository;
-    com.se1906.laptopshop.repository.ConfigurationVersionRepository configurationVersionRepository;
+    OrderRepository orderRepository;
+    UserRepository userRepository;
+    ConfigurationVersionRepository configurationVersionRepository;
 
     @GetMapping("/dashboard")
     public String dashboard(Model model) {

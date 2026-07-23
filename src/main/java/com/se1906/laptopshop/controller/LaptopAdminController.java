@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin/laptops")
@@ -178,7 +179,8 @@ public class LaptopAdminController {
         config.setGpu(dto.getGpu());
         config.setPrice(dto.getPrice());
         config.setStockQuantity(dto.getStockQuantity());
-        laptopService.createConfiguration(dto.getLaptopId(), config, new java.util.ArrayList<>());
+        List<Integer> selectedGiftIds = dto.getSelectedGifts() != null ? dto.getSelectedGifts() : new java.util.ArrayList<>();
+        laptopService.createConfiguration(dto.getLaptopId(), config, selectedGiftIds);
         redirectAttributes.addFlashAttribute("successMessage", "Thêm Configuration thành công!");
         return "redirect:/admin/laptops/configs";
     }
