@@ -40,6 +40,7 @@ public class GiftDetail {
 
     @ManyToOne
     @JoinColumn(name = "gift_item_id")
+    @org.hibernate.annotations.NotFound(action = org.hibernate.annotations.NotFoundAction.IGNORE)
     private GiftItem giftItem;
     @ManyToOne
     @JoinColumn(name = "laptop_id", nullable = false) // Nối chính xác sang khóa chính laptop_id của bảng laptops
