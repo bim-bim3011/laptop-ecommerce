@@ -61,6 +61,15 @@ public class LaptopServiceImpl implements LaptopService {
     }
 
     @Override
+    public org.springframework.data.domain.Page<Laptop> getAdminPaginatedLaptops(String keyword, Integer brandId, Integer categoryId, int pageNo, int pageSize, String sortField, String sortDir) {
+        org.springframework.data.domain.Sort sort = sortDir.equalsIgnoreCase(org.springframework.data.domain.Sort.Direction.ASC.name()) ? 
+                org.springframework.data.domain.Sort.by(sortField).ascending() : 
+                org.springframework.data.domain.Sort.by(sortField).descending();
+        org.springframework.data.domain.Pageable pageable = org.springframework.data.domain.PageRequest.of(pageNo - 1, pageSize, sort);
+        return laptopRepository.searchAndFilterLaptops(keyword, brandId, categoryId, pageable);
+    }
+
+    @Override
     public List<ConfigurationVersion> getAllConfigurations() {
         return configurationVersionRepository.findAll();
     }
@@ -99,5 +108,29 @@ public class LaptopServiceImpl implements LaptopService {
         ConfigurationVersion existing = configurationVersionRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Configuration not found"));
         configurationVersionRepository.delete(existing);
+    }
+
+    @Override
+    public org.springframework.data.domain.Page<ConfigurationVersion> getAdminPaginatedConfigs(String keyword, String cpu, String ram, String storage, int pageNo, int pageSize, String sortField, String sortDir) {
+        org.springframework.data.domain.Sort sort = sortDir.equalsIgnoreCase(org.springframework.data.domain.Sort.Direction.ASC.name()) ? 
+                org.springframework.data.domain.Sort.by(sortField).ascending() : 
+                org.springframework.data.domain.Sort.by(sortField).descending();
+        org.springframework.data.domain.Pageable pageable = org.springframework.data.domain.PageRequest.of(pageNo - 1, pageSize, sort);
+        return configurationVersionRepository.searchAndFilterConfigs(keyword, cpu, ram, storage, pageable);
+    }
+
+    @Override
+    public List<String> getDistinctCpus() {
+        return configurationVersionRepository.findDistinctCpus();
+    }
+
+    @Override
+    public List<String> getDistinctRams() {
+        return configurationVersionRepository.findDistinctRams();
+    }
+
+    @Override
+    public List<String> getDistinctStorages() {
+        return configurationVersionRepository.findDistinctStorages();
     }
 }

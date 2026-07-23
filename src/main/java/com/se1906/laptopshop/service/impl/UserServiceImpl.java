@@ -9,6 +9,10 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -19,7 +23,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userRepository.findActiveUsers();
     }
 
     @Override
@@ -44,6 +48,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(int id) {
         User existing = getUserById(id);
-        userRepository.delete(existing);
+        existing.setIsDeleted(true);
+        userRepository.save(existing);
+    }
+
+    @Override
+    public Page<User> getPaginatedUsers(String keyword, String status, String roleName, int pageNo, int pageSize, String sortField, String sortDir) {
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending()
+                : Sort.by(sortField).descending();
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+        return userRepository.searchAndFilterUsers(keyword, status, roleName, pageable);
     }
 }

@@ -27,22 +27,69 @@
             <span class="material-symbols-outlined">error</span><span th:text="${errorMessage}"></span>
         </div>
 
+        <!-- Search & Filter Form -->
+        <form th:action="@{/admin/laptops}" method="get" class="mb-6 bg-surface-container-lowest p-4 rounded-xl border border-outline-variant ambient-shadow flex flex-wrap gap-4 items-end">
+            <div class="flex-1 min-w-[200px]">
+                <label for="keyword" class="block font-label-md text-label-md text-on-surface-variant mb-1">Tìm kiếm Laptop</label>
+                <input type="text" id="keyword" name="keyword" th:value="${keyword}" placeholder="Nhập tên laptop..." class="w-full px-4 py-2 border border-outline-variant rounded-lg focus:outline-none focus:border-primary">
+            </div>
+            <div class="w-48">
+                <label for="brandId" class="block font-label-md text-label-md text-on-surface-variant mb-1">Thương hiệu</label>
+                <select id="brandId" name="brandId" class="w-full px-4 py-2 border border-outline-variant rounded-lg focus:outline-none focus:border-primary">
+                    <option value="">Tất cả Brand</option>
+                    <option th:each="b : ${brands}" th:value="${b.brandId}" th:text="${b.brandName}" th:selected="${b.brandId == brandId}"></option>
+                </select>
+            </div>
+            <div class="w-48">
+                <label for="categoryId" class="block font-label-md text-label-md text-on-surface-variant mb-1">Danh mục</label>
+                <select id="categoryId" name="categoryId" class="w-full px-4 py-2 border border-outline-variant rounded-lg focus:outline-none focus:border-primary">
+                    <option value="">Tất cả Category</option>
+                    <option th:each="c : ${categories}" th:value="${c.categoryId}" th:text="${c.categoryName}" th:selected="${c.categoryId == categoryId}"></option>
+                </select>
+            </div>
+            <input type="hidden" name="sortField" th:value="${sortField}">
+            <input type="hidden" name="sortDir" th:value="${sortDir}">
+            <input type="hidden" name="pageNo" value="1">
+            <button type="submit" class="px-6 py-2 bg-primary text-on-primary rounded-lg font-label-md hover:bg-primary/90 transition-colors flex items-center gap-2">
+                <span class="material-symbols-outlined text-[20px]">filter_alt</span> Lọc
+            </button>
+            <a th:href="@{/admin/laptops}" class="px-6 py-2 border border-outline-variant text-on-surface rounded-lg font-label-md hover:bg-surface-container-low transition-colors flex items-center gap-2">
+                <span class="material-symbols-outlined text-[20px]">restart_alt</span> Reset
+            </a>
+        </form>
+
         <div class="bg-surface-container-lowest border border-outline-variant rounded-xl ambient-shadow overflow-hidden">
             <div class="p-6 border-b border-outline-variant">
                 <h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
                     <span class="material-symbols-outlined text-secondary">laptop_mac</span> Danh sách Laptops
-                    <span class="ml-2 px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded-full font-label-md" th:text="${#lists.size(laptops)}">0</span>
+                    <span class="ml-2 px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded-full font-label-md" th:text="${totalItems != null ? totalItems : #lists.size(laptops)}">0</span>
                 </h3>
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full">
                     <thead class="bg-surface-container-high">
                         <tr>
-                            <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">ID</th>
+                            <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">
+                                <a th:href="@{/admin/laptops(pageNo=${currentPage}, keyword=${keyword}, brandId=${brandId}, categoryId=${categoryId}, sortField='laptopId', sortDir=${sortField == 'laptopId' ? reverseSortDir : 'asc'})}" class="flex items-center gap-1 hover:text-primary transition-colors">
+                                    ID <span class="material-symbols-outlined text-[16px]" th:text="${sortField == 'laptopId' ? (sortDir == 'asc' ? 'arrow_upward' : 'arrow_downward') : 'swap_vert'}"></span>
+                                </a>
+                            </th>
                             <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">Ảnh</th>
-                            <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">Tên Laptop</th>
-                            <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">Brand</th>
-                            <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">Category</th>
+                            <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">
+                                <a th:href="@{/admin/laptops(pageNo=${currentPage}, keyword=${keyword}, brandId=${brandId}, categoryId=${categoryId}, sortField='laptopName', sortDir=${sortField == 'laptopName' ? reverseSortDir : 'asc'})}" class="flex items-center gap-1 hover:text-primary transition-colors">
+                                    Tên Laptop <span class="material-symbols-outlined text-[16px]" th:text="${sortField == 'laptopName' ? (sortDir == 'asc' ? 'arrow_upward' : 'arrow_downward') : 'swap_vert'}"></span>
+                                </a>
+                            </th>
+                            <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">
+                                <a th:href="@{/admin/laptops(pageNo=${currentPage}, keyword=${keyword}, brandId=${brandId}, categoryId=${categoryId}, sortField='brand.brandName', sortDir=${sortField == 'brand.brandName' ? reverseSortDir : 'asc'})}" class="flex items-center gap-1 hover:text-primary transition-colors">
+                                    Brand <span class="material-symbols-outlined text-[16px]" th:text="${sortField == 'brand.brandName' ? (sortDir == 'asc' ? 'arrow_upward' : 'arrow_downward') : 'swap_vert'}"></span>
+                                </a>
+                            </th>
+                            <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">
+                                <a th:href="@{/admin/laptops(pageNo=${currentPage}, keyword=${keyword}, brandId=${brandId}, categoryId=${categoryId}, sortField='category.categoryName', sortDir=${sortField == 'category.categoryName' ? reverseSortDir : 'asc'})}" class="flex items-center gap-1 hover:text-primary transition-colors">
+                                    Category <span class="material-symbols-outlined text-[16px]" th:text="${sortField == 'category.categoryName' ? (sortDir == 'asc' ? 'arrow_upward' : 'arrow_downward') : 'swap_vert'}"></span>
+                                </a>
+                            </th>
                             <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">Thao tác</th>
                         </tr>
                     </thead>
@@ -74,6 +121,28 @@
                         <tr th:if="${#lists.isEmpty(laptops)}"><td colspan="6" class="p-8 text-center text-on-surface-variant">Chưa có Laptop nào.</td></tr>
                     </tbody>
                 </table>
+            </div>
+            
+            <!-- Phân trang -->
+            <div th:if="${totalPages > 1}" class="p-4 border-t border-outline-variant flex items-center justify-between bg-surface-container-lowest">
+                <div class="text-sm text-on-surface-variant">
+                    Hiển thị trang <span class="font-medium text-on-surface" th:text="${currentPage}">1</span> 
+                    / <span class="font-medium text-on-surface" th:text="${totalPages}">1</span>
+                    (Tổng số <span th:text="${totalItems}">0</span> Laptops)
+                </div>
+                <div class="flex items-center gap-1">
+                    <a th:if="${currentPage > 1}" th:href="@{/admin/laptops(pageNo=${currentPage - 1}, keyword=${keyword}, brandId=${brandId}, categoryId=${categoryId}, sortField=${sortField}, sortDir=${sortDir})}" 
+                       class="px-3 py-1 border border-outline-variant rounded-md hover:bg-surface-container-low text-sm font-medium transition-colors">Trước</a>
+                    
+                    <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+                        <a th:if="${i != currentPage}" th:href="@{/admin/laptops(pageNo=${i}, keyword=${keyword}, brandId=${brandId}, categoryId=${categoryId}, sortField=${sortField}, sortDir=${sortDir})}"
+                           class="px-3 py-1 border border-outline-variant rounded-md hover:bg-surface-container-low text-sm font-medium transition-colors" th:text="${i}"></a>
+                        <span th:if="${i == currentPage}" class="px-3 py-1 bg-primary text-on-primary rounded-md text-sm font-medium" th:text="${i}"></span>
+                    </span>
+                    
+                    <a th:if="${currentPage < totalPages}" th:href="@{/admin/laptops(pageNo=${currentPage + 1}, keyword=${keyword}, brandId=${brandId}, categoryId=${categoryId}, sortField=${sortField}, sortDir=${sortDir})}" 
+                       class="px-3 py-1 border border-outline-variant rounded-md hover:bg-surface-container-low text-sm font-medium transition-colors">Sau</a>
+                </div>
             </div>
         </div>
     </main>

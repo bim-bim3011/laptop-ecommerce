@@ -104,12 +104,12 @@
         </a>
     </nav>
     <div class="p-md border-t border-outline-variant flex items-center gap-3">
-        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold font-label-md">AU</div>
+        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold font-label-md" th:text="${(session.user != null && session.user.fullName != null && session.user.fullName.length() > 0) ? session.user.fullName.substring(0,1).toUpperCase() : 'A'}">A</div>
         <div>
-            <p class="font-label-md text-label-md font-bold text-on-surface">Quản trị viên</p>
-            <p class="text-xs text-on-surface-variant">admin@lapzone.com</p>
+            <p class="font-label-md text-label-md font-bold text-on-surface" th:text="${(session.user != null) ? session.user.fullName : 'Admin User'}">Admin User</p>
+            <p class="text-xs text-on-surface-variant" th:text="${(session.user != null) ? session.user.email : 'admin@lapzone.com'}">admin@lapzone.com</p>
         </div>
-        <a th:href="@{/admin/logout}" class="ml-auto text-on-surface-variant hover:text-error transition-colors" title="Đăng xuất">
+        <a th:href="@{/auth/logout}" class="ml-auto text-on-surface-variant hover:text-error transition-colors" title="Đăng xuất">
             <span class="material-symbols-outlined">logout</span>
         </a>
     </div>

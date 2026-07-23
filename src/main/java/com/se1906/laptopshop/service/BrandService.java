@@ -9,4 +9,5 @@ public interface BrandService {
     Brand createBrand(Brand brand);
     Brand updateBrand(int id, Brand brand);
     void deleteBrand(int id);
+    List<Brand> searchBrands(String keyword);
 }
