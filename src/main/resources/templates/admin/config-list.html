@@ -188,6 +188,10 @@
                                     <td class="p-3" th:text="${cfg.stockQuantity}"></td>
                                     <td class="p-3">
                                         <div class="flex items-center gap-1">
+                                            <a th:href="@{/admin/laptops/configs/edit/{id}(id=${cfg.configurationId})}"
+                                               class="text-amber-600 border border-amber-200 bg-transparent hover:bg-amber-50 px-2 py-1 rounded-full transition-colors inline-flex items-center gap-1 text-xs font-medium">
+                                                <span class="material-symbols-outlined text-[14px]">edit</span>Sửa
+                                            </a>
                                             <form th:action="@{/admin/laptops/configs/delete/{id}(id=${cfg.configurationId})}" method="POST" class="inline" onsubmit="return confirm('Xóa Config này?');">
                                                 <button type="submit" class="text-red-600 border border-red-200 bg-transparent hover:bg-red-50 px-2 py-1 rounded-full transition-colors inline-flex items-center gap-1 text-xs">
                                                     <span class="material-symbols-outlined text-[14px]">delete</span>Xóa

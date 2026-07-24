@@ -75,6 +75,21 @@
             </div>
         </div>
 
+        <div th:if="${giftDetails != null and !giftDetails.isEmpty()}">
+            <h2 class="text-lg font-bold text-gray-900 mb-4 mt-6">Quà tặng đi kèm</h2>
+            <div class="space-y-4 mb-8">
+                <div th:each="gift : ${giftDetails}" class="flex items-start gap-4 p-4 border border-green-200 rounded-lg bg-green-50">
+                    <div class="w-16 h-16 bg-white rounded flex items-center justify-center border border-green-200 flex-shrink-0">
+                        <span class="material-symbols-outlined text-3xl text-green-500">redeem</span>
+                    </div>
+                    <div class="flex-grow flex flex-col justify-center">
+                        <div class="font-semibold text-gray-900 line-clamp-2" th:text="${gift.giftItem.itemName}">Tên quà tặng</div>
+                    </div>
+                    <div class="font-bold text-green-600 flex items-center">Quà tặng</div>
+                </div>
+            </div>
+        </div>
+
         <div class="border-t border-gray-200 pt-6" th:with="subtotal=${#aggregates.sum(order.orderDetails.![price * quantity])}, discount=${order.discountAmount != null ? order.discountAmount : 0}, shippingFee=${order.totalAmount + discount - subtotal}">
             <div class="flex justify-between items-center mb-2">
                 <span class="text-gray-600 font-medium">Tạm tính:</span>

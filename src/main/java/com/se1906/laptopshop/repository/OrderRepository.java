@@ -13,7 +13,7 @@ import com.se1906.laptopshop.entity.User;
 public interface OrderRepository extends JpaRepository<Order, Integer> {
     List<Order> findByUserOrderByOrderDateDesc(User user);
 
-    @Query("SELECT COALESCE(SUM(o.totalAmount), 0) FROM Order o WHERE o.status = 'Đã giao'")
+    @Query("SELECT COALESCE(SUM(o.totalAmount), 0) FROM Order o WHERE o.status = 'DELIVERED'")
     java.math.BigDecimal calculateTotalRevenue();
 
     @Query("SELECT COUNT(o) FROM Order o")

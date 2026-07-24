@@ -48,7 +48,6 @@
             <!-- Right: Info -->
             <div>
                 <h1 class="text-3xl font-bold mb-4 leading-snug text-gray-900" th:text="${laptop.laptopName}">Laptop gaming Gigabyte A16 GA63H</h1>
-                <a href="#" class="text-blue-500 text-sm mb-6 block hover:underline">Xem đánh giá</a>
 
                 <div class="flex items-end gap-4 mb-6 pb-6 border-b border-gray-200">
                     <div class="text-4xl font-extrabold text-red-500 leading-none">
@@ -56,10 +55,7 @@
                               th:text="${#numbers.formatDecimal(laptop.configurationVersions[0].price, 0, 'COMMA', 0, 'POINT')} + '₫'">38.990.000₫</span>
                         <span th:unless="${not #lists.isEmpty(laptop.configurationVersions)}">Liên hệ</span>
                     </div>
-                    <div th:if="${not #lists.isEmpty(laptop.configurationVersions)}">
-                        <div id="crossed-price" class="text-lg text-gray-500 line-through mb-1" th:text="${#numbers.formatDecimal(laptop.configurationVersions[0].price * 1.05, 0, 'COMMA', 0, 'POINT')} + '₫'">40.990.000₫</div>
-                    </div>
-                    <div class="bg-red-50 text-red-500 border border-red-300 px-2 py-0.5 rounded text-sm font-bold mb-1" th:if="${not #lists.isEmpty(laptop.configurationVersions)}">-5%</div>
+
                 </div>
 
                 <!-- Lựa chọn cấu hình -->
@@ -169,16 +165,11 @@
                     <div>🎮 <span th:text="${simLaptop.configurationVersions[0].ram}">16GB</span></div>
                 </div>
                 <div class="mt-auto">
-                    <div class="flex items-baseline">
-                        <span class="text-sm text-gray-500 line-through" th:if="${not #lists.isEmpty(simLaptop.configurationVersions)}" 
-                              th:text="${#numbers.formatDecimal(simLaptop.configurationVersions[0].price * 1.05, 0, 'COMMA', 0, 'POINT')} + '₫'"></span>
-                        <span class="text-red-500 text-sm font-bold ml-2">-5%</span>
-                    </div>
+
                     <div class="font-extrabold text-red-500 text-xl mt-1">
                         <span th:if="${not #lists.isEmpty(simLaptop.configurationVersions)}"
                               th:text="${#numbers.formatDecimal(simLaptop.configurationVersions[0].price, 0, 'COMMA', 0, 'POINT')} + '₫'"></span>
                     </div>
-                    <div class="text-sm text-green-600 mt-1">Giảm 2.000.000₫</div>
                 </div>
                 <a th:href="@{/laptop/{id}(id=${simLaptop.laptopId})}" class="absolute inset-0 z-[5]"></a>
             </div>

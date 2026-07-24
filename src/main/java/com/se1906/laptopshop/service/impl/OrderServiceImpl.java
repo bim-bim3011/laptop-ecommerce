@@ -107,6 +107,36 @@ public class OrderServiceImpl implements OrderService {
         }
         return giftDetails;
     }
+    @Override
+    public List<GiftDetail> getGiftDetailsFromOrder(Order order) {
+        List<GiftDetail> giftDetails = new ArrayList<>();
+        Set<Integer> addedGiftItemIds = new HashSet<>();
+
+        if (order.getOrderDetails() != null) {
+            for (OrderDetail detail : order.getOrderDetails()) {
+                if (detail.getConfigurationVersion() != null && detail.getConfigurationVersion().getLaptop() != null) {
+                    Laptop laptop = detail.getConfigurationVersion().getLaptop();
+                    if (laptop.getConfigurationVersions() != null) {
+                        for (ConfigurationVersion cv : laptop.getConfigurationVersions()) {
+                            if (cv.getGiftDetails() != null) {
+                                for (GiftDetail gd : cv.getGiftDetails()) {
+                                    if (gd.getGiftItem() != null) {
+                                        Integer itemId = gd.getGiftItem().getGiftItemId();
+                                        if (!addedGiftItemIds.contains(itemId)) {
+                                            giftDetails.add(gd);
+                                            addedGiftItemIds.add(itemId);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return giftDetails;
+    }
+    
     /**
      * Tổng hợp và chuẩn bị đầy đủ dữ liệu (sản phẩm, tổng tiền, quà tặng) cho trang Checkout.
      * Hàm tính toán tổng tiền tạm tính và đưa tất cả vào Model để render ra giao diện.
@@ -335,6 +365,23 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository.findById(id).orElse(null);
         if (order == null || !"SHIPPING".equalsIgnoreCase(order.getStatus())) {
             return false;
+        }
+        if (order.getOrderDetails() != null) {
+            for (OrderDetail detail : order.getOrderDetails()) {
+                ConfigurationVersion config = detail.getConfigurationVersion();
+                if (config != null) {
+                    // Vì getStockQuantity() và getQuantity() trả về kiểu int nguyên thủy,
+                    // không cần check != null bọc ngoài nữa.
+                    int currentStock = config.getStockQuantity();
+                    int orderQuantity = detail.getQuantity();
+
+                    // Tính số lượng tồn kho mới sau khi trừ
+                    int newStock = currentStock - orderQuantity;
+                    if (newStock < 0) newStock = 0; // Đảm bảo kho không bị âm
+
+                    config.setStockQuantity(newStock);
+                }
+            }
         }
         order.setStatus("DELIVERED"); // Đã giao hàng
         if ("COD".equalsIgnoreCase(order.getPaymentMethod())) {

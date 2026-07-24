@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/admin-layout :: head('LapZone - Sửa Laptop Config')}"></head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+<aside th:replace="~{admin/admin-layout :: sidebar('laptop')}"></aside>
+<div class="flex-1 flex flex-col md:ml-[280px] w-full min-h-screen">
+    <header th:replace="~{admin/admin-layout :: header}"></header>
+    <main class="flex-1 p-md md:p-lg lg:p-xl">
+        <div class="mb-4">
+            <a th:href="@{/admin/laptops/configs}" class="text-secondary hover:text-blue-700 transition-colors font-label-md flex items-center gap-1 w-fit">
+                <span class="material-symbols-outlined text-sm">arrow_back</span> Quay lại danh sách Configs
+            </a>
+        </div>
+
+        <div class="max-w-2xl mx-auto bg-surface-container-lowest border border-outline-variant rounded-xl p-6 ambient-shadow">
+            <h3 class="font-headline-md text-headline-md text-on-surface mb-6 flex items-center gap-2">
+                <span class="material-symbols-outlined text-amber-600">edit_note</span> Cập nhật cấu hình Laptop
+            </h3>
+
+            <form th:action="@{/admin/laptops/configs/update/{id}(id=${config.configurationId})}" method="POST">
+                <div class="space-y-4">
+
+                    <!-- Chọn Laptop dòng máy -->
+                    <div>
+                        <label class="block font-label-md text-label-md text-on-surface-variant mb-1">Laptop</label>
+                        <select name="laptopId" required class="w-full border border-outline-variant rounded-lg px-4 py-2 text-body-md focus:outline-none focus:ring-2 focus:ring-secondary bg-surface-container-lowest">
+                            <option th:each="l : ${laptops}"
+                                    th:value="${l.laptopId}"
+                                    th:text="${l.laptopName}"
+                                    th:selected="${config.laptop != null and l.laptopId == config.laptop.laptopId}"></option>
+                        </select>
+                    </div>
+
+                    <!-- CPU -->
+                    <div>
+                        <label class="block font-label-md text-label-md text-on-surface-variant mb-1">CPU</label>
+                        <input type="text" name="cpu" th:value="${config.cpu}" required minlength="2" class="w-full border border-outline-variant rounded-lg px-4 py-2 text-body-md focus:outline-none focus:ring-2 focus:ring-secondary bg-surface-container-lowest">
+                    </div>
+
+                    <!-- RAM & Storage -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block font-label-md text-label-md text-on-surface-variant mb-1">RAM</label>
+                            <input type="text" name="ram" th:value="${config.ram}" required pattern=".*(GB|TB|gb|tb).*" title="Vui lòng bao gồm dung lượng (GB hoặc TB)" class="w-full border border-outline-variant rounded-lg px-4 py-2 text-body-md focus:outline-none focus:ring-2 focus:ring-secondary bg-surface-container-lowest">
+                        </div>
+                        <div>
+                            <label class="block font-label-md text-label-md text-on-surface-variant mb-1">Storage</label>
+                            <input type="text" name="storage" th:value="${config.storage}" required pattern=".*(GB|TB|gb|tb).*" title="Vui lòng bao gồm dung lượng (GB hoặc TB)" class="w-full border border-outline-variant rounded-lg px-4 py-2 text-body-md focus:outline-none focus:ring-2 focus:ring-secondary bg-surface-container-lowest">
+                        </div>
+                    </div>
+
+                    <!-- GPU -->
+                    <div>
+                        <label class="block font-label-md text-label-md text-on-surface-variant mb-1">GPU</label>
+                        <input type="text" name="gpu" th:value="${config.gpu}" class="w-full border border-outline-variant rounded-lg px-4 py-2 text-body-md focus:outline-none focus:ring-2 focus:ring-secondary bg-surface-container-lowest">
+                    </div>
+
+                    <!-- Giá & Số lượng -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block font-label-md text-label-md text-on-surface-variant mb-1">Giá (VND)</label>
+                            <input type="number" name="price" th:value="${config.price}" required min="1000" class="w-full border border-outline-variant rounded-lg px-4 py-2 text-body-md focus:outline-none focus:ring-2 focus:ring-secondary bg-surface-container-lowest">
+                        </div>
+                        <div>
+                            <label class="block font-label-md text-label-md text-on-surface-variant mb-1">Số lượng</label>
+                            <input type="number" name="stockQuantity" th:value="${config.stockQuantity}" required min="0" class="w-full border border-outline-variant rounded-lg px-4 py-2 text-body-md focus:outline-none focus:ring-2 focus:ring-secondary bg-surface-container-lowest">
+                        </div>
+                    </div>
+
+                    <!-- 🎁 Quà tặng kèm theo cấu hình (ĐÃ SỬA CHUẨN ĐÉT TỪNG CHỮ) -->
+                    <div>
+                        <label class="block font-label-md text-label-md text-on-surface-variant mb-1">🎁 Quà tặng kèm theo cấu hình</label>
+                        <div class="space-y-2 p-3 bg-surface-container-lowest rounded-lg border border-outline-variant">
+                            <div th:each="gift : ${allGifts}" class="flex items-center">
+                                <input type="checkbox"
+                                       name="selectedGifts"
+                                       th:value="${gift.giftItemId}"
+                                       th:id="'gift-' + ${gift.giftItemId}"
+                                       th:checked="${config.giftDetails != null and #lists.contains(config.giftDetails.![giftItem.giftItemId], gift.giftItemId)}"
+                                       class="mr-2 rounded border-outline-variant text-secondary focus:ring-secondary">
+                                <label th:for="'gift-' + ${gift.giftItemId}" class="text-body-md text-on-surface">
+                                    <span th:text="${gift.itemName}">Tên quà</span>
+                                    - <span class="text-error" th:text="${#numbers.formatDecimal(gift.price, 0, 'COMMA', 0, 'POINT')} + ' ₫'">0 ₫</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Các nút hành động -->
+                <div class="flex items-center gap-3 mt-6">
+                    <button type="submit" class="flex-1 bg-secondary text-on-secondary py-2.5 rounded-lg font-label-md hover:bg-blue-700 transition-colors flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-sm">save</span> Lưu thay đổi
+                    </button>
+                    <a th:href="@{/admin/laptops/configs}" class="px-5 py-2.5 border border-outline-variant text-on-surface rounded-lg font-label-md hover:bg-surface-container-low transition-colors text-center">
+                        Hủy bỏ
+                    </a>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>

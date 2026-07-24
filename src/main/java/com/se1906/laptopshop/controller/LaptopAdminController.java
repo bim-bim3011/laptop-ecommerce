@@ -2,7 +2,9 @@ package com.se1906.laptopshop.controller;
 
 import com.se1906.laptopshop.entity.ConfigurationVersion;
 import com.se1906.laptopshop.entity.Laptop;
+import com.se1906.laptopshop.repository.ConfigurationVersionRepository;
 import com.se1906.laptopshop.repository.GiftItemRepository;
+import com.se1906.laptopshop.repository.LaptopRepository;
 import com.se1906.laptopshop.service.BrandService;
 import com.se1906.laptopshop.service.CategoryService;
 import com.se1906.laptopshop.service.CloudinaryService;
@@ -11,12 +13,14 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin/laptops")
@@ -29,6 +33,7 @@ public class LaptopAdminController {
     CategoryService categoryService;
     CloudinaryService cloudinaryService;
     GiftItemRepository giftItemRepository;
+    ConfigurationVersionRepository configurationVersionRepository;
 
     @GetMapping
     public String listLaptops(
@@ -178,12 +183,14 @@ public class LaptopAdminController {
         config.setGpu(dto.getGpu());
         config.setPrice(dto.getPrice());
         config.setStockQuantity(dto.getStockQuantity());
-        laptopService.createConfiguration(dto.getLaptopId(), config, new java.util.ArrayList<>());
+        List<Integer> selectedGiftIds = dto.getSelectedGifts() != null ? dto.getSelectedGifts() : new java.util.ArrayList<>();
+        laptopService.createConfiguration(dto.getLaptopId(), config, selectedGiftIds);
         redirectAttributes.addFlashAttribute("successMessage", "Thêm Configuration thành công!");
         return "redirect:/admin/laptops/configs";
     }
 
     @PostMapping("/configs/update/{configId}")
+    @Transactional
     public String updateConfig(@PathVariable int configId,
                                @jakarta.validation.Valid @ModelAttribute com.se1906.laptopshop.dto.ConfigDTO dto,
                                org.springframework.validation.BindingResult result,
@@ -202,14 +209,31 @@ public class LaptopAdminController {
             }
         }
 
-        ConfigurationVersion config = new ConfigurationVersion();
+        ConfigurationVersion config = configurationVersionRepository.findById(configId)
+                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy cấu hình có ID: " + configId));
         config.setCpu(dto.getCpu());
         config.setRam(dto.getRam());
         config.setStorage(dto.getStorage());
         config.setGpu(dto.getGpu());
         config.setPrice(dto.getPrice());
         config.setStockQuantity(dto.getStockQuantity());
-        laptopService.updateConfiguration(configId, config);
+        if (dto.getLaptopId() != null) {
+            config.setLaptop(laptopService.getLaptopById(dto.getLaptopId()));
+        }
+        if (config.getGiftDetails() != null) {
+            config.getGiftDetails().clear();
+        } else {
+            config.setGiftDetails(new java.util.ArrayList<>());
+        }
+        if (dto.getSelectedGifts() != null && !dto.getSelectedGifts().isEmpty()) {
+            for (Integer giftId : dto.getSelectedGifts()) {
+                com.se1906.laptopshop.entity.GiftDetail detail = new com.se1906.laptopshop.entity.GiftDetail();
+                detail.setConfigurationVersion(config);
+                detail.setGiftItem(giftItemRepository.findById(giftId).orElse(null));
+                config.getGiftDetails().add(detail);
+            }
+        }
+        configurationVersionRepository.save(config);
         redirectAttributes.addFlashAttribute("successMessage", "Cập nhật Configuration thành công!");
         return "redirect:/admin/laptops/configs";
     }
@@ -227,4 +251,27 @@ public class LaptopAdminController {
         ex.printStackTrace(new java.io.PrintWriter(sw));
         return "<pre>" + sw.toString() + "</pre>";
     }
+    // ========================================================
+// 1. HIỂN THỊ TRANG SỬA VỚI DỮ LIỆU CŨ (MỞ FILE config-edit.html)
+// ========================================================
+    @GetMapping("/configs/edit/{id}")
+    @Transactional(readOnly = true)
+    public String showEditConfigForm(@PathVariable("id") int id, Model model) {
+        // Tìm cấu hình cũ theo ID, nếu không thấy thì báo lỗi
+        ConfigurationVersion config = configurationVersionRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy cấu hình có ID: " + id));
+
+        // Đẩy thông tin cấu hình hiện tại sang form
+        model.addAttribute("config", config);
+
+        // Load danh sách tất cả các Laptop để hiển thị ở ô Select Option chọn dòng máy
+        model.addAttribute("laptops", laptopService.getAllLaptops());
+        model.addAttribute("allGifts", giftItemRepository.findAll());
+
+
+        // Trả về file config-edit.html bác vừa tạo ở bước trước
+        return "admin/config-edit";
+    }
+
+
 }
