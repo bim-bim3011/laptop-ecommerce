@@ -231,12 +231,14 @@ public class OrderController {
         if (user == null) {
             return "redirect:/auth/login";
         }
-        Order order = orderRepository.findById(id).orElse(null);
-        if (order == null || order.getUser() == null || !order.getUser().getUserId().equals(user.getUserId())) {
+        Order order = orderService.getOrderDetail(id, user);
+        if (order == null) {
             redirectAttributes.addFlashAttribute("errorMessage", "Không tìm thấy đơn hàng.");
             return "redirect:/orders";
         }
 
+        List<GiftDetail> giftDetails = orderService.getGiftDetailsFromOrder(order);
+        model.addAttribute("giftDetails", giftDetails);
         model.addAttribute("order", order);
         return "order-detail";
     }

@@ -107,6 +107,36 @@ public class OrderServiceImpl implements OrderService {
         }
         return giftDetails;
     }
+    @Override
+    public List<GiftDetail> getGiftDetailsFromOrder(Order order) {
+        List<GiftDetail> giftDetails = new ArrayList<>();
+        Set<Integer> addedGiftItemIds = new HashSet<>();
+
+        if (order.getOrderDetails() != null) {
+            for (OrderDetail detail : order.getOrderDetails()) {
+                if (detail.getConfigurationVersion() != null && detail.getConfigurationVersion().getLaptop() != null) {
+                    Laptop laptop = detail.getConfigurationVersion().getLaptop();
+                    if (laptop.getConfigurationVersions() != null) {
+                        for (ConfigurationVersion cv : laptop.getConfigurationVersions()) {
+                            if (cv.getGiftDetails() != null) {
+                                for (GiftDetail gd : cv.getGiftDetails()) {
+                                    if (gd.getGiftItem() != null) {
+                                        Integer itemId = gd.getGiftItem().getGiftItemId();
+                                        if (!addedGiftItemIds.contains(itemId)) {
+                                            giftDetails.add(gd);
+                                            addedGiftItemIds.add(itemId);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return giftDetails;
+    }
+    
     /**
      * Tổng hợp và chuẩn bị đầy đủ dữ liệu (sản phẩm, tổng tiền, quà tặng) cho trang Checkout.
      * Hàm tính toán tổng tiền tạm tính và đưa tất cả vào Model để render ra giao diện.
