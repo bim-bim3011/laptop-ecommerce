@@ -231,9 +231,8 @@ public class OrderController {
         if (user == null) {
             return "redirect:/auth/login";
         }
-
-        Order order = orderService.getOrderDetail(id, user);
-        if (order == null) {
+        Order order = orderRepository.findById(id).orElse(null);
+        if (order == null || order.getUser() == null || !order.getUser().getUserId().equals(user.getUserId())) {
             redirectAttributes.addFlashAttribute("errorMessage", "Không tìm thấy đơn hàng.");
             return "redirect:/orders";
         }
