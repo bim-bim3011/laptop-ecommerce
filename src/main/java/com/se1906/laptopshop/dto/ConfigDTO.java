@@ -8,6 +8,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 public class ConfigDTO {
@@ -35,4 +36,5 @@ public class ConfigDTO {
     @NotNull(message = "Số lượng không được để trống")
     @Min(value = 0, message = "Số lượng không được là số âm")
     private Integer stockQuantity;
+    private List<Integer> selectedGifts;
 }

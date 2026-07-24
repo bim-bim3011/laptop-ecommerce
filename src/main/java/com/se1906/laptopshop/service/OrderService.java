@@ -17,6 +17,8 @@ public interface OrderService {
     
     List<GiftDetail> getGiftDetailsFromCartItems(List<CartItem> selectedItems);
     
+    List<GiftDetail> getGiftDetailsFromOrder(Order order);
+    
     // Luồng Khách hàng (Giữ nguyên toàn bộ logic cũ)
     List<Order> getOrderHistory(User user);
     void prepareCheckoutData(List<Integer> selectedItemIds, Model model);

@@ -25,7 +25,7 @@ public class PaymentService {
         vnpParamsMap.put("vnp_OrderType", "other"); // Required field by VNPay
         vnpParamsMap.put("vnp_BankCode", "NCB"); // Added BankCode as requested
         vnpParamsMap.put("vnp_TxnRef", vnpTxnRef);
-        
+
         String ipAddr = VNPayUtil.getIpAddress(request);
         if (ipAddr != null && ipAddr.equals("0:0:0:0:0:0:0:1")) {
             ipAddr = "127.0.0.1";
@@ -58,7 +58,7 @@ public class PaymentService {
             fields.remove("vnp_SecureHashType");
         }
         fields.remove("vnp_SecureHash");
-        
+
         String signValue = VNPayUtil.hmacSHA512(vnPayConfig.secretKey, VNPayUtil.getPaymentURL(fields, false));
         return signValue.equals(vnp_SecureHash);
     }

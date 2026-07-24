@@ -26,6 +26,10 @@
                         <th class="text-left p-3 font-label-md text-on-surface-variant">Tiêu đề</th>
                         <th class="text-left p-3 font-label-md text-on-surface-variant">Loại</th>
                         <th class="text-left p-3 font-label-md text-on-surface-variant">Giá trị</th>
+                        <th class="text-left p-3 font-label-md text-on-surface-variant">Đơn tối thiểu</th>
+                        <th class="text-left p-3 font-label-md text-on-surface-variant">Giảm tối đa</th>
+                        <th class="text-left p-3 font-label-md text-on-surface-variant">Ngày bắt đầu</th>
+                        <th class="text-left p-3 font-label-md text-on-surface-variant">Ngày kết thúc</th>
                         <th class="text-left p-3 font-label-md text-on-surface-variant">Thao tác</th>
                     </tr></thead>
                     <tbody>
@@ -35,6 +39,10 @@
                             <td class="p-3" th:text="${p.title}"></td>
                             <td class="p-3" th:text="${p.discountType}"></td>
                             <td class="p-3 font-label-md" th:text="${p.discountValue}"></td>
+                            <td class="p-3 font-label-md" th:text="${p.minOrderValue}"></td>
+                            <td class="p-3 font-label-md" th:text="${p.maxDiscountAmount}"></td>
+                            <td class="p-3 font-label-md" th:text="${#temporals.format(p.startDate, 'dd/MM/yyyy HH:mm')}"></td>
+                            <td class="p-3 font-label-md" th:text="${#temporals.format(p.endDate, 'dd/MM/yyyy HH:mm')}"></td>
                             <td class="p-3">
                                 <form th:action="@{/admin/promotions/delete/{id}(id=${p.promotionId})}" method="POST" class="inline" onsubmit="return confirm('Xóa Promotion này?');">
                                     <button type="submit" class="text-red-600 border border-red-200 bg-transparent hover:bg-red-50 px-2 py-1 rounded-full transition-colors inline-flex items-center gap-1 text-xs">
@@ -43,7 +51,7 @@
                                 </form>
                             </td>
                         </tr>
-                        <tr th:if="${#lists.isEmpty(promotions)}"><td colspan="6" class="p-8 text-center text-on-surface-variant">Chưa có Promotion nào.</td></tr>
+                        <tr th:if="${#lists.isEmpty(promotions)}"><td colspan="10" class="p-8 text-center text-on-surface-variant">Chưa có Promotion nào.</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -64,6 +72,10 @@
                             <option value="PERCENTAGE">Phần trăm (%)</option><option value="FIXED">Cố định (VND)</option>
                         </select></div>
                     <div><label class="block font-label-md text-on-surface-variant mb-1">Giá trị</label><input type="number" name="discountValue" required step="0.01" class="w-full border border-outline-variant rounded-lg px-4 py-2 text-body-md focus:outline-none focus:ring-2 focus:ring-secondary bg-surface-container-lowest"></div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div><label class="block font-label-md text-on-surface-variant mb-1">Đơn tối thiểu</label><input type="number" name="minOrderValue" step="0.01" class="w-full border border-outline-variant rounded-lg px-4 py-2 text-body-md focus:outline-none focus:ring-2 focus:ring-secondary bg-surface-container-lowest"></div>
+                    <div><label class="block font-label-md text-on-surface-variant mb-1">Giảm tối đa</label><input type="number" name="maxDiscountAmount" step="0.01" class="w-full border border-outline-variant rounded-lg px-4 py-2 text-body-md focus:outline-none focus:ring-2 focus:ring-secondary bg-surface-container-lowest"></div>
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <div><label class="block font-label-md text-on-surface-variant mb-1">Ngày bắt đầu</label><input type="datetime-local" name="startDate" required class="w-full border border-outline-variant rounded-lg px-4 py-2 text-body-md focus:outline-none focus:ring-2 focus:ring-secondary bg-surface-container-lowest"></div>
