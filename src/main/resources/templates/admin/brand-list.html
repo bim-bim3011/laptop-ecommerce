@@ -20,6 +20,20 @@
             <span th:text="${successMessage}"></span>
         </div>
 
+        <!-- Search Form -->
+        <form th:action="@{/admin/brands}" method="get" class="mb-6 flex gap-4 items-end bg-surface-container-lowest p-4 rounded-xl border border-outline-variant">
+            <div class="flex-1">
+                <label for="keyword" class="block font-label-md text-label-md text-on-surface-variant mb-1">Tìm kiếm</label>
+                <input type="text" id="keyword" name="keyword" th:value="${keyword}" placeholder="Tìm theo tên thương hiệu..." class="w-full px-4 py-2 border border-outline-variant rounded-lg focus:outline-none focus:border-primary">
+            </div>
+            <button type="submit" class="px-6 py-2 bg-primary text-on-primary rounded-lg font-label-md hover:bg-primary/90 transition-colors flex items-center gap-2">
+                <span class="material-symbols-outlined text-[20px]">search</span> Tìm kiếm
+            </button>
+            <a th:href="@{/admin/brands}" class="px-6 py-2 border border-outline-variant text-on-surface rounded-lg font-label-md hover:bg-surface-container-low transition-colors flex items-center gap-2">
+                <span class="material-symbols-outlined text-[20px]">restart_alt</span> Khôi phục
+            </a>
+        </form>
+
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
             <!-- Form thêm mới -->
             <div class="lg:col-span-1">

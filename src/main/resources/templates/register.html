@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LapZone - Create Account</title>
+    <title>LapZone - Tạo Tài Khoản</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -272,8 +272,8 @@
         <div class="login-card">
             <div class="card-header">
                 <div class="logo">LapZone</div>
-                <div class="title">Create Account</div>
-                <div class="subtitle">Precision Engineering for Professionals.</div>
+                <div class="title">Tạo Tài Khoản</div>
+                <div class="subtitle">Sản phẩm chất lượng cao dành cho chuyên gia.</div>
             </div>
 
             <div class="card-body">
@@ -283,66 +283,57 @@
                 <form th:action="@{/auth/register}" th:object="${registerRequest}" method="post">
 
                     <div class="form-group">
-                        <label class="form-label" for="fullName">Full Name</label>
+                        <label class="form-label" for="fullName">Họ và tên</label>
                         <input type="text" id="fullName" th:field="*{fullName}" class="form-control"
-                            placeholder="John Doe" required autofocus>
+                            placeholder="Nguyễn Văn A" required autofocus minlength="2" maxlength="50">
                         <div th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}" class="field-error"></div>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="email">Email Address</label>
+                        <label class="form-label" for="email">Địa chỉ Email</label>
                         <input type="email" id="email" th:field="*{email}" class="form-control"
-                            placeholder="john@example.com" required>
+                            placeholder="email@example.com" required>
                         <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="field-error"></div>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="phoneNumber">Phone Number</label>
+                        <label class="form-label" for="phoneNumber">Số điện thoại</label>
                         <input type="text" id="phoneNumber" th:field="*{phoneNumber}" class="form-control"
-                            placeholder="+1 (555) 000-0000" required>
+                            placeholder="0912345678" required pattern="^(0|\+84)[3|5|7|8|9][0-9]{8}$" maxlength="11" title="Số điện thoại không hợp lệ">
                         <div th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="field-error">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="address">Address</label>
+                        <label class="form-label" for="address">Địa chỉ</label>
                         <input type="text" id="address" th:field="*{address}" class="form-control"
-                            placeholder="123 Main St, City, Country" required>
+                            placeholder="Số 1, Đường Trần Phú, Hà Nội" required minlength="5" maxlength="200">
                         <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="field-error"></div>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="password">Password</label>
+                        <label class="form-label" for="password">Mật khẩu</label>
                         <input type="password" id="password" th:field="*{password}" class="form-control"
-                            placeholder="••••••••" required>
+                            placeholder="••••••••" pattern="^[A-Z](?=.*[^a-zA-Z0-9\s]).{7,}$" title="Mật khẩu phải từ 8 ký tự, chữ cái đầu viết hoa và bao gồm ít nhất 1 ký tự đặc biệt" required>
                         <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="field-error"></div>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="confirmPassword">Confirm Password</label>
+                        <label class="form-label" for="confirmPassword">Xác nhận mật khẩu</label>
                         <input type="password" id="confirmPassword" th:field="*{confirmPassword}" class="form-control"
-                            placeholder="••••••••" required>
+                            placeholder="••••••••" pattern="^[A-Z](?=.*[^a-zA-Z0-9\s]).{7,}$" title="Mật khẩu phải từ 8 ký tự, chữ cái đầu viết hoa và bao gồm ít nhất 1 ký tự đặc biệt" required>
                         <div th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"
                             class="field-error"></div>
                     </div>
 
-                    <div class="form-options" style="margin-bottom: 1.5rem; justify-content: flex-start;">
-                        <label class="remember-me">
-                            <input type="checkbox" name="agree" required>
-                            I agree to the <a href="#"
-                                style="color: var(--text-main); font-weight: 600; text-decoration: none; margin: 0 4px;">Terms
-                                & Conditions</a> and <a href="#"
-                                style="color: var(--text-main); font-weight: 600; text-decoration: none; margin-left: 4px;">Privacy
-                                Policy</a>.
-                        </label>
-                    </div>
+
 
                     <button type="submit" class="btn btn-primary">Đăng ký</button>
                 </form>
             </div>
 
             <div class="card-footer">
-                Already have an account? <a href="/auth/login">Sign in here</a>
+                Đã có tài khoản? <a href="/auth/login">Đăng nhập tại đây</a>
             </div>
         </div>
     </main>
@@ -351,18 +342,32 @@
         <div class="site-footer-content">
             <div>
                 <div class="footer-logo">LapZone</div>
-                <div class="footer-copy">&copy; 2024 LapZone Systems. All rights reserved. Precision Engineering for
-                    Professionals.</div>
+                <div class="footer-copy">&copy; 2024 LapZone Systems. Bảo lưu mọi quyền.</div>
             </div>
             <div class="footer-links">
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
-                <a href="#">Shipping Info</a>
-                <a href="#">Contact Support</a>
+                <a href="#">Chính sách bảo mật</a>
+                <a href="#">Điều khoản dịch vụ</a>
+                <a href="#">Thông tin giao hàng</a>
+                <a href="#">Liên hệ hỗ trợ</a>
             </div>
         </div>
     </footer>
 
+    <script>
+        const password = document.getElementById("password");
+        const confirmPassword = document.getElementById("confirmPassword");
+
+        function validatePassword() {
+            if (password.value != confirmPassword.value) {
+                confirmPassword.setCustomValidity("Mật khẩu xác nhận không khớp.");
+            } else {
+                confirmPassword.setCustomValidity('');
+            }
+        }
+
+        password.onchange = validatePassword;
+        confirmPassword.onkeyup = validatePassword;
+    </script>
 </body>
 
 </html>

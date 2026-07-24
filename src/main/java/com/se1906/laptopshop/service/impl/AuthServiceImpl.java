@@ -28,7 +28,7 @@ public class AuthServiceImpl implements AuthService {
         Optional<User> optionalUser = userRepository.findByEmail(request.getEmail());
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            if (!Boolean.TRUE.equals(user.getIsDeleted()) && passwordEncoder.matches(request.getPassword(), user.getPassword())) {
                 return user;
             }
         }
@@ -43,7 +43,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public User register(RegisterRequest request) {
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("Email already exists");
+            throw new IllegalArgumentException("Email đã tồn tại trong hệ thống");
         }
 
         User user = new User();

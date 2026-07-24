@@ -59,7 +59,19 @@ public class PromotionServiceImpl implements PromotionService {
     @Override
     public java.util.Map<String, Object> validateCoupon(String code, double orderTotal) {
         java.util.Map<String, Object> result = new java.util.HashMap<>();
-        Promotion promotion = promotionRepository.findByCouponCode(code).orElse(null);
+        
+        if (code == null || code.trim().isEmpty()) {
+            result.put("valid", false);
+            result.put("message", "Vui lòng nhập mã giảm giá!");
+            return result;
+        }
+        
+        String trimmedCode = code.trim();
+        Promotion promotion = promotionRepository.findByCouponCode(trimmedCode).orElse(null);
+        
+        if (promotion != null && promotion.getCouponCode() != null && !promotion.getCouponCode().equals(trimmedCode)) {
+            promotion = null;
+        }
         
         if (promotion == null) {
             result.put("valid", false);

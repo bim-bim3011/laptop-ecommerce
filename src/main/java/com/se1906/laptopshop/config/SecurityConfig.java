@@ -30,7 +30,6 @@ public class SecurityConfig {
         "/home-page/**",
         "/laptop/**",
         "/cart/**",
-        "/admin/login",
         "/css/**",
         "/js/**",
         "/images/**"

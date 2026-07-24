@@ -10,6 +10,36 @@
             <h2 class="font-headline-lg text-headline-lg text-primary tracking-tight">Quản lý Users</h2>
             <p class="font-body-md text-body-md text-on-surface-variant mt-xs">Xem và quản lý tài khoản người dùng.</p>
         </div>
+
+        <!-- Search & Filter Form -->
+        <form th:action="@{/admin/users}" method="get" class="mb-6 flex gap-4 items-end bg-surface-container-lowest p-4 rounded-xl border border-outline-variant">
+            <div class="flex-1">
+                <label for="keyword" class="block font-label-md text-label-md text-on-surface-variant mb-1">Tìm kiếm</label>
+                <input type="text" id="keyword" name="keyword" th:value="${keyword}" placeholder="Tên, Email hoặc Số điện thoại..." class="w-full px-4 py-2 border border-outline-variant rounded-lg focus:outline-none focus:border-primary">
+            </div>
+            <div class="w-48">
+                <label for="roleName" class="block font-label-md text-label-md text-on-surface-variant mb-1">Vai trò</label>
+                <select id="roleName" name="roleName" class="w-full px-4 py-2 border border-outline-variant rounded-lg focus:outline-none focus:border-primary">
+                    <option value="" th:selected="${roleName == ''}">Tất cả</option>
+                    <option value="ADMIN" th:selected="${roleName == 'ADMIN'}">Admin</option>
+                    <option value="USER" th:selected="${roleName == 'USER'}">User</option>
+                </select>
+            </div>
+            <div class="w-48">
+                <label for="status" class="block font-label-md text-label-md text-on-surface-variant mb-1">Trạng thái</label>
+                <select id="status" name="status" class="w-full px-4 py-2 border border-outline-variant rounded-lg focus:outline-none focus:border-primary">
+                    <option value="" th:selected="${status == ''}">Tất cả</option>
+                    <option value="ACTIVE" th:selected="${status == 'ACTIVE'}">ACTIVE</option>
+                    <option value="INACTIVE" th:selected="${status == 'INACTIVE'}">INACTIVE</option>
+                </select>
+            </div>
+            <button type="submit" class="px-6 py-2 bg-primary text-on-primary rounded-lg font-label-md hover:bg-primary/90 transition-colors flex items-center gap-2">
+                <span class="material-symbols-outlined text-[20px]">search</span> Lọc
+            </button>
+            <a th:href="@{/admin/users}" class="px-6 py-2 border border-outline-variant text-on-surface rounded-lg font-label-md hover:bg-surface-container-low transition-colors flex items-center gap-2">
+                <span class="material-symbols-outlined text-[20px]">restart_alt</span> Reset
+            </a>
+        </form>
         <div th:if="${successMessage}" class="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg flex items-center gap-2">
             <span class="material-symbols-outlined">check_circle</span><span th:text="${successMessage}"></span>
         </div>
@@ -24,10 +54,17 @@
                 <table class="w-full">
                     <thead class="bg-surface-container-high">
                         <tr>
-                            <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">ID</th>
-                            <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">Họ tên</th>
-                            <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">Email</th>
+                            <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">
+                                <a th:href="@{'/admin/users?pageNo=' + ${currentPage} + '&sortField=userId&sortDir=' + ${sortField == 'userId' ? reverseSortDir : 'asc'} + '&keyword=' + ${keyword} + '&status=' + ${status} + '&roleName=' + ${roleName}}" class="flex items-center gap-1 hover:text-primary transition-colors">ID <span class="material-symbols-outlined text-[16px]" th:text="${sortField == 'userId' ? (sortDir == 'asc' ? 'arrow_upward' : 'arrow_downward') : 'swap_vert'}"></span></a>
+                            </th>
+                            <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">
+                                <a th:href="@{'/admin/users?pageNo=' + ${currentPage} + '&sortField=fullName&sortDir=' + ${sortField == 'fullName' ? reverseSortDir : 'asc'} + '&keyword=' + ${keyword} + '&status=' + ${status} + '&roleName=' + ${roleName}}" class="flex items-center gap-1 hover:text-primary transition-colors">Họ tên <span class="material-symbols-outlined text-[16px]" th:text="${sortField == 'fullName' ? (sortDir == 'asc' ? 'arrow_upward' : 'arrow_downward') : 'swap_vert'}"></span></a>
+                            </th>
+                            <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">
+                                <a th:href="@{'/admin/users?pageNo=' + ${currentPage} + '&sortField=email&sortDir=' + ${sortField == 'email' ? reverseSortDir : 'asc'} + '&keyword=' + ${keyword} + '&status=' + ${status} + '&roleName=' + ${roleName}}" class="flex items-center gap-1 hover:text-primary transition-colors">Email <span class="material-symbols-outlined text-[16px]" th:text="${sortField == 'email' ? (sortDir == 'asc' ? 'arrow_upward' : 'arrow_downward') : 'swap_vert'}"></span></a>
+                            </th>
                             <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">SĐT</th>
+                            <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">Vai trò</th>
                             <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">Trạng thái</th>
                             <th class="text-left p-4 font-label-md text-label-md text-on-surface-variant">Thao tác</th>
                         </tr>
@@ -39,20 +76,42 @@
                             <td class="p-4 font-label-md text-label-md" th:text="${u.email}"></td>
                             <td class="p-4" th:text="${u.phoneNumber}"></td>
                             <td class="p-4">
+                                <span th:each="r, iterStat : ${u.roles}" th:text="!${iterStat.last} ? ${r.name} + ', ' : ${r.name}"></span>
+                            </td>
+                            <td class="p-4">
                                 <span th:if="${u.status == 'ACTIVE'}" class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full font-label-md">ACTIVE</span>
                                 <span th:unless="${u.status == 'ACTIVE'}" class="px-2 py-1 bg-red-100 text-red-700 text-xs rounded-full font-label-md" th:text="${u.status}">INACTIVE</span>
                             </td>
                             <td class="p-4">
-                                <form th:action="@{/admin/users/delete/{id}(id=${u.userId})}" method="POST" class="inline" onsubmit="return confirm('Bạn có chắc muốn xóa User này?');">
+                                <form th:action="@{/admin/users/delete/{id}(id=${u.userId})}" method="POST" class="inline" onsubmit="return confirm('Bạn có chắc muốn khóa User này?');">
                                     <button type="submit" class="text-red-600 border border-red-200 bg-transparent hover:bg-red-50 px-3 py-1 rounded-full transition-colors inline-flex items-center gap-1">
-                                        <span class="material-symbols-outlined text-[16px]">delete</span><span class="text-sm font-medium">Delete</span>
+                                        <span class="material-symbols-outlined text-[16px]">lock</span><span class="text-sm font-medium">Khóa</span>
                                     </button>
                                 </form>
                             </td>
                         </tr>
-                        <tr th:if="${#lists.isEmpty(users)}"><td colspan="6" class="p-8 text-center text-on-surface-variant">Chưa có User nào.</td></tr>
+                        <tr th:if="${#lists.isEmpty(users)}"><td colspan="7" class="p-8 text-center text-on-surface-variant">Chưa có User nào.</td></tr>
                     </tbody>
                 </table>
+            </div>
+
+            <!-- Pagination -->
+            <div th:if="${totalPages > 1}" class="p-4 border-t border-outline-variant flex justify-between items-center bg-surface-container-lowest">
+                <div class="text-sm text-on-surface-variant">
+                    Hiển thị <span th:text="${(currentPage - 1) * 10 + 1}">1</span> đến <span th:text="${currentPage * 10 > totalItems ? totalItems : currentPage * 10}">10</span> trong <span th:text="${totalItems}">0</span> Users
+                </div>
+                <div class="flex items-center gap-1">
+                    <a th:if="${currentPage > 1}" th:href="@{'/admin/users?pageNo=' + ${currentPage - 1} + '&sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&keyword=' + ${keyword} + '&status=' + ${status} + '&roleName=' + ${roleName}}" class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant hover:bg-surface-container-low"><span class="material-symbols-outlined text-[18px]">chevron_left</span></a>
+                    <span th:unless="${currentPage > 1}" class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant opacity-50 cursor-not-allowed"><span class="material-symbols-outlined text-[18px]">chevron_left</span></span>
+                    
+                    <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+                        <a th:if="${currentPage != i}" th:href="@{'/admin/users?pageNo=' + ${i} + '&sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&keyword=' + ${keyword} + '&status=' + ${status} + '&roleName=' + ${roleName}}" class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant hover:bg-surface-container-low" th:text="${i}"></a>
+                        <span th:unless="${currentPage != i}" class="w-8 h-8 flex items-center justify-center rounded bg-primary text-on-primary font-medium" th:text="${i}"></span>
+                    </span>
+                    
+                    <a th:if="${currentPage < totalPages}" th:href="@{'/admin/users?pageNo=' + ${currentPage + 1} + '&sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&keyword=' + ${keyword} + '&status=' + ${status} + '&roleName=' + ${roleName}}" class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant hover:bg-surface-container-low"><span class="material-symbols-outlined text-[18px]">chevron_right</span></a>
+                    <span th:unless="${currentPage < totalPages}" class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant opacity-50 cursor-not-allowed"><span class="material-symbols-outlined text-[18px]">chevron_right</span></span>
+                </div>
             </div>
         </div>
     </main>

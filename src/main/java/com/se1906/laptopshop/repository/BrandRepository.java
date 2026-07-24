@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BrandRepository extends JpaRepository<Brand, Integer> {
+    
+    @org.springframework.data.jpa.repository.Query("SELECT b FROM Brand b WHERE :keyword IS NULL OR LOWER(b.brandName) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    java.util.List<Brand> searchBrands(@org.springframework.data.repository.query.Param("keyword") String keyword);
 }

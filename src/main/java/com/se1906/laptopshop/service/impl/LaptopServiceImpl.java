@@ -4,6 +4,7 @@ import com.se1906.laptopshop.entity.Laptop;
 import com.se1906.laptopshop.entity.ConfigurationVersion;
 import com.se1906.laptopshop.repository.LaptopRepository;
 import com.se1906.laptopshop.repository.ConfigurationVersionRepository;
+import com.se1906.laptopshop.service.GiftDetailService;
 import com.se1906.laptopshop.service.LaptopService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ public class LaptopServiceImpl implements LaptopService {
 
     LaptopRepository laptopRepository;
     ConfigurationVersionRepository configurationVersionRepository;
+    GiftDetailService giftDetailService;
 
     @Override
     public List<Laptop> getAllLaptops() {
@@ -59,6 +61,15 @@ public class LaptopServiceImpl implements LaptopService {
     }
 
     @Override
+    public org.springframework.data.domain.Page<Laptop> getAdminPaginatedLaptops(String keyword, Integer brandId, Integer categoryId, int pageNo, int pageSize, String sortField, String sortDir) {
+        org.springframework.data.domain.Sort sort = sortDir.equalsIgnoreCase(org.springframework.data.domain.Sort.Direction.ASC.name()) ? 
+                org.springframework.data.domain.Sort.by(sortField).ascending() : 
+                org.springframework.data.domain.Sort.by(sortField).descending();
+        org.springframework.data.domain.Pageable pageable = org.springframework.data.domain.PageRequest.of(pageNo - 1, pageSize, sort);
+        return laptopRepository.searchAndFilterLaptops(keyword, brandId, categoryId, pageable);
+    }
+
+    @Override
     public List<ConfigurationVersion> getAllConfigurations() {
         return configurationVersionRepository.findAll();
     }
@@ -70,10 +81,12 @@ public class LaptopServiceImpl implements LaptopService {
     }
 
     @Override
-    public ConfigurationVersion createConfiguration(int laptopId, ConfigurationVersion configuration) {
+    public ConfigurationVersion createConfiguration(int laptopId, ConfigurationVersion configuration , List<Integer> selectedGifts) {
         Laptop laptop = getLaptopById(laptopId);
         configuration.setLaptop(laptop);
-        return configurationVersionRepository.save(configuration);
+        ConfigurationVersion savedConfig = configurationVersionRepository.save(configuration);
+        giftDetailService.saveGiftsForConfig(laptop, savedConfig, selectedGifts);
+        return savedConfig;
     }
 
     @Override
@@ -95,5 +108,38 @@ public class LaptopServiceImpl implements LaptopService {
         ConfigurationVersion existing = configurationVersionRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Configuration not found"));
         configurationVersionRepository.delete(existing);
+    }
+
+    @Override
+    @org.springframework.transaction.annotation.Transactional(readOnly = true)
+    public org.springframework.data.domain.Page<ConfigurationVersion> getAdminPaginatedConfigs(String keyword, String cpu, String ram, String storage, int pageNo, int pageSize, String sortField, String sortDir) {
+        org.springframework.data.domain.Sort sort = sortDir.equalsIgnoreCase(org.springframework.data.domain.Sort.Direction.ASC.name()) ? 
+                org.springframework.data.domain.Sort.by(sortField).ascending() : 
+                org.springframework.data.domain.Sort.by(sortField).descending();
+        org.springframework.data.domain.Pageable pageable = org.springframework.data.domain.PageRequest.of(pageNo - 1, pageSize, sort);
+        org.springframework.data.domain.Page<ConfigurationVersion> page = configurationVersionRepository.searchAndFilterConfigs(keyword, cpu, ram, storage, pageable);
+        // Khởi tạo LAZY collections để tránh LazyInitializationException ở view
+        for (ConfigurationVersion cv : page.getContent()) {
+            cv.getGiftDetails().size();
+            if (cv.getLaptop() != null) {
+                cv.getLaptop().getLaptopName();
+            }
+        }
+        return page;
+    }
+
+    @Override
+    public List<String> getDistinctCpus() {
+        return configurationVersionRepository.findDistinctCpus();
+    }
+
+    @Override
+    public List<String> getDistinctRams() {
+        return configurationVersionRepository.findDistinctRams();
+    }
+
+    @Override
+    public List<String> getDistinctStorages() {
+        return configurationVersionRepository.findDistinctStorages();
     }
 }
