@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 
-<html lang="vi"><head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Thanh Toán - LapZone</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -105,350 +112,486 @@
         }
     </style>
 </head>
+
 <body class="bg-background text-on-background font-body-lg min-h-screen flex flex-col">
-<div th:replace="~{fragments/header :: header}"></div>
-<main class="flex-grow w-full max-w-7xl mx-auto px-4 md:px-margin-desktop py-12">
-    <div class="mb-4">
-        <a class="text-primary hover:text-blue-600 transition-colors text-label-md font-label-md flex items-center gap-2 w-fit"
-           href="/cart">
-            <span class="material-symbols-outlined text-sm">arrow_back</span>
-            Quay lại giỏ hàng
-        </a>
-    </div>
-    <h1 class="text-headline-lg font-headline-lg mb-8">Thanh toán</h1>
-    <form th:action="@{/orders/place-order}" method="POST" class="flex flex-col lg:flex-row gap-gutter">
-        <th:block th:each="id : ${selectedItemIds}">
-            <input type="hidden" name="selectedItemIds" th:value="${id}" />
-        </th:block>
-        <input type="hidden" name="couponCode" id="hiddenCouponCode" th:value="${appliedCouponCode}" />
-        <!-- Left Column: Checkout Form -->
-        <div class="w-full lg:w-2/3 flex flex-col gap-8">
-            <!-- Shipping Information -->
-            <section class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm">
-                <h2 class="text-headline-md font-headline-md mb-6 flex items-center gap-2">
-                    <span class="material-symbols-outlined text-primary">local_shipping</span>
-                    Thông tin giao hàng
-                </h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="space-y-1">
-                        <label class="text-label-md font-label-md text-on-surface-variant" for="fullName">Họ và tên</label>
-                        <input name="receiverName" class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" id="fullName" placeholder="Nhập họ và tên" type="text" th:value="${receiverName}" required/>
-                    </div>
-                    <div class="space-y-1">
-                        <label class="text-label-md font-label-md text-on-surface-variant" for="phone">Số điện thoại</label>
-                        <input name="receiverPhone" class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" id="phone" placeholder="Nhập số điện thoại" type="tel" th:value="${receiverPhone}" required/>
-                    </div>
-                    <div class="space-y-1 md:col-span-2">
-                        <label class="text-label-md font-label-md text-on-surface-variant" for="email">Email</label>
-                        <input name="email" class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" id="email" placeholder="Nhập email" type="email" th:value="${email}"/>
-                    </div>
-                    <div class="space-y-1">
-                        <label class="text-label-md font-label-md text-on-surface-variant" for="province">Tỉnh/Thành phố</label>
-                        <select name="province" class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none" id="province" required>
-                            <option disabled="" selected="" value="">Chọn Tỉnh/Thành phố</option>
-                        </select>
-                    </div>
-                    <div class="space-y-1">
-                        <label class="text-label-md font-label-md text-on-surface-variant" for="district">Quận/Huyện</label>
-                        <select name="district" class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none" disabled="" id="district" required>
-                            <option disabled="" selected="" value="">Chọn Quận/Huyện</option>
-                        </select>
-                    </div>
-                    <div class="space-y-1">
-                        <label class="text-label-md font-label-md text-on-surface-variant" for="ward">Phường/Xã</label>
-                        <select name="ward" class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none" disabled="" id="ward" required>
-                            <option disabled="" selected="" value="">Chọn Phường/Xã</option>
-                        </select>
-                    </div>
-                    <div class="space-y-1 md:col-span-2">
-                        <label class="text-label-md font-label-md text-on-surface-variant" for="address">Địa chỉ chi tiết</label>
-                        <input name="shippingAddress" class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" id="address" placeholder="Số nhà, tên đường..." type="text" th:value="${shippingAddress}" required/>
-                    </div>
-                </div>
-            </section>
-            <!-- Shipping Method -->
-            <section class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm">
-                <h2 class="text-headline-md font-headline-md mb-6 flex items-center gap-2">
-                    <span class="material-symbols-outlined text-primary">inventory_2</span>
-                    Phương thức vận chuyển
-                </h2>
-                <div class="space-y-4">
-                    <label class="flex items-start justify-between p-4 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary-fixed/20 relative">
-                        <div class="flex items-start gap-4">
-                            <input th:checked="${shippingMethod == null or shippingMethod == 'standard'}" class="mt-1 text-primary focus:ring-primary" name="shippingMethod" type="radio" value="standard"/>
-                            <div>
-                                <div class="text-label-md font-label-md text-on-surface">Giao hàng tiêu chuẩn</div>
-                                <div class="text-label-sm font-label-sm text-on-surface-variant mt-1">Nhận hàng trong 3-5 ngày</div>
-                            </div>
-                        </div>
-                        <div class="text-label-md font-label-md text-on-surface">Miễn phí</div>
-                        <div class="absolute inset-0 border-2 border-primary rounded-lg opacity-0 pointer-events-none has-[:checked]:opacity-100"></div>
-                    </label>
-                    <label class="flex items-start justify-between p-4 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary-fixed/20 relative">
-                        <div class="flex items-start gap-4">
-                            <input th:checked="${shippingMethod == 'express'}" class="mt-1 text-primary focus:ring-primary" name="shippingMethod" type="radio" value="express"/>
-                            <div>
-                                <div class="text-label-md font-label-md text-on-surface">Giao hàng nhanh</div>
-                                <div class="text-label-sm font-label-sm text-on-surface-variant mt-1">Nhận hàng trong 1-2 ngày</div>
-                            </div>
-                        </div>
-                        <div class="text-label-md font-label-md text-on-surface">150.000 ₫</div>
-                        <div class="absolute inset-0 border-2 border-primary rounded-lg opacity-0 pointer-events-none has-[:checked]:opacity-100"></div>
-                    </label>
-                </div>
-            </section>
-            <!-- Payment Method -->
-            <section class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm">
-                <h2 class="text-headline-md font-headline-md mb-6 flex items-center gap-2">
-                    <span class="material-symbols-outlined text-primary">payments</span>
-                    Phương thức thanh toán
-                </h2>
-                <div class="space-y-4">
-                    <!-- Thanh toán khi nhận hàng (COD) -->
-                    <label class="flex items-center justify-between p-4 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors has-[:checked]:border-primary bg-surface-container-lowest">
-                        <div class="flex items-center gap-4">
-                            <input th:checked="${paymentMethod == null or paymentMethod == 'cod'}" class="text-primary focus:ring-primary" name="paymentMethod" type="radio" value="cod"/>
-                            <span class="text-label-md font-label-md text-on-surface">Thanh toán khi nhận hàng (COD)</span>
-                        </div>
-                        <span class="material-symbols-outlined text-on-surface-variant">local_shipping</span>
-                    </label>
-
-                    <!-- VNPay -->
-                    <label class="flex items-center justify-between p-4 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors has-[:checked]:border-primary bg-surface-container-lowest">
-                        <div class="flex items-center gap-4">
-                            <input th:checked="${paymentMethod == 'vnpay'}" class="text-primary focus:ring-primary" name="paymentMethod" type="radio" value="vnpay"/>
-                            <span class="text-label-md font-label-md text-on-surface">Thanh toán qua VNPay (Thẻ ATM/Visa/MasterCard/QR Code)</span>
-                        </div>
-                        <img src="https://vnpay.vn/s1/statics.vnpay.vn/2023/6/0oxhzjmxbksr1686814746087.png" alt="VNPay" class="h-6 object-contain"/>
-                    </label>
-                </div>
-            </section>
+    <div th:replace="~{fragments/header :: header}"></div>
+    <main class="flex-grow w-full max-w-7xl mx-auto px-4 md:px-margin-desktop py-12">
+        <div class="mb-4">
+            <a class="text-primary hover:text-blue-600 transition-colors text-label-md font-label-md flex items-center gap-2 w-fit"
+                href="/cart">
+                <span class="material-symbols-outlined text-sm">arrow_back</span>
+                Quay lại giỏ hàng
+            </a>
         </div>
-        <!-- Right Column: Order Summary (Sticky) -->
-        <div class="w-full lg:w-1/3">
-            <div class="sticky top-24 bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm flex flex-col gap-6">
-                <h2 class="text-headline-md font-headline-md">Đơn hàng của bạn</h2>
-                <!-- Items List -->
-                <div class="space-y-4">
-                    <div th:each="item : ${selectedItems}" class="flex items-start gap-4 pb-4 border-b border-surface-container-highest">
-                        <div class="w-16 h-16 bg-surface-container-low rounded-lg overflow-hidden flex-shrink-0">
-                            <img th:if="${item.configurationVersion.laptop != null and item.configurationVersion.laptop.imageUrl != null and !item.configurationVersion.laptop.imageUrl.isEmpty()}" class="w-full h-full object-cover" th:src="${item.configurationVersion.laptop.imageUrl}" />
-                            <img th:unless="${item.configurationVersion.laptop != null and item.configurationVersion.laptop.imageUrl != null and !item.configurationVersion.laptop.imageUrl.isEmpty()}" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNfgXG2VW3KuRQWjt275sT32q7JHz0Nsvm5HUO9_U9WCMo-XDPGLW9Cbj72ddo1riF9AJpoGAUKprUO2jUBwdx82ZmKImWh3Cxku6PgdWHfa8Gto8VysnPAaH7o7C-vC35TIYL-x0BakT9dtz3nHylD-7OIPMVKu27DIruMOf41uQSuG5LKa34EdS6AfvEplbd2K77UrqnlQzn5hiDwlg6PPzg8pWFeoA6Nqe4VxlH7ZO-1OOFmgiXiYiqs7gS5x-jy0KEIQC45dE" />
+        <h1 class="text-headline-lg font-headline-lg mb-8">Thanh toán</h1>
+        <form th:action="@{/orders/place-order}" method="POST" class="flex flex-col lg:flex-row gap-gutter">
+            <th:block th:each="id : ${selectedItemIds}">
+                <input type="hidden" name="selectedItemIds" th:value="${id}" />
+            </th:block>
+            <input type="hidden" name="couponCode" id="hiddenCouponCode" th:value="${appliedCouponCode}" />
+            <!-- Left Column: Checkout Form -->
+            <div class="w-full lg:w-2/3 flex flex-col gap-8">
+                <!-- Shipping Information -->
+                <section class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm">
+                    <h2 class="text-headline-md font-headline-md mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">local_shipping</span>
+                        Thông tin giao hàng
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label class="text-label-md font-label-md text-on-surface-variant" for="fullName">Họ và
+                                tên</label>
+                            <input name="receiverName"
+                                class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                                id="fullName" placeholder="Nhập họ và tên" type="text" th:value="${receiverName}"
+                                required />
                         </div>
-                        <div class="flex-grow">
-                            <div class="text-label-md font-label-md text-on-surface line-clamp-2" th:text="${item.configurationVersion.laptop != null ? item.configurationVersion.laptop.laptopName : 'Laptop'}">Dell XPS 15</div>
-                            <div class="text-label-sm font-label-sm text-on-surface-variant mt-1" th:text="'SL: ' + ${item.quantity}">SL: 1</div>
+                        <div class="space-y-1">
+                            <label class="text-label-md font-label-md text-on-surface-variant" for="phone">Số điện
+                                thoại</label>
+                            <input name="receiverPhone"
+                                class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                                id="phone" placeholder="Nhập số điện thoại" type="tel" th:value="${receiverPhone}"
+                                required />
                         </div>
-                        <div class="text-label-md font-label-md text-on-surface whitespace-nowrap" th:text="${#numbers.formatDecimal(item.configurationVersion.price * item.quantity, 0, 'COMMA', 0, 'POINT') + ' ₫'}">85.990.000 ₫</div>
+                        <div class="space-y-1 md:col-span-2">
+                            <label class="text-label-md font-label-md text-on-surface-variant" for="email">Email</label>
+                            <input name="email"
+                                class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                                id="email" placeholder="Nhập email" type="email" th:value="${email}" />
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-label-md font-label-md text-on-surface-variant" for="province">Tỉnh/Thành
+                                phố</label>
+                            <select name="province"
+                                class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none"
+                                id="province" required>
+                                <option disabled="" selected="" value="">Chọn Tỉnh/Thành phố</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-label-md font-label-md text-on-surface-variant"
+                                for="district">Quận/Huyện</label>
+                            <select name="district"
+                                class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none"
+                                disabled="" id="district" required>
+                                <option disabled="" selected="" value="">Chọn Quận/Huyện</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-label-md font-label-md text-on-surface-variant"
+                                for="ward">Phường/Xã</label>
+                            <select name="ward"
+                                class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none"
+                                disabled="" id="ward" required>
+                                <option disabled="" selected="" value="">Chọn Phường/Xã</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1 md:col-span-2">
+                            <label class="text-label-md font-label-md text-on-surface-variant" for="address">Địa chỉ chi
+                                tiết</label>
+                            <input name="shippingAddress"
+                                class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                                id="address" placeholder="Số nhà, tên đường..." type="text"
+                                th:value="${shippingAddress}" required />
+                        </div>
                     </div>
-                </div>
-
-                <!-- Quà tặng kèm theo -->
-                <div class="mb-4 border border-green-300 rounded-lg overflow-hidden" th:if="${not #lists.isEmpty(giftDetails)}">
-                    <div class="bg-green-100 text-green-700 px-4 py-2 font-bold uppercase text-sm border-b border-green-300 flex items-center gap-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path></svg>
-                        Quà tặng kèm theo
-                    </div>
-                    <div class="p-4 bg-white">
-                        <ul class="space-y-2">
-                            <li th:each="giftDetail : ${giftDetails}" class="flex items-start gap-3 text-sm text-gray-700">
-                                <div class="mt-0.5 text-green-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                </div>
+                </section>
+                <!-- Shipping Method -->
+                <section class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm">
+                    <h2 class="text-headline-md font-headline-md mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">inventory_2</span>
+                        Phương thức vận chuyển
+                    </h2>
+                    <div class="space-y-4">
+                        <label
+                            class="flex items-start justify-between p-4 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary-fixed/20 relative">
+                            <div class="flex items-start gap-4">
+                                <input th:checked="${shippingMethod == null or shippingMethod == 'standard'}"
+                                    class="mt-1 text-primary focus:ring-primary" name="shippingMethod" type="radio"
+                                    value="standard" />
                                 <div>
-                                    <span th:text="${giftDetail.giftItem?.itemName}" class="font-semibold text-gray-900">Chuột</span>
-                                    <span th:if="${giftDetail.quantity > 1}" th:text="' (x' + ${giftDetail.quantity} + ')'" class="text-gray-500 font-medium"> (x1)</span>
+                                    <div class="text-label-md font-label-md text-on-surface">Giao hàng tiêu chuẩn</div>
+                                    <div class="text-label-sm font-label-sm text-on-surface-variant mt-1">Nhận hàng
+                                        trong 3-5 ngày</div>
                                 </div>
-                            </li>
-                        </ul>
+                            </div>
+                            <div class="text-label-md font-label-md text-on-surface">Miễn phí</div>
+                            <div
+                                class="absolute inset-0 border-2 border-primary rounded-lg opacity-0 pointer-events-none has-[:checked]:opacity-100">
+                            </div>
+                        </label>
+                        <label
+                            class="flex items-start justify-between p-4 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary-fixed/20 relative">
+                            <div class="flex items-start gap-4">
+                                <input th:checked="${shippingMethod == 'express'}"
+                                    class="mt-1 text-primary focus:ring-primary" name="shippingMethod" type="radio"
+                                    value="express" />
+                                <div>
+                                    <div class="text-label-md font-label-md text-on-surface">Giao hàng nhanh</div>
+                                    <div class="text-label-sm font-label-sm text-on-surface-variant mt-1">Nhận hàng
+                                        trong 1-2 ngày</div>
+                                </div>
+                            </div>
+                            <div class="text-label-md font-label-md text-on-surface">150.000 ₫</div>
+                            <div
+                                class="absolute inset-0 border-2 border-primary rounded-lg opacity-0 pointer-events-none has-[:checked]:opacity-100">
+                            </div>
+                        </label>
                     </div>
-                </div>
+                </section>
+                <!-- Payment Method -->
+                <section class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm">
+                    <h2 class="text-headline-md font-headline-md mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">payments</span>
+                        Phương thức thanh toán
+                    </h2>
+                    <div class="space-y-4">
+                        <!-- Thanh toán khi nhận hàng (COD) -->
+                        <label
+                            class="flex items-center justify-between p-4 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors has-[:checked]:border-primary bg-surface-container-lowest">
+                            <div class="flex items-center gap-4">
+                                <input th:checked="${paymentMethod == null or paymentMethod == 'cod'}"
+                                    class="text-primary focus:ring-primary" name="paymentMethod" type="radio"
+                                    value="cod" />
+                                <span class="text-label-md font-label-md text-on-surface">Thanh toán khi nhận hàng
+                                    (COD)</span>
+                            </div>
+                            <span class="material-symbols-outlined text-on-surface-variant">local_shipping</span>
+                        </label>
 
-                <!-- Coupon Input -->
-                <div class="flex gap-2">
-                    <input id="coupon-input" name="inputCouponCode" class="flex-grow bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Mã giảm giá" type="text" th:value="${inputCouponCode}"/>
-                    <button type="submit" formaction="/orders/checkout-coupon" id="apply-coupon-btn" formnovalidate class="bg-surface-container-high text-on-surface px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-outline-variant transition-colors">Áp dụng</button>
-                </div>
-                <div th:if="${couponMessage}" th:class="'text-sm mt-1 ' + (${isValidCoupon} ? 'text-green-500' : 'text-red-500')" th:text="${couponMessage}"></div>
-                <!-- Price Breakdown -->
-                <div class="space-y-3 pt-4 border-t border-surface-container-highest text-body-md font-body-md">
-                    <div class="flex justify-between text-on-surface-variant">
-                        <span>Tạm tính</span>
-                        <span th:text="${#numbers.formatDecimal(totalAmount, 0, 'COMMA', 0, 'POINT') + ' ₫'}">85.990.000 ₫</span>
+                        <!-- VNPay -->
+                        <label
+                            class="flex items-center justify-between p-4 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors has-[:checked]:border-primary bg-surface-container-lowest">
+                            <div class="flex items-center gap-4">
+                                <input th:checked="${paymentMethod == 'vnpay'}" class="text-primary focus:ring-primary"
+                                    name="paymentMethod" type="radio" value="vnpay" />
+                                <span class="text-label-md font-label-md text-on-surface">Thanh toán qua VNPay (Thẻ
+                                    ATM/Visa/MasterCard/QR Code)</span>
+                            </div>
+                            <img src="https://vnpay.vn/s1/statics.vnpay.vn/2023/6/0oxhzjmxbksr1686814746087.png"
+                                alt="VNPay" class="h-6 object-contain" />
+                        </label>
                     </div>
-                    <div class="flex justify-between text-on-surface-variant">
-                        <span>Phí vận chuyển</span>
-                        <span>Miễn phí</span>
-                    </div>
-                    <div class="flex justify-between text-error">
-                        <span>Giảm giá</span>
-                        <span id="discount-amount-display" th:text="'- ' + ${#numbers.formatDecimal(discountAmount != null ? discountAmount : 0, 0, 'COMMA', 0, 'POINT')} + ' ₫'">- 0 ₫</span>
-                    </div>
-                    <div class="flex justify-between items-center pt-3 border-t border-surface-container-highest mt-3">
-                        <span class="text-headline-md font-headline-md">Tổng cộng</span>
-                        <span id="final-total-display" class="text-headline-md font-headline-md text-primary" th:text="${#numbers.formatDecimal(newTotal != null ? newTotal : totalAmount, 0, 'COMMA', 0, 'POINT')} + ' ₫'">85.990.000 ₫</span>
-                    </div>
-                </div>
-                <!-- Primary CTA -->
-                <button type="submit" class="w-full bg-primary text-on-primary py-4 rounded-lg font-bold text-label-md hover:bg-primary-container transition-colors shadow-sm flex justify-center items-center gap-2">
-                    <span class="material-symbols-outlined">lock</span>
-                    Thanh Toán
-                </button>
-                <p class="text-label-sm font-label-sm text-center text-on-surface-variant">
-                    Bằng việc đặt hàng, bạn đồng ý với <a class="text-primary underline" href="#">Điều khoản dịch vụ</a> và <a class="text-primary underline" href="#">Chính sách bảo mật</a> của chúng tôi.
-                </p>
+                </section>
             </div>
+            <!-- Right Column: Order Summary (Sticky) -->
+            <div class="w-full lg:w-1/3">
+                <div
+                    class="sticky top-24 bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm flex flex-col gap-6">
+                    <h2 class="text-headline-md font-headline-md">Đơn hàng của bạn</h2>
+                    <!-- Items List -->
+                    <div class="space-y-4">
+                        <div th:each="item : ${selectedItems}"
+                            class="flex items-start gap-4 pb-4 border-b border-surface-container-highest">
+                            <div class="w-16 h-16 bg-surface-container-low rounded-lg overflow-hidden flex-shrink-0">
+                                <img th:if="${item.configurationVersion.laptop != null and item.configurationVersion.laptop.imageUrl != null and !item.configurationVersion.laptop.imageUrl.isEmpty()}"
+                                    class="w-full h-full object-cover"
+                                    th:src="${item.configurationVersion.laptop.imageUrl}" />
+                                <img th:unless="${item.configurationVersion.laptop != null and item.configurationVersion.laptop.imageUrl != null and !item.configurationVersion.laptop.imageUrl.isEmpty()}"
+                                    class="w-full h-full object-cover"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNfgXG2VW3KuRQWjt275sT32q7JHz0Nsvm5HUO9_U9WCMo-XDPGLW9Cbj72ddo1riF9AJpoGAUKprUO2jUBwdx82ZmKImWh3Cxku6PgdWHfa8Gto8VysnPAaH7o7C-vC35TIYL-x0BakT9dtz3nHylD-7OIPMVKu27DIruMOf41uQSuG5LKa34EdS6AfvEplbd2K77UrqnlQzn5hiDwlg6PPzg8pWFeoA6Nqe4VxlH7ZO-1OOFmgiXiYiqs7gS5x-jy0KEIQC45dE" />
+                            </div>
+                            <div class="flex-grow">
+                                <div class="text-label-md font-label-md text-on-surface line-clamp-2"
+                                    th:text="${item.configurationVersion.laptop != null ? item.configurationVersion.laptop.laptopName : 'Laptop'}">
+                                    Dell XPS 15</div>
+                                <div class="text-label-sm font-label-sm text-on-surface-variant mt-1"
+                                    th:text="'SL: ' + ${item.quantity}">SL: 1</div>
+                            </div>
+                            <div class="text-label-md font-label-md text-on-surface whitespace-nowrap"
+                                th:text="${#numbers.formatDecimal(item.configurationVersion.price * item.quantity, 0, 'COMMA', 0, 'POINT') + ' ₫'}">
+                                85.990.000 ₫</div>
+                        </div>
+                    </div>
+
+                    <!-- Quà tặng kèm theo -->
+                    <div class="mb-4 border border-green-300 rounded-lg overflow-hidden"
+                        th:if="${not #lists.isEmpty(giftDetails)}">
+                        <div
+                            class="bg-green-100 text-green-700 px-4 py-2 font-bold uppercase text-sm border-b border-green-300 flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7">
+                                </path>
+                            </svg>
+                            Quà tặng kèm theo
+                        </div>
+                        <div class="p-4 bg-white">
+                            <ul class="space-y-2">
+                                <li th:each="giftDetail : ${giftDetails}"
+                                    class="flex items-start gap-3 text-sm text-gray-700">
+                                    <div class="mt-0.5 text-green-500">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <span th:text="${giftDetail.giftItem?.itemName}"
+                                            class="font-semibold text-gray-900">Chuột</span>
+                                        <span th:if="${giftDetail.quantity > 1}"
+                                            th:text="' (x' + ${giftDetail.quantity} + ')'"
+                                            class="text-gray-500 font-medium"> (x1)</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Coupon Input -->
+                    <div class="flex gap-2">
+                        <input id="coupon-input" name="inputCouponCode"
+                            class="flex-grow bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary"
+                            placeholder="Mã giảm giá" type="text" th:value="${inputCouponCode}" />
+                        <button type="submit" formaction="/orders/checkout-coupon" id="apply-coupon-btn" formnovalidate
+                            class="bg-surface-container-high text-on-surface px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-outline-variant transition-colors">Áp
+                            dụng</button>
+                    </div>
+                    <div th:if="${couponMessage}"
+                        th:class="'text-sm mt-1 ' + (${isValidCoupon} ? 'text-green-500' : 'text-red-500')"
+                        th:text="${couponMessage}"></div>
+                    <!-- Price Breakdown -->
+                    <div class="space-y-3 pt-4 border-t border-surface-container-highest text-body-md font-body-md">
+                        <div class="flex justify-between text-on-surface-variant">
+                            <span>Tạm tính</span>
+                            <span id="subtotalDisplay"
+                                th:text="${#numbers.formatDecimal(totalAmount, 0, 'COMMA', 0, 'POINT') + ' ₫'}"></span>
+                        </div>
+                        <div class="flex justify-between text-on-surface-variant">
+                            <span>Phí vận chuyển</span>
+                            <span id="shippingFeeDisplay">Miễn phí</span>
+                        </div>
+                        <div class="flex justify-between text-error">
+                            <span>Giảm giá</span>
+                            <span id="discount-amount-display"
+                                th:text="'- ' + ${#numbers.formatDecimal(discountAmount != null ? discountAmount : 0, 0, 'COMMA', 0, 'POINT')} + ' ₫'">-
+                                0 ₫</span>
+                        </div>
+                        <div
+                            class="flex justify-between items-center pt-3 border-t border-surface-container-highest mt-3">
+                            <span class="text-headline-md font-headline-md">Tổng cộng</span>
+                             
+
+                                <span id="final-total-display" class="text-headline-md font-headline-md text-primary"
+                                    th:text="${#numbers.formatDecimal(newTotal != null ? newTotal : totalAmount, 0, 'COMMA', 0, 'POINT')} + ' ₫'">85.990.000
+                                    ₫</span>
+
+                        </div>
+                    </div>
+                    <!-- Primary CTA -->
+                    <button type="submit"
+                        class="w-full bg-primary text-on-primary py-4 rounded-lg font-bold text-label-md hover:bg-primary-container transition-colors shadow-sm flex justify-center items-center gap-2">
+                        <span class="material-symbols-outlined">lock</span>
+                        Thanh Toán
+                    </button>
+                    <p class="text-label-sm font-label-sm text-center text-on-surface-variant">
+                        Bằng việc đặt hàng, bạn đồng ý với <a class="text-primary underline" href="#">Điều khoản dịch
+                            vụ</a> và <a class="text-primary underline" href="#">Chính sách bảo mật</a> của chúng tôi.
+                    </p>
+                </div>
+            </div>
+        </form>
+    </main>
+    <!-- Footer -->
+    <!-- Content injected from JSON -->
+    <footer
+        class="w-full py-12 px-margin-desktop mt-section-gap flex flex-col md:flex-row justify-between items-center bg-primary-container text-on-primary-container border-t border-on-primary-fixed-variant">
+        <div class="text-headline-sm font-headline-sm text-on-primary mb-6 md:mb-0">
+            LAPZONE
         </div>
-    </form>
-</main>
-<!-- Footer -->
-<!-- Content injected from JSON -->
-<footer class="w-full py-12 px-margin-desktop mt-section-gap flex flex-col md:flex-row justify-between items-center bg-primary-container text-on-primary-container border-t border-on-primary-fixed-variant">
-    <div class="text-headline-sm font-headline-sm text-on-primary mb-6 md:mb-0">
-        LAPZONE
-    </div>
-    <div class="flex flex-wrap justify-center gap-6 mb-6 md:mb-0">
-        <a class="text-label-sm font-label-sm text-on-primary-container hover:text-tertiary-fixed-dim transition-colors duration-200" href="#">Privacy Policy</a>
-        <a class="text-label-sm font-label-sm text-on-primary-container hover:text-tertiary-fixed-dim transition-colors duration-200" href="#">Terms of Service</a>
-        <a class="text-label-sm font-label-sm text-on-primary-container hover:text-tertiary-fixed-dim transition-colors duration-200" href="#">Shipping Info</a>
-        <a class="text-label-sm font-label-sm text-on-primary-container hover:text-tertiary-fixed-dim transition-colors duration-200" href="#">Contact Support</a>
-    </div>
-    <div class="text-label-sm font-label-sm text-on-primary-container text-center md:text-right">
-        © 2024 LapZone Systems. All rights reserved. Precision Engineering for Professionals.
-    </div>
-</footer>
+        <div class="flex flex-wrap justify-center gap-6 mb-6 md:mb-0">
+            <a class="text-label-sm font-label-sm text-on-primary-container hover:text-tertiary-fixed-dim transition-colors duration-200"
+                href="#">Privacy Policy</a>
+            <a class="text-label-sm font-label-sm text-on-primary-container hover:text-tertiary-fixed-dim transition-colors duration-200"
+                href="#">Terms of Service</a>
+            <a class="text-label-sm font-label-sm text-on-primary-container hover:text-tertiary-fixed-dim transition-colors duration-200"
+                href="#">Shipping Info</a>
+            <a class="text-label-sm font-label-sm text-on-primary-container hover:text-tertiary-fixed-dim transition-colors duration-200"
+                href="#">Contact Support</a>
+        </div>
+        <div class="text-label-sm font-label-sm text-on-primary-container text-center md:text-right">
+            © 2024 LapZone Systems. All rights reserved. Precision Engineering for Professionals.
+        </div>
+    </footer>
 
-<script th:inline="javascript">
-    const addressData = {
-        "hanoi": {
-            name: "Hà Nội",
-            districts: {
-                "badinh": {
-                    name: "Quận Ba Đình",
-                    wards: ["Phường Cống Vị", "Phường Điện Biên", "Phường Đội Cấn", "Phường Giảng Võ", "Phường Kim Mã"]
-                },
-                "hoankiem": {
-                    name: "Quận Hoàn Kiếm",
-                    wards: ["Phường Chương Dương", "Phường Cửa Đông", "Phường Cửa Nam", "Phường Đồng Xuân", "Phường Hàng Bạc"]
-                },
-                "tayho": {
-                    name: "Quận Tây Hồ",
-                    wards: ["Phường Bưởi", "Phường Nhật Tân", "Phường Phú Thượng", "Phường Quảng An", "Phường Thụy Khuê"]
+    <script th:inline="javascript">
+        const addressData = {
+            "hanoi": {
+                name: "Hà Nội",
+                districts: {
+                    "badinh": {
+                        name: "Quận Ba Đình",
+                        wards: ["Phường Cống Vị", "Phường Điện Biên", "Phường Đội Cấn", "Phường Giảng Võ", "Phường Kim Mã"]
+                    },
+                    "hoankiem": {
+                        name: "Quận Hoàn Kiếm",
+                        wards: ["Phường Chương Dương", "Phường Cửa Đông", "Phường Cửa Nam", "Phường Đồng Xuân", "Phường Hàng Bạc"]
+                    },
+                    "tayho": {
+                        name: "Quận Tây Hồ",
+                        wards: ["Phường Bưởi", "Phường Nhật Tân", "Phường Phú Thượng", "Phường Quảng An", "Phường Thụy Khuê"]
+                    }
+                }
+            },
+            "hcm": {
+                name: "TP. Hồ Chí Minh",
+                districts: {
+                    "quan1": {
+                        name: "Quận 1",
+                        wards: ["Phường Bến Nghé", "Phường Bến Thành", "Phường Cô Giang", "Phường Đa Kao", "Phường Nguyễn Thái Bình"]
+                    },
+                    "quan2": {
+                        name: "Quận 2",
+                        wards: ["Phường An Phú", "Phường Thảo Điền", "Phường Thủ Thiêm", "Phường Bình An", "Phường Bình Khánh"]
+                    },
+                    "quan3": {
+                        name: "Quận 3",
+                        wards: ["Phường Võ Thị Sáu", "Phường 13", "Phường 14", "Phường 11", "Phường 12"]
+                    }
+                }
+            },
+            "danang": {
+                name: "Đà Nẵng",
+                districts: {
+                    "haichau": {
+                        name: "Quận Hải Châu",
+                        wards: ["Phường Hải Châu I", "Phường Hải Châu II", "Phường Thạch Thang", "Phường Thanh Bình", "Phường Thuận Phước"]
+                    },
+                    "thanhkhe": {
+                        name: "Quận Thanh Khê",
+                        wards: ["Phường An Khê", "Phường Chính Gián", "Phường Hòa Khê", "Phường Thanh Khê Đông", "Phường Thanh Khê Tây"]
+                    },
+                    "sontra": {
+                        name: "Quận Sơn Trà",
+                        wards: ["Phường An Hải Bắc", "Phường An Hải Đông", "Phường An Hải Tây", "Phường Mân Thái", "Phường Nại Hiên Đông"]
+                    }
                 }
             }
-        },
-        "hcm": {
-            name: "TP. Hồ Chí Minh",
-            districts: {
-                "quan1": {
-                    name: "Quận 1",
-                    wards: ["Phường Bến Nghé", "Phường Bến Thành", "Phường Cô Giang", "Phường Đa Kao", "Phường Nguyễn Thái Bình"]
-                },
-                "quan2": {
-                    name: "Quận 2",
-                    wards: ["Phường An Phú", "Phường Thảo Điền", "Phường Thủ Thiêm", "Phường Bình An", "Phường Bình Khánh"]
-                },
-                "quan3": {
-                    name: "Quận 3",
-                    wards: ["Phường Võ Thị Sáu", "Phường 13", "Phường 14", "Phường 11", "Phường 12"]
+        };
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const provinceSelect = document.getElementById('province');
+            const districtSelect = document.getElementById('district');
+            const wardSelect = document.getElementById('ward');
+
+            const preSelectedProvince = /*[[${ selectedProvince }]]*/ null || '';
+            const preSelectedDistrict = /*[[${ selectedDistrict }]]*/ null || '';
+            const preSelectedWard = /*[[${ selectedWard }]]*/ null || '';
+
+            // Populate provinces
+            Object.keys(addressData).forEach(provinceKey => {
+                const province = addressData[provinceKey];
+                const option = document.createElement('option');
+                option.value = province.name;
+                option.text = province.name;
+                option.dataset.key = provinceKey;
+                if (province.name === preSelectedProvince) option.selected = true;
+                provinceSelect.appendChild(option);
+            });
+
+            provinceSelect.addEventListener('change', function () {
+                const selectedOption = this.options[this.selectedIndex];
+                const provinceKey = selectedOption.dataset.key;
+
+                // Reset districts and wards
+                districtSelect.innerHTML = '<option disabled selected value="">Chọn Quận/Huyện</option>';
+                wardSelect.innerHTML = '<option disabled selected value="">Chọn Phường/Xã</option>';
+                districtSelect.disabled = true;
+                wardSelect.disabled = true;
+
+                if (provinceKey && addressData[provinceKey]) {
+                    const districts = addressData[provinceKey].districts;
+                    Object.keys(districts).forEach(districtKey => {
+                        const district = districts[districtKey];
+                        const option = document.createElement('option');
+                        option.value = district.name;
+                        option.text = district.name;
+                        option.dataset.provinceKey = provinceKey;
+                        option.dataset.key = districtKey;
+                        if (district.name === preSelectedDistrict) option.selected = true;
+                        districtSelect.appendChild(option);
+                    });
+                    districtSelect.disabled = false;
                 }
-            }
-        },
-        "danang": {
-            name: "Đà Nẵng",
-            districts: {
-                "haichau": {
-                    name: "Quận Hải Châu",
-                    wards: ["Phường Hải Châu I", "Phường Hải Châu II", "Phường Thạch Thang", "Phường Thanh Bình", "Phường Thuận Phước"]
-                },
-                "thanhkhe": {
-                    name: "Quận Thanh Khê",
-                    wards: ["Phường An Khê", "Phường Chính Gián", "Phường Hòa Khê", "Phường Thanh Khê Đông", "Phường Thanh Khê Tây"]
-                },
-                "sontra": {
-                    name: "Quận Sơn Trà",
-                    wards: ["Phường An Hải Bắc", "Phường An Hải Đông", "Phường An Hải Tây", "Phường Mân Thái", "Phường Nại Hiên Đông"]
+            });
+
+            districtSelect.addEventListener('change', function () {
+                const selectedOption = this.options[this.selectedIndex];
+                const provinceKey = selectedOption.dataset.provinceKey;
+                const districtKey = selectedOption.dataset.key;
+
+                // Reset wards
+                wardSelect.innerHTML = '<option disabled selected value="">Chọn Phường/Xã</option>';
+                wardSelect.disabled = true;
+
+                if (provinceKey && districtKey && addressData[provinceKey].districts[districtKey]) {
+                    const wards = addressData[provinceKey].districts[districtKey].wards;
+                    wards.forEach(wardName => {
+                        const option = document.createElement('option');
+                        option.value = wardName;
+                        option.text = wardName;
+                        if (wardName === preSelectedWard) option.selected = true;
+                        wardSelect.appendChild(option);
+                    });
+                    wardSelect.disabled = false;
                 }
-            }
-        }
-    };
+            });
 
-    document.addEventListener("DOMContentLoaded", function() {
-        const provinceSelect = document.getElementById('province');
-        const districtSelect = document.getElementById('district');
-        const wardSelect = document.getElementById('ward');
-        
-        const preSelectedProvince = [[${selectedProvince}]] || '';
-        const preSelectedDistrict = [[${selectedDistrict}]] || '';
-        const preSelectedWard = [[${selectedWard}]] || '';
+            // Shipping method change listener
+            const shippingMethodInputs = document.querySelectorAll('input[name="shippingMethod"]');
+            const shippingFeeDisplay = document.getElementById('shippingFeeDisplay');
+            const totalDisplay = document.getElementById('final-total-display');
+            const baseTotal = /*[[${totalAmount}]]*/ 0; // Thymeleaf will inject this value or default to 0 in JS fallback (we'll fetch from DOM to be safe)
 
-        // Populate provinces
-        Object.keys(addressData).forEach(provinceKey => {
-            const province = addressData[provinceKey];
-            const option = document.createElement('option');
-            option.value = province.name;
-            option.text = province.name;
-            option.dataset.key = provinceKey;
-            if (province.name === preSelectedProvince) option.selected = true;
-            provinceSelect.appendChild(option);
-        });
+            // Safer way to get base total from DOM
+            let subtotalStr = document.getElementById('subtotalDisplay').innerText;
+            let parsedSubtotal = parseFloat(subtotalStr.replace(/[^0-9]/g, ''));
+            if (isNaN(parsedSubtotal)) parsedSubtotal = 0;
 
-        provinceSelect.addEventListener('change', function() {
-            const selectedOption = this.options[this.selectedIndex];
-            const provinceKey = selectedOption.dataset.key;
-            
-            // Reset districts and wards
-            districtSelect.innerHTML = '<option disabled selected value="">Chọn Quận/Huyện</option>';
-            wardSelect.innerHTML = '<option disabled selected value="">Chọn Phường/Xã</option>';
-            districtSelect.disabled = true;
-            wardSelect.disabled = true;
+            let discountAmountStr = document.getElementById('discount-amount-display').innerText;
+            let parsedDiscount = parseFloat(discountAmountStr.replace(/[^0-9]/g, ''));
+            if (isNaN(parsedDiscount)) parsedDiscount = 0;
 
-            if (provinceKey && addressData[provinceKey]) {
-                const districts = addressData[provinceKey].districts;
-                Object.keys(districts).forEach(districtKey => {
-                    const district = districts[districtKey];
-                    const option = document.createElement('option');
-                    option.value = district.name;
-                    option.text = district.name;
-                    option.dataset.provinceKey = provinceKey;
-                    option.dataset.key = districtKey;
-                    if (district.name === preSelectedDistrict) option.selected = true;
-                    districtSelect.appendChild(option);
+            let finalBase = parsedSubtotal - parsedDiscount;
+
+            function updateShippingAndTotal() {
+                let selectedMethod = 'standard';
+                shippingMethodInputs.forEach(input => {
+                    if (input.checked) selectedMethod = input.value;
                 });
-                districtSelect.disabled = false;
+
+                let shippingFee = 0;
+                if (selectedMethod === 'express') {
+                    shippingFee = 150000;
+                    shippingFeeDisplay.innerText = '150.000 ₫';
+                } else {
+                    shippingFeeDisplay.innerText = 'Miễn phí';
+                }
+
+                let newTotal = finalBase + shippingFee;
+                if(totalDisplay) {
+                    totalDisplay.innerText = new Intl.NumberFormat('vi-VN').format(newTotal) + ' ₫';
+                }
+            }
+
+            shippingMethodInputs.forEach(input => {
+                input.addEventListener('change', updateShippingAndTotal);
+            });
+
+            // Initialize on load
+            updateShippingAndTotal();
+
+            // Trigger initial selections
+            if (preSelectedProvince) {
+                provinceSelect.dispatchEvent(new Event('change'));
+                if (preSelectedDistrict) {
+                    districtSelect.dispatchEvent(new Event('change'));
+                }
             }
         });
+    </script>
 
-        districtSelect.addEventListener('change', function() {
-            const selectedOption = this.options[this.selectedIndex];
-            const provinceKey = selectedOption.dataset.provinceKey;
-            const districtKey = selectedOption.dataset.key;
-            
-            // Reset wards
-            wardSelect.innerHTML = '<option disabled selected value="">Chọn Phường/Xã</option>';
-            wardSelect.disabled = true;
+</body>
 
-            if (provinceKey && districtKey && addressData[provinceKey].districts[districtKey]) {
-                const wards = addressData[provinceKey].districts[districtKey].wards;
-                wards.forEach(wardName => {
-                    const option = document.createElement('option');
-                    option.value = wardName;
-                    option.text = wardName;
-                    if (wardName === preSelectedWard) option.selected = true;
-                    wardSelect.appendChild(option);
-                });
-                wardSelect.disabled = false;
-            }
-        });
-        
-        // Trigger initial selections
-        if (preSelectedProvince) {
-            provinceSelect.dispatchEvent(new Event('change'));
-            if (preSelectedDistrict) {
-                districtSelect.dispatchEvent(new Event('change'));
-            }
-        }
-    });
-</script>
-
-</body></html>
+</html>

@@ -50,6 +50,10 @@ public class User {
     @Column(name = "status", nullable = false, length = 15)
     private String status;
 
+    @Column(name = "is_deleted")
+    @Builder.Default
+    private Boolean isDeleted = false;
+
     @JsonIgnore
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Cart cart;
@@ -63,7 +67,7 @@ public class User {
     private List<Feedback> feedbacks = new ArrayList<>();
 
     @JsonIgnore
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "users_roles",
         joinColumns = @JoinColumn(name = "user_user_id"),

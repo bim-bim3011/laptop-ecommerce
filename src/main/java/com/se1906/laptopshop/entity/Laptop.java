@@ -50,6 +50,10 @@ public class Laptop {
     @OneToMany(mappedBy = "laptop", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Feedback> feedbacks = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "laptop", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GiftDetail> giftDetails = new ArrayList<>();
+
     public Laptop() {
     }
 
@@ -145,6 +149,13 @@ public class Laptop {
 
     public void setFeedbacks(List<Feedback> feedbacks) {
         this.feedbacks = feedbacks;
+    }
+    public List<GiftDetail> getGiftDetails() {
+        return giftDetails;
+    }
+
+    public void setGiftDetails(List<GiftDetail> giftDetails) {
+        this.giftDetails = giftDetails;
     }
 }
 

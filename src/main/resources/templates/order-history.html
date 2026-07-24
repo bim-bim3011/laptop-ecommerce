@@ -70,6 +70,11 @@
                                 <span class="material-symbols-outlined text-sm">schedule</span> Chờ xác nhận
                             </span>
 
+                            <!-- Trạng thái: Đang giao (PROCESSING) -->
+                            <span th:if="${order.status == 'PROCESSING'}" class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full font-bold inline-flex items-center gap-1">
+                                <span class="material-symbols-outlined text-sm">local_shipping</span> Đang xử lý
+                            </span>
+
                             <!-- Trạng thái: Đang vận chuyển -->
                             <span th:if="${order.status == 'SHIPPING'}" class="px-3 py-1 bg-purple-100 text-purple-800 text-sm rounded-full font-bold inline-flex items-center gap-1">
                                 <span class="material-symbols-outlined text-sm">local_shipping</span> Đang vận chuyển
@@ -136,7 +141,7 @@
                             </a>
 
                             <!-- Form hủy đơn: Chỉ hiện thị khi trạng thái là PENDING hoặc PROCESSING -->
-                            <form th:if="${order.status == 'PENDING' or order.status == 'PENDING_PAYMENT'}"
+                            <form th:if="${order.status == 'PENDING' or order.status == 'PENDING_PAYMENT' or order.status == 'PROCESSING'}"
                                   th:action="@{/orders/{id}/cancel(id=${order.orderId})}"
                                   method="post"
                                   class="m-0">

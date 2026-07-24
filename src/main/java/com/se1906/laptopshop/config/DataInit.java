@@ -32,7 +32,7 @@ public class DataInit implements CommandLineRunner {
             User admin = new User();
             admin.setFullName("System Admin");
             admin.setEmail("admin@gmail.com");
-            admin.setPassword(passwordEncoder.encode("123456"));
+            admin.setPassword(passwordEncoder.encode("Admin123456@"));
             admin.setPhoneNumber("0000000000");
             admin.setStatus("ACTIVE");
             admin.setRoles(new HashSet<>(Set.of(adminRole)));

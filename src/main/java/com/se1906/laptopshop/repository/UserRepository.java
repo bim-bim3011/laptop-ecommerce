@@ -5,11 +5,24 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findByEmail(String email);
 
-    @org.springframework.data.jpa.repository.Query("SELECT COUNT(u) FROM User u WHERE u.status = 'ACTIVE'")
+    @org.springframework.data.jpa.repository.Query("SELECT COUNT(u) FROM User u WHERE u.status = 'ACTIVE' AND (u.isDeleted IS NULL OR u.isDeleted = false)")
     long countActiveUsers();
+
+    @org.springframework.data.jpa.repository.Query("SELECT DISTINCT u FROM User u LEFT JOIN u.roles r WHERE (u.isDeleted IS NULL OR u.isDeleted = false) AND " +
+           "(:keyword IS NULL OR LOWER(u.fullName) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
+           "OR LOWER(u.email) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
+           "OR LOWER(u.phoneNumber) LIKE LOWER(CONCAT('%', :keyword, '%'))) " +
+           "AND (:status IS NULL OR :status = '' OR u.status = :status) " +
+           "AND (:roleName IS NULL OR :roleName = '' OR r.name = :roleName)")
+    Page<User> searchAndFilterUsers(@Param("keyword") String keyword, @Param("status") String status, @Param("roleName") String roleName, Pageable pageable);
+    
+    @org.springframework.data.jpa.repository.Query("SELECT u FROM User u WHERE u.isDeleted IS NULL OR u.isDeleted = false")
+    java.util.List<User> findActiveUsers();
 }

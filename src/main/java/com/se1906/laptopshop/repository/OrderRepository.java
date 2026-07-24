@@ -3,6 +3,7 @@ package com.se1906.laptopshop.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.se1906.laptopshop.entity.Order;
@@ -12,9 +13,9 @@ import com.se1906.laptopshop.entity.User;
 public interface OrderRepository extends JpaRepository<Order, Integer> {
     List<Order> findByUserOrderByOrderDateDesc(User user);
 
-    @org.springframework.data.jpa.repository.Query("SELECT COALESCE(SUM(o.totalAmount), 0) FROM Order o WHERE o.status = 'COMPLETED'")
+    @Query("SELECT COALESCE(SUM(o.totalAmount), 0) FROM Order o WHERE o.status = 'Đã giao'")
     java.math.BigDecimal calculateTotalRevenue();
 
-    @org.springframework.data.jpa.repository.Query("SELECT COUNT(o) FROM Order o")
+    @Query("SELECT COUNT(o) FROM Order o")
     long countTotalOrders();
 }
